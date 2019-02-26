@@ -1,9 +1,8 @@
+[includeif "gitdir:~/src/"]
+  path = .gitconfig-personal
+[includeif "gitdir:~/glg/src/"]
+  path = .gitconfig-glg
 # This is Git's per-user configuration file.
-[user]
-	name = Casey Webster
-	email = casey.webster@gmail.com
-	signingkey = A58BCB66EEBB9327
-
 [url "git@github.com:glg-core/"]
 	insteadof = glg-core://
 [url "git@github.com:glg/"]
