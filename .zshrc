@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:$HOME/3dprint/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/casey/.oh-my-zsh"
@@ -22,7 +22,7 @@ POWERLEVEL9K_STATUS_CROSS=false
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%F{white}"
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%F{white} "
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir_joined dir_writable_joined root_indicator_joined)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv nvm vcs background_jobs_joined time_joined)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined)
 POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_CLEAN_BACKGROUND="clear"
@@ -51,6 +51,8 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='clear'
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='magenta'
 POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND='clear'
 POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='green'
+POWERLEVEL9K_ANACONDA_BACKGROUND='clear'
+POWERLEVEL9K_ANACONDA_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_VIRTUALENV_BACKGROUND='clear'
 POWERLEVEL9K_VIRTUALENV_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_NVM_BACKGROUND='clear'
@@ -73,7 +75,7 @@ POWERLEVEL9K_HOST_LOCAL_BACKGROUND='clear'
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -133,6 +135,9 @@ plugins=(
   gpg-agent
   zsh-nvm
   vscode
+  fzf
+  rust
+  cargo
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -145,11 +150,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
+# if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
- else
-   export EDITOR='code-insiders'
- fi
+# else
+#   export EDITOR='code-insiders'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -174,3 +179,7 @@ export LS_COLORS='ow=01;36;40'
 
 kitty + complete setup zsh | source /dev/stdin
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#source ~/miniconda3/bin/activate
+export PATH=PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH

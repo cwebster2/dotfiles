@@ -8,6 +8,8 @@
   path = .gitconfig-personal
 [includeIf "gitdir:~/glg/src/"]
   path = .gitconfig-glg
+[includeIf "gitdir:/mnt/glg/"]
+  path = .gitconfig-glg
 # This is Git's per-user configuration file.
 [url "git@github.com:glg-core/"]
 	insteadof = glg-core://
@@ -17,3 +19,6 @@
   insteadof = cwebster2://
 [commit]
 	gpgsign = true
+[alias]
+  lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
