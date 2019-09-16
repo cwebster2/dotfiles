@@ -1,0 +1,11 @@
+app() {
+  google-chrome --kiosk --app="$1"
+}
+
+teams() {
+  app 'http://teams.microsoft.com'
+}
+
+outlook() {
+  app 'http://outlook.office365.com'
+}

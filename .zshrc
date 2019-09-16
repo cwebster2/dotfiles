@@ -138,6 +138,7 @@ plugins=(
   fzf
   rust
   cargo
+  golang
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -173,6 +174,9 @@ source $ZSH/oh-my-zsh.sh
 alias code='code-insiders'
 alias glgchrome='ssh glg google-chrome'
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias cat='bat'
+
+source ~/.functions
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'
