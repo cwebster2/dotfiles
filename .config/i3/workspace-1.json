@@ -1,0 +1,99 @@
+{
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1264,
+               "width": 2333,
+               "x": 0,
+               "y": 68
+            },
+            "name": "Outlook",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^Google\\-chrome$",
+               "instance": "^outlook\\.office365\\.com$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 2127,
+               "width": 1922,
+               "x": 1919,
+               "y": 34
+            },
+            "name": "Google Hangouts",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^Google\\-chrome$",
+               "instance": "^crx_nckgahadagoaajjgafhacjanaoiihapd$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
+{
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1264,
+               "width": 2334,
+               "x": 1507,
+               "y": 68
+            },
+            "name": "Microsoft Teams",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^Google\\-chrome$",
+               "instance": "^teams\\.microsoft\\.com$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 2133,
+               "width": 3841,
+               "x": 0,
+               "y": 32
+            },
+            "name": "Discord",
+            "percent": 0.5,
+            "swallows": [
+               {
+                "class": "^discord$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+

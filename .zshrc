@@ -187,3 +187,6 @@ kitty + complete setup zsh | source /dev/stdin
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #source ~/miniconda3/bin/activate
 export PATH=PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
+
+source ~/.fonts/FontAwesome/*.sh
+
