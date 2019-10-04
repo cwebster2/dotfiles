@@ -161,13 +161,13 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 assign [class="kitty"] $ws2
-#assign [class="Google-chrome"] $ws3
+assign [class="Google-chrome"] $ws3
 #assign [class="discord"] $ws1
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
 assign [class="Slack"] $ws1
-assign [class="Spotify"] $ws5
-assign [class="Spotify Premium"] $ws5
+assign [class="Spotify"] $ws10
+assign [class="Spotify Premium"] $ws10
 #assign [class="teams.microsoft.com"] $ws1
 #assign [class="outlook.office365.com"] $ws1
 
@@ -301,3 +301,4 @@ exec discord
 #exec google-chrome
 
 #exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1.json'"
+

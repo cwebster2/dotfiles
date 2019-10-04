@@ -14,6 +14,15 @@ case "$1" in
   suspend)
     lock && systemctl suspend
     ;;
+  reboot)
+    systemctl reboot
+    ;;
+  halt)
+    systemctl poweroff
+    ;;
+  *)
+    echo "Usage: $0 {lock|logout|suspend|reboot|halt}"
+    exit 2
 esac
 
 exit 0

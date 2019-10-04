@@ -172,7 +172,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias code='code-insiders'
-alias glgchrome='ssh glg google-chrome'
+alias glgchrome='nohup ssh glg google-chrome &> /dev/null'
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='bat'
 
@@ -186,7 +186,7 @@ kitty + complete setup zsh | source /dev/stdin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #source ~/miniconda3/bin/activate
-export PATH=PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
+export PATH=/home/casey/bin:PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
 
 source ~/.fonts/FontAwesome/*.sh
 
