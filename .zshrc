@@ -139,6 +139,7 @@ plugins=(
   rust
   cargo
   golang
+  navi
 )
 
 source $ZSH/oh-my-zsh.sh
