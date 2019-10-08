@@ -21,7 +21,7 @@ POWERLEVEL9K_STATUS_OK=false
 POWERLEVEL9K_STATUS_CROSS=false
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%F{white}"
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%F{white} "
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir_joined dir_writable_joined root_indicator_joined)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir_joined dir_writable_joined root_indicator_joined vi_mode_joined)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined)
 POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="clear"
@@ -71,6 +71,12 @@ POWERLEVEL9K_HOST_REMOTE_FOREGROUND='dodgerblue1'
 POWERLEVEL9K_HOST_REMOTE_BACKGROUND='clear'
 POWERLEVEL9K_HOST_LOCAL_FOREGROUND='dodgerblue1'
 POWERLEVEL9K_HOST_LOCAL_BACKGROUND='clear'
+POWERLEVEL9K_VI_INSERT_MODE_STRING=''
+POWERLEVEL9K_VI_COMMAND_MODE_STRING='NORMAL'
+POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND='red'
+POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND='clear'
+POWERLEVEL9K_VI_MODE_VISUAL_FOREGROUND='white'
+POWERLEVEL9K_VI_MODE_VISUAL_BACKGROUND='clear'
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -140,6 +146,7 @@ plugins=(
   cargo
   golang
   navi
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
