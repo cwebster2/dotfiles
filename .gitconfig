@@ -2,19 +2,6 @@
   name = Casey Webster
   email = casey.webster@gmail.com
   signingkey = A58BCB66EEBB9327
-[includeIf "gitdir:~/src/"]
-  path = .gitconfig-personal
-[includeIf "gitdir:~/.dotfiles/"]
-  path = .gitconfig-personal
-[includeIf "gitdir:~/glg/src/"]
-  path = .gitconfig-glg
-[includeIf "gitdir:/mnt/glg/"]
-  path = .gitconfig-glg
-# This is Git's per-user configuration file.
-[url "git@github.com:glg-core/"]
-	insteadof = glg-core://
-[url "git@github.com:glg/"]
-	insteadof = glg://
 [url "git@github.com:cwebster2/"]
   insteadof = cwebster2://
 [url "git@github.com:"]
