@@ -120,10 +120,10 @@ set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
-set $ws7 "7"
+set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws9 "9🐱‍💻"
+set $ws10 "10♫"
 
 workspace $ws1 output DP-2
 workspace $ws2 output DP-0
@@ -166,6 +166,8 @@ assign [class="Google-chrome"] $ws3
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
 assign [class="Slack"] $ws1
+assign [class="Steam"] $ws8
+assign [class="Lutris"] $ws8
 assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
 #assign [class="teams.microsoft.com"] $ws1
@@ -173,6 +175,7 @@ assign [class="Spotify Premium"] $ws10
 
 # skype, steam, wine: float Gimp
 for_window [class="zoom"] floating enable
+for_window [class="Lutris"] floating enable
 #for_window [class="Code"] floating enable
 #for_window [class="Firefox"] floating enable
 #for_window [class="Gimp"] floating enable
