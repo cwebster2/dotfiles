@@ -152,6 +152,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+unsetopt complete_aliases
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
