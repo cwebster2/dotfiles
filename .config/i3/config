@@ -31,7 +31,7 @@ default_border pixel 0
 # kill focused window
 bindsym $mod+q kill
 
-bindsym $mod+Ctrl+l exec --no-startup-id i3lock -c 000000
+bindsym $mod+Ctrl+l exec --no-startup-id i3lock-fancy 
 
 # start dmenu (a program launcher)
 #bindsym $mod+r exec rofi -show run -fullscreen -padding 400
@@ -293,9 +293,7 @@ exec --no-startup-id kdeconnect-indicator
 bindsym Print exec "flameshot gui"
 bindsym Control+Print exec "flameshot screen -r -c"
 
-exec --no-startup-id xautolock -time 10 -locker gllock &
-# I basically never want Caps Lock to do what it normally does.
-exec --no-startup-id "setxkbmap -option ctrl:nocaps"
+exec --no-startup-id /home/casey/.i3/autolock.sh &
 # Syncthing!
 #exec --no-startup-id "syncthing -no-browser"
 
