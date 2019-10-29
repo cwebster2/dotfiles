@@ -176,6 +176,8 @@ assign [class="Spotify Premium"] $ws10
 # skype, steam, wine: float Gimp
 for_window [class="zoom"] floating enable
 for_window [class="Lutris"] floating enable
+for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
+for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
 #for_window [class="Code"] floating enable
 #for_window [class="Firefox"] floating enable
 #for_window [class="Gimp"] floating enable
@@ -265,8 +267,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # doesnt work
-bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
-bindsym XF86Suspend exec --no-startup-id $lockscreen
+#bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
+#bindsym XF86Suspend exec --no-startup-id $lockscreen
 
 exec_always --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
 
