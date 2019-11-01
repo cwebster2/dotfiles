@@ -107,5 +107,13 @@
     "editor.renderWhitespace": "all",
     "vsicons.dontShowNewVersionMessage": true,
     "go.formatTool": "gofmt",
-    "files.associations": { "orders": "shellscript" }
+    "files.associations": {
+        "orders": "shellscript",
+        ".starphleet": "shellscript",
+        "on_containerize": "shellscript",
+        "on_containermake": "shellscript",
+        "after_containerize": "shellscript",
+        "remote": "shellscript",
+        "starphleet-*": "shellscript"
+    }
 }
