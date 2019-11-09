@@ -182,6 +182,7 @@ unsetopt complete_aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias code='code-insiders'
 alias glgchrome='nohup ssh glg google-chrome &> /dev/null'
+alias glgrdp='nohup ssh glg remmina &> /dev/null'
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='bat'
 
