@@ -1,28 +1,27 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$HOME/3dprint/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/casey/.oh-my-zsh"
 
-NVM_AUTO_USER=true
+#NVM_AUTO_USE=true
 POWERLEVEL9K_MODE='nerdfont-complete'
 #POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 #POWERLEVEL9K_SHORTEN_DELIMITER=""
 #POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
 #POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir virtualenv nvm vcs)
-#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
-
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time battery)
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
 POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
 POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR=''
 POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR=''
 POWERLEVEL9K_STATUS_OK=false
-POWERLEVEL9K_STATUS_CROSS=false
+POWERLEVEL9K_STATUS_CROSS=true
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%F{white}"
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%F{white} "
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir_joined dir_writable_joined root_indicator_joined vi_mode_joined)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined battery_joined)
 POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_CLEAN_BACKGROUND="clear"
@@ -30,17 +29,17 @@ POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="yellow"
 POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="yellow"
 POWERLEVEL9K_VCS_CLEAN_FOREGROUND="green"
 POWERLEVEL9K_DIR_HOME_BACKGROUND="clear"
-POWERLEVEL9K_DIR_HOME_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="blue"
 POWERLEVEL9K_DIR_ETC_BACKGROUND="clear"
-POWERLEVEL9K_DIR_ETC_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_ETC_FOREGROUND="blue"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="clear"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="blue"
 POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND="clear"
 POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND="red"
 POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="clear"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
-POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="red"
-POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="white"
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="clear"
+POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="red1"
 POWERLEVEL9K_STATUS_OK_BACKGROUND="clear"
 POWERLEVEL9K_STATUS_OK_FOREGROUND="green"
 POWERLEVEL9K_STATUS_ERROR_BACKGROUND="clear"
@@ -51,25 +50,26 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='clear'
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='magenta'
 POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND='clear'
 POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='green'
-POWERLEVEL9K_ANACONDA_BACKGROUND='clear'
-POWERLEVEL9K_ANACONDA_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_VIRTUALENV_BACKGROUND='clear'
 POWERLEVEL9K_VIRTUALENV_FOREGROUND='deepskyblue2'
+POWERLEVEL9K_ANACONDA_BACKGROUND='clear'
+POWERLEVEL9K_ANACONDA_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_NVM_BACKGROUND='clear'
 POWERLEVEL9K_NVM_FOREGROUND='magenta'
 POWERLEVEL9K_BATTERY_LOW_BACKGROUND='clear'
 POWERLEVEL9K_BATTERY_CHARGING_BACKGROUND='clear'
+POWERLEVEL9K_BATTERY_DISCONNECTED_BACKGROUND='clear'
 POWERLEVEL9K_BATTERY_CHARGED_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_SUDO_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND='clear'
-POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='blue'
 POWERLEVEL9K_CONTEXT_REMOTE_SUDO_BACKGROUND='clear'
-POWERLEVEL9K_HOST_REMOTE_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_HOST_REMOTE_FOREGROUND='blue'
 POWERLEVEL9K_HOST_REMOTE_BACKGROUND='clear'
-POWERLEVEL9K_HOST_LOCAL_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_HOST_LOCAL_FOREGROUND='blue'
 POWERLEVEL9K_HOST_LOCAL_BACKGROUND='clear'
 POWERLEVEL9K_VI_INSERT_MODE_STRING=''
 POWERLEVEL9K_VI_COMMAND_MODE_STRING='NORMAL'
@@ -144,15 +144,12 @@ plugins=(
   fzf
   rust
   cargo
-  golang
-  navi
   vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-unsetopt complete_aliases
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -160,11 +157,13 @@ unsetopt complete_aliases
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
+ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
-# else
-#   export EDITOR='code-insiders'
-# fi
+   export GPG_TTY=$(tty)
+   export PINENTRY_USER_DATA="USE_CURSES=1"
+ else
+   export EDITOR='vsc'
+ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -180,23 +179,34 @@ unsetopt complete_aliases
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias code='code-insiders'
-alias glgchrome='nohup ssh glg google-chrome &> /dev/null'
-alias glgrdp='nohup ssh glg remmina &> /dev/null'
-alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+alias code=code-insiders
+alias vpn='sudo vpn-client  --openVpnBinaryPath /usr/sbin/openvpn'
+export LS_COLORS='ow=01;36;40'
 alias cat='bat'
+alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 source ~/.functions
 
-# Fix windows 777 colors
-export LS_COLORS='ow=01;36;40'
-
-kitty + complete setup zsh | source /dev/stdin
-
+# export PATH="/home/casey/miniconda3/bin:$PATH"  # commented out by conda initialize
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#source ~/miniconda3/bin/activate
-export PATH=/home/casey/bin:PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
 
-source ~/.fonts/fontawesome/*.sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/casey/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/casey/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/casey/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/casey/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
+export SECRETS_NAMESPACE=cwebster
+export SECRETS_SHARED_NAMESPACE=developmentglobal
+export SECRETS_CREDENTIAL_SOURCE=file

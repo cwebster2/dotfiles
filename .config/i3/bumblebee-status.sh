@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.fonts/fontawesome/*.sh
+source ~/.fonts/FontAwesome/*.sh
 
 /home/casey/src/bumblebee-status/bumblebee-status \
   -m spotify cpu memory nic docker_ps pasink pasource time dunst \

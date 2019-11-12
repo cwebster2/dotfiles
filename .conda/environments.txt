@@ -1,0 +1,3 @@
+/home/casey/miniconda3
+/home/casey/miniconda3/envs/CommonPhraseFinder3
+/home/casey/miniconda3/envs/pq-translation
