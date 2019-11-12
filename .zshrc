@@ -187,6 +187,7 @@ alias cat='bat'
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 source ~/.functions
+source ~/bin/azure.sh
 
 # export PATH="/home/casey/miniconda3/bin:$PATH"  # commented out by conda initialize
 

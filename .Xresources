@@ -1,19 +1,17 @@
-!# Rofi Theming
+## Rofi Theming
 rofi.color-enabled: true
 rofi.color-window: #bb31363b, #bb31363b, #bb1e2529
 rofi.color-normal: #bb31363b, #c1c1c1, #bb3b4045, #bb2980b9, #ffffff
 rofi.color-active: #bb31363b, #80cbc4, #bb3b4045, #bb2980b9, #80cbc4
 rofi.color-urgent: #bb31363b, #ff1844, #bb3b4045, #bb2980b9, #ff1844
 
-! 163 dpi
-Xft.dpi: 136
 URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true
 URxvt*scrollBar: false
 URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
-URxvt.font: xft:FuraCode Nerd Font Mono:size=9
+URxvt.font: xft:FuraCode Nerd Font Mono:size=10
 URxvt.depth: 32
 URxvt.background: rgba:0000/0000/0200/c800
 URxvt.foreground: #cacaca
