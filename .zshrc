@@ -235,7 +235,4 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-source ~/miniconda3/bin/activate
-export PATH=/home/casey/bin:PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
-
 source ~/.fonts/fontawesome/*.sh
