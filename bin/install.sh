@@ -1,95 +1,107 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 set -o pipefail
 
+# install.sh
+
 export DEBIAN_FRONTEND=noninteractive
-export TARGET_USER=casey
+
+# Choose a user account to use for this installation
+get_user() {
+	if [ -z "${TARGET_USER-}" ]; then
+		mapfile -t options < <(find /home/* -maxdepth 0 -printf "%f\\n" -type d)
+		# if there is only one option just use that user
+		if [ "${#options[@]}" -eq "1" ]; then
+			readonly TARGET_USER="${options[0]}"
+			echo "Using user account: ${TARGET_USER}"
+			return
+		fi
+
+		# iterate through the user options and print them
+		PS3='command -v user account should be used? '
+
+		select opt in "${options[@]}"; do
+			readonly TARGET_USER=$opt
+			break
+		done
+		fi
+	}
 
 check_is_sudo() {
-  if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root."
-    exit
-  fi
+	if [ "$EUID" -ne 0 ]; then
+		echo "Please run as root."
+		exit
+	fi
 }
+
 
 setup_sources_min() {
-  apt update || true
-  apt install -y \
-    apt-transport-https \
-    apt-listbugs \
-    ca-certificates \
-    curl \
-    dirmngr \
-    gnupg2 \
-    lsb-release \
-    --no-install-recommends
+	apt update || true
+	apt install -y \
+		apt-transport-https \
+		ca-certificates \
+		curl \
+		dirmngr \
+		gnupg2 \
+		lsb-release \
+		--no-install-recommends
 
-  # turn off translations, speed up apt update
-  mkdir -p /etc/apt/apt.conf.d
-  echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations
+	# turn off translations, speed up apt update
+	mkdir -p /etc/apt/apt.conf.d
+	echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations
 }
 
- # sets up apt sources
+# sets up apt sources
 setup_sources() {
-  setup_sources_min;
+	setup_sources_min;
 
-  cat <<-EOF > /etc/apt/sources.list
-  deb http://httpredir.debian.org/debian sid main contrib non-free
-  deb-src http://httpredir.debian.org/debian/ sid main contrib non-free
+	cat <<-EOF > /etc/apt/sources.list
+	deb http://httpredir.debian.org/debian sid main contrib non-free
+	deb-src http://httpredir.debian.org/debian/ sid main contrib non-free
 
-  deb http://httpredir.debian.org/debian experimental main contrib non-free
-  deb-src http://httpredir.debian.org/debian experimental main contrib non-free
-  EOF
+	deb http://httpredir.debian.org/debian experimental main contrib non-free
+	deb-src http://httpredir.debian.org/debian experimental main contrib non-free
+	EOF
 
-  # yubico
-  cat <<-EOF > /etc/apt/sources.list.d/yubico.list
-  deb http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
-  deb-src http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
-  EOF
+	# yubico
+	cat <<-EOF > /etc/apt/sources.list.d/yubico.list
+	deb http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
+	deb-src http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
+	EOF
 
-  # tlp: Advanced Linux Power Management
-  cat <<-EOF > /etc/apt/sources.list.d/tlp.list
-  # tlp: Advanced Linux Power Management
-  # http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
-  deb http://repo.linrunner.de/debian sid main
-  EOF
+	# tlp: Advanced Linux Power Management
+	cat <<-EOF > /etc/apt/sources.list.d/tlp.list
+	# tlp: Advanced Linux Power Management
+	# http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+	deb http://repo.linrunner.de/debian sid main
+	EOF
 
-  # Create an environment variable for the correct distribution
-  CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-  export CLOUD_SDK_REPO
+	# Create an environment variable for the correct distribution
+	CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+	export CLOUD_SDK_REPO
 
-  # Add the Cloud SDK distribution URI as a package source
-  cat <<-EOF > /etc/apt/sources.list.d/google-cloud-sdk.list
-  deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main
-  EOF
+	# Add the Cloud SDK distribution URI as a package source
+	cat <<-EOF > /etc/apt/sources.list.d/google-cloud-sdk.list
+	deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main
+	EOF
 
-  # Import the Google Cloud Platform public key
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+	# Import the Google Cloud Platform public key
+	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
-  # Add the Google Chrome distribution URI as a package source
-  cat <<-EOF > /etc/apt/sources.list.d/google-chrome.list
-  deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-  EOF
+	# Add the Google Chrome distribution URI as a package source
+	cat <<-EOF > /etc/apt/sources.list.d/google-chrome.list
+	deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+	EOF
 
-  # Import the Google Chrome public key
-  curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+	# Import the Google Chrome public key
+	curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 
-  # add the yubico ppa gpg key
-  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 3653E21064B19D134466702E43D5C49532CBA1A9
+	# add the yubico ppa gpg key
+	apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 3653E21064B19D134466702E43D5C49532CBA1A9
 
-  # add the tlp apt-repo gpg key
-  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 6B283E95745A6D903009F7CA641EED65CD4E8809
-
-  #TODO: More sources!
-  # google chrome, keybase, lutris, ms, slack, spotify, vscode
+	# add the tlp apt-repo gpg key
+	apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 6B283E95745A6D903009F7CA641EED65CD4E8809
 }
-
-# conda / python
-# last change shell to zsh, start zsh and source tools
-
-#TODO
-#bumblebee stats and anything else manually built for i3
-
 
 base_min() {
 	apt update || true
@@ -98,6 +110,7 @@ base_min() {
 	apt install -y \
 		adduser \
 		automake \
+		bash-completion \
     bat \
 		bc \
 		bzip2 \
@@ -125,7 +138,7 @@ base_min() {
 		lsof \
 		make \
 		mount \
-    net-tools \
+		net-tools \
 		policykit-1 \
 		silversearcher-ag \
 		ssh \
@@ -136,8 +149,6 @@ base_min() {
 		tzdata \
 		unzip \
 		vim \
-    neovim \
-    emacs-gtk \
 		xz-utils \
 		zip \
 		--no-install-recommends
@@ -159,18 +170,13 @@ base() {
 
 	apt install -y \
 		apparmor \
-    bluez \
-    bolt \
 		bridge-utils \
-    build-essential \
 		cgroupfs-mount \
-    cpufrequtls \
 		fwupd \
 		fwupdate \
 		gnupg-agent \
 		google-cloud-sdk \
 		iwd \
-    lastpass-cli \
 		libapparmor-dev \
 		libimobiledevice6 \
 		libltdl-dev \
@@ -180,111 +186,6 @@ base() {
 		pinentry-curses \
 		scdaemon \
 		systemd \
-    fzf \
-    gdm3 \
-    htop \
-    iproute2 \
-    lshw \
-    mpd \
-    locate \
-    netbase \
-    netcat \
-    nftables \
-    pkg-config \
-    rsync \
-    software-properties-common \
-    texlive \
-    traceroute \
-    unrar \
-    tcptraceroute \
-    zsh \
-    lm-sensors \
-    exuberant-ctags \
-    docker-compose \
-    docker.io \
-    printer-driver-brlaser \
-    libcairo2-dev \
-    libcurl4-openssl-dev \
-    libdrm-dev \
-    libexpat1-dev \
-    libffi-dev \
-    libfl-dev \
-    libfontconfig1-dev \
-    libfreetype-dev \
-    libfreetype6-dev \
-    libglib2.0-dev \
-    libice-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libjpeg62-turbo-dev \
-    libjsoncpp-dev \
-    libmount-dev \
-    libmpdclient-dev \
-    libncurses-dev \
-    libnl-3-dev \
-    libnl-genl-3-dev \
-    libnl-route-3-dev \
-    libpcre2-dev \
-    libpcre3-dev \
-    libpixman-1-dev \
-    libpng-dev \
-    libpthread-stubs0-dev \
-    libpulse-dev \
-    librados-dev \
-    librbd-dev \
-    librdmacm-dev \
-    libselinux1-dev \
-    libsepol1-dev \
-    libsm-dev \
-    libssl-dev \
-    libuv1-dev \
-    libx11-dev \
-    libx11-xcb-dev \
-    libxau-dev \
-    libxcb-composite0-dev \
-    libxcb-cursor-dev \
-    libxcb-damage0-dev \
-    libxcb-dpms0-dev \
-    libxcb-dri2-0-dev \
-    libxcb-dri3-dev \
-    libxcb-ewmh-dev \
-    libxcb-glx0-dev \
-    libxcb-icccm4-dev \
-    libxcb-image0-dev \
-    libxcb-present-dev \
-    libxcb-randr0-dev \
-    libxcb-render-util0-dev \
-    libxcb-render0-dev \
-    libxcb-screensaver0-dev \
-    libxcb-shape0-dev \
-    libxcb-shm0-dev \
-    libxcb-sync-dev \
-    libxcb-util0-dev \
-    libxcb-xfixes0-dev \
-    libxcb-xinput-dev \
-    libxcb-xkb-dev \
-    libxcb-xrm-dev \
-    libxcb1-dev \
-    libxdamage-dev \
-    libxdmcp-dev \
-    libxext-dev \
-    libxfixes-dev \
-    libxkbfile-dev \
-    libxml2-dev \
-    libxrender-dev \
-    libxshmfence-dev \
-    libxslt1-dev \
-    libxt-dev \
-    libxxf86vm-dev \
-    uuid-dev \
-    x11proto-core-dev \
-    x11proto-damage-dev \
-    x11proto-dev \
-    x11proto-fixes-dev \
-    x11proto-xext-dev \
-    x11proto-xf86vidmode-dev \
-    xtrans-dev \
-    zlib1g-dev \
 		--no-install-recommends
 
 	setup_sudo
@@ -334,60 +235,6 @@ install_rust() {
 	curl https://sh.rustup.rs -sSf | sh
 }
 
-# install/update golang from source
-install_golang() {
-	export GO_VERSION
-	GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
-	export GO_SRC=/usr/local/go
-
-	# if we are passing the version
-	if [[ -n "$1" ]]; then
-		GO_VERSION=$1
-	fi
-
-	# purge old src
-	if [[ -d "$GO_SRC" ]]; then
-		sudo rm -rf "$GO_SRC"
-		sudo rm -rf "$GOPATH"
-	fi
-
-	GO_VERSION=${GO_VERSION#go}
-
-	# subshell
-	(
-	kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
-	curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
-	local user="$USER"
-	# rebuild stdlib for faster builds
-	sudo chown -R "${user}" /usr/local/go/pkg
-	CGO_ENABLED=0 go install -a -installsuffix cgo std
-	)
-
-	# get commandline tools
-	(
-	set -x
-	set +e
-	go get golang.org/x/lint/golint
-	go get golang.org/x/tools/cmd/cover
-	go get golang.org/x/tools/cmd/gopls
-	go get golang.org/x/review/git-codereview
-	go get golang.org/x/tools/cmd/goimports
-	go get golang.org/x/tools/cmd/gorename
-	go get golang.org/x/tools/cmd/guru
-
-	go get github.com/axw/gocov/gocov
-	go get honnef.co/go/tools/cmd/staticcheck
-
-	# Tools for vimgo.
-	go get github.com/jstemmer/gotags
-	go get github.com/nsf/gocode
-	go get github.com/rogpeppe/godef
-  go get -u github.com/sourcegraph/go-langserver
-
-	# symlink weather binary for motd
-	sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
-}
-
 # install graphics drivers
 install_graphics() {
 	local system=$1
@@ -433,33 +280,9 @@ install_wmapps() {
 		flameshot \
 		suckless-tools \
 		kitty \
-    rofi \
 		usbmuxd \
 		xclip \
 		compton \
-    arandr \
-    adwaita-icon-theme \
-    breeze-cursor-theme \
-    breeze-gtk-theme \
-    breeze-icon-theme \
-    dunst \
-    firefox \
-    franz \
-    gucharmap \
-    hicolor-icon-theme \
-    higan \
-    hub \
-    inkscape \
-    kdeconnect \
-    lxappearance \
-    neofetch \
-    oxygen-icon-theme \
-    pavucontrol \
-    pinentry-qt \
-    remmina \
-    vlc \
-    wmctrl \
-    discord \
 		--no-install-recommends
 
 }
@@ -472,8 +295,7 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
 		# install dotfiles from repo
-    #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
-    git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
 	fi
 
 	# enable dbus for the user session
@@ -483,8 +305,6 @@ get_dotfiles() {
 	)
 
 	install_vim;
-  install_emacs;
-  install_zsh;
 }
 
 install_vim() {
@@ -500,30 +320,13 @@ install_vim() {
 	)
 
 	# update alternatives to vim
-	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
+	sudo update-alternatives --install /usr/bin/vi vi "$(command -v vim)" 60
 	sudo update-alternatives --config vi
-	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-	sudo update-alternatives --config vi
-	sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
+	sudo update-alternatives --install /usr/bin/editor editor "$(command -v vim)" 60
 	sudo update-alternatives --config editor
 	)
 }
 
-install_emacs() {
-  (
-    cd "$HOME"
-    sudo rm -rf "${HOME}/.emacs.d"
-    git clone  --recursive git@github.com:cwebster2/.emacs.d.git "${HOME}/.emacs.d"
-  )
-}
-
-install_zsh() {
-  (
-    chsh -s "$(command -v zsh)"
-    cd "$HOME"
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  )
-}
 install_tools() {
 	echo "Installing golang..."
 	echo
@@ -553,6 +356,7 @@ usage() {
 	echo "  rust                                - install rust"
 	echo "  scripts                             - install scripts"
 	echo "  tools                               - install golang, rust, and scripts"
+	echo "  dropbear                            - install and configure dropbear initramfs"
 }
 
 main() {

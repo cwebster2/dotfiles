@@ -22,7 +22,7 @@ POWERLEVEL9K_STATUS_CROSS=false
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%F{white}"
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%F{white} "
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir_joined dir_writable_joined root_indicator_joined vi_mode_joined)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv anaconda rust_version nvm vcs aws background_jobs_joined time_joined battery-joined)
 POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="clear"
 POWERLEVEL9K_VCS_CLEAN_BACKGROUND="clear"
@@ -30,17 +30,17 @@ POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="yellow"
 POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="yellow"
 POWERLEVEL9K_VCS_CLEAN_FOREGROUND="green"
 POWERLEVEL9K_DIR_HOME_BACKGROUND="clear"
-POWERLEVEL9K_DIR_HOME_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="blue"
 POWERLEVEL9K_DIR_ETC_BACKGROUND="clear"
-POWERLEVEL9K_DIR_ETC_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_ETC_FOREGROUND="blue"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="clear"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="dodgerblue1"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="blue"
 POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND="clear"
 POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND="red"
 POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="clear"
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
-POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="red"
-POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="white"
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="clear"
+POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="red1"
 POWERLEVEL9K_STATUS_OK_BACKGROUND="clear"
 POWERLEVEL9K_STATUS_OK_FOREGROUND="green"
 POWERLEVEL9K_STATUS_ERROR_BACKGROUND="clear"
@@ -58,6 +58,7 @@ POWERLEVEL9K_VIRTUALENV_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_NVM_BACKGROUND='clear'
 POWERLEVEL9K_NVM_FOREGROUND='magenta'
 POWERLEVEL9K_BATTERY_LOW_BACKGROUND='clear'
+POWERLEVEL9K_BATTERY_DISCONNECTED_BACKGROUND='clear'
 POWERLEVEL9K_BATTERY_CHARGING_BACKGROUND='clear'
 POWERLEVEL9K_BATTERY_CHARGED_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='clear'
@@ -65,11 +66,11 @@ POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='deepskyblue2'
 POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_SUDO_BACKGROUND='clear'
 POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND='clear'
-POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='blue'
 POWERLEVEL9K_CONTEXT_REMOTE_SUDO_BACKGROUND='clear'
-POWERLEVEL9K_HOST_REMOTE_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_HOST_REMOTE_FOREGROUND='blue'
 POWERLEVEL9K_HOST_REMOTE_BACKGROUND='clear'
-POWERLEVEL9K_HOST_LOCAL_FOREGROUND='dodgerblue1'
+POWERLEVEL9K_HOST_LOCAL_FOREGROUND='blue'
 POWERLEVEL9K_HOST_LOCAL_BACKGROUND='clear'
 POWERLEVEL9K_VI_INSERT_MODE_STRING=''
 POWERLEVEL9K_VI_COMMAND_MODE_STRING='NORMAL'
@@ -163,34 +164,33 @@ unsetopt complete_aliases
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
-# else
-#   export EDITOR='code-insiders'
-# fi
+export EDITOR='vim'
+if [[ -n $SSH_CONNECTION ]]; then
+  export GPG_TTY=$(tty)
+  export PINENTRY_USER_DATA="USE_CURSES=1"
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-export DOTFILESBRANCH="master"
+export DOTFILESBRANCH="razer-ubuntu"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 alias code='code-insiders'
-alias glgchrome='nohup ssh glg google-chrome &> /dev/null'
-alias glgrdp='nohup ssh glg remmina &> /dev/null'
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
 if which batcat > /dev/null; then
   alias cat='batcat'
 fi
+
+alias google-chrome='LD_PRELOAD="libdl.so /home/casey/src/X11/XlibNoSHM.so" google-chrome'
 
 if [ -f /home/casey/bin/prettyping ]; then
   alias ping='prettyping --nolegend'
@@ -219,6 +219,22 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 
 export PATH=/home/casey/go/bin:$PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/casey/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/casey/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/casey/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/casey/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 source ~/miniconda3/bin/activate
 export PATH=/home/casey/bin:PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
 
