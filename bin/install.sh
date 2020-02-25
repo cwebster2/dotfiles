@@ -472,7 +472,8 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
 		# install dotfiles from repo
-    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+    #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+    git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
 	fi
 
 	# enable dbus for the user session
