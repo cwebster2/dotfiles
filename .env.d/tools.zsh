@@ -14,3 +14,5 @@ if [ -f /usr/bin/exa ]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source ~/.fonts/fontawesome/*.sh
