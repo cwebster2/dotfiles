@@ -163,10 +163,8 @@ unsetopt complete_aliases
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
+export EDITOR='nvim'
 # if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
-# else
-#   export EDITOR='code-insiders'
 # fi
 
 # Compilation flags
@@ -174,31 +172,14 @@ unsetopt complete_aliases
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-export DOTFILESBRANCH="master"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias code='code-insiders'
-alias glgchrome='nohup ssh glg google-chrome &> /dev/null'
-alias glgrdp='nohup ssh glg remmina &> /dev/null'
+export DOTFILESBRANCH="master"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-if which batcat > /dev/null; then
-  alias cat='batcat'
-fi
-
-if [ -f /home/casey/bin/prettyping ]; then
-  alias ping='prettyping --nolegend'
-fi
-
-if [ -f /usr/bin/exa ]; then
-  alias ll='exa -l'
-fi
 
 for file in ~/.env.d/*; do
   source "$file"
@@ -216,10 +197,3 @@ bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
-
-export PATH=/home/casey/go/bin:$PATH
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source ~/miniconda3/bin/activate
-export PATH=/home/casey/bin:PrusaSlicer-2.0.0+linux64-201905201652/bin/:$PATH
-
-source ~/.fonts/fontawesome/*.sh
