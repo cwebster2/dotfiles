@@ -175,7 +175,6 @@ fi
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-export DOTFILESBRANCH="razer-ubuntu"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -183,22 +182,8 @@ export DOTFILESBRANCH="razer-ubuntu"
 # For a full list of active aliases, run `alias`.
 #
 
-alias code='code-insiders'
+export DOTFILESBRANCH="razer-ubuntu"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-if which batcat > /dev/null; then
-  alias cat='batcat'
-fi
-
-alias google-chrome='LD_PRELOAD="libdl.so /home/casey/src/X11/XlibNoSHM.so" google-chrome'
-
-if [ -f /home/casey/bin/prettyping ]; then
-  alias ping='prettyping --nolegend'
-fi
-
-if [ -f /usr/bin/exa ]; then
-  alias ll='exa -l'
-fi
 
 for file in ~/.env.d/*; do
   source "$file"
@@ -218,7 +203,6 @@ bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 
 export PATH=/home/casey/go/bin:$PATH
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -235,4 +219,3 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-source ~/.fonts/fontawesome/*.sh
