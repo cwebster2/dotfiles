@@ -1,0 +1,15 @@
+[user]
+  name = Casey Webster
+  email = casey.webster@gmail.com
+  signingkey = A58BCB66EEBB9327
+[url "git@github.com:cwebster2/"]
+  insteadof = cwebster2://
+[url "git@github.com:"]
+  insteadof = github://
+[commit]
+	gpgsign = true
+[alias]
+  lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+[core]
+	pager = "delta --dark --plus-color=\"#012800\" --minus-color=\"#340001\""

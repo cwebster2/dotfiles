@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+docker run --rm --interactive --tty \
+  --env=DIGITALOCEAN_ACCESS_TOKEN=${DIGITALOCEAN_ACCESS_TOKEN} \
+  -v $HOME/src/nyc1-wxster-k8s:/root/ \
+  -v $HOME/.ssh/id_ed25519.pub:/root/.ssh/id_ed25519.pub \
+  digitalocean/doctl "$@"

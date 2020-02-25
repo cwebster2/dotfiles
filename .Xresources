@@ -1,0 +1,60 @@
+!# Rofi Theming
+rofi.color-enabled: true
+rofi.color-window: #bb31363b, #bb31363b, #bb1e2529
+rofi.color-normal: #bb31363b, #c1c1c1, #bb3b4045, #bb2980b9, #ffffff
+rofi.color-active: #bb31363b, #80cbc4, #bb3b4045, #bb2980b9, #80cbc4
+rofi.color-urgent: #bb31363b, #ff1844, #bb3b4045, #bb2980b9, #ff1844
+
+! 163 dpi
+Xft.dpi: 136
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+URxvt*scrollBar: false
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+URxvt.font: xft:FuraCode Nerd Font Mono:size=9
+URxvt.depth: 32
+URxvt.background: rgba:0000/0000/0200/c800
+URxvt.foreground: #cacaca
+URxvt.perl-ext-common: default,tabbed,matcher
+URxvt.tabbed.new-button: true
+URxvt.reopen-on-close: true
+URxvt.tabbed.tabbar-fg: 4
+URxvt.tabbed.tabbar-bg: 0 
+URxvt.tabbed.tab-fg: 12
+URxvt.tabbed.tab-bg: 8
+!*background: #000000
+!*foreground: #ffffff
+
+! Black
+*color0:  #353535
+*color8:  #555555
+
+! Red
+*color1:  #D11793
+*color9:  #E480C2
+
+! Green
+*color2:   #93D117
+*color10: #CCE698
+
+! Yellow
+*color3:   #ECDC21
+*color11: #FFF78A
+
+! Blue
+*color4:   #3B92FF
+*color12: #91D5F7
+
+! Magneta
+*color5:   #9B17D1
+*color13: #D8BBE7
+
+! Cyan
+*color6:   #1EC7AA
+*color14: #A0FEEE
+
+! White
+*color7:   #CACACA
+*color15: #FFFFFF
