@@ -17,3 +17,5 @@ fi
 
 source ~/.fonts/fontawesome/*.sh
 
+alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
+alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"

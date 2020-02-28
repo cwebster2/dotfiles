@@ -164,7 +164,7 @@ unsetopt complete_aliases
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+export EDITOR='nvim'
 if [[ -n $SSH_CONNECTION ]]; then
   export GPG_TTY=$(tty)
   export PINENTRY_USER_DATA="USE_CURSES=1"
@@ -201,8 +201,6 @@ bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
-
-export PATH=/home/casey/go/bin:$PATH
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

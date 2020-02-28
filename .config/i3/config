@@ -35,7 +35,7 @@ bindsym $mod+q kill
 bindsym $mod+Ctrl+l exec --no-startup-id $lockscreen
 
 # start dmenu (a program launcher)
-bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi 
+bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi
 bindsym $mod+g exec rofi -show ssh
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -151,7 +151,6 @@ assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
 
 for_window [class="zoom"] floating enable
-
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
