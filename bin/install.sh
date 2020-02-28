@@ -3,7 +3,29 @@ set -e
 set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
+export APT_LISTBUGS_FRONTEND=none
 export TARGET_USER=casey
+
+# Choose a user account to use for this installation
+get_user() {
+	if [ -z "${TARGET_USER-}" ]; then
+		mapfile -t options < <(find /home/* -maxdepth 0 -printf "%f\\n" -type d)
+		# if there is only one option just use that user
+		if [ "${#options[@]}" -eq "1" ]; then
+			readonly TARGET_USER="${options[0]}"
+			echo "Using user account: ${TARGET_USER}"
+			return
+		fi
+
+		# iterate through the user options and print them
+		PS3='command -v user account should be used? '
+
+		select opt in "${options[@]}"; do
+			readonly TARGET_USER=$opt
+			break
+		done
+		fi
+	}
 
 check_is_sudo() {
   if [ "$EUID" -ne 0 ]; then
@@ -13,8 +35,8 @@ check_is_sudo() {
 }
 
 setup_sources_min() {
-  apt update || true
-  apt install -y \
+  apt-get update || true
+  apt-get install -y \
     apt-transport-https \
     apt-listbugs \
     ca-certificates \
@@ -33,43 +55,43 @@ setup_sources_min() {
 setup_sources() {
   setup_sources_min;
 
-  cat <<-EOF > /etc/apt/sources.list
+  cat <<- EOF > /etc/apt/sources.list
   deb http://httpredir.debian.org/debian sid main contrib non-free
   deb-src http://httpredir.debian.org/debian/ sid main contrib non-free
 
   deb http://httpredir.debian.org/debian experimental main contrib non-free
   deb-src http://httpredir.debian.org/debian experimental main contrib non-free
-  EOF
+EOF
 
   # yubico
-  cat <<-EOF > /etc/apt/sources.list.d/yubico.list
+  cat <<- EOF > /etc/apt/sources.list.d/yubico.list
   deb http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
   deb-src http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
-  EOF
+EOF
 
   # tlp: Advanced Linux Power Management
-  cat <<-EOF > /etc/apt/sources.list.d/tlp.list
+  cat <<- EOF > /etc/apt/sources.list.d/tlp.list
   # tlp: Advanced Linux Power Management
   # http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
   deb http://repo.linrunner.de/debian sid main
-  EOF
+EOF
 
   # Create an environment variable for the correct distribution
   CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
   export CLOUD_SDK_REPO
 
   # Add the Cloud SDK distribution URI as a package source
-  cat <<-EOF > /etc/apt/sources.list.d/google-cloud-sdk.list
+  cat <<- EOF > /etc/apt/sources.list.d/google-cloud-sdk.list
   deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main
-  EOF
+EOF
 
   # Import the Google Cloud Platform public key
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
   # Add the Google Chrome distribution URI as a package source
-  cat <<-EOF > /etc/apt/sources.list.d/google-chrome.list
+  cat <<- EOF > /etc/apt/sources.list.d/google-chrome.list
   deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-  EOF
+EOF
 
   # Import the Google Chrome public key
   curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -92,13 +114,12 @@ setup_sources() {
 
 
 base_min() {
-	apt update || true
-	apt -y upgrade
+	apt-get update || true
+	apt-get -y upgrade
 
-	apt install -y \
+	apt-get install -y \
 		adduser \
 		automake \
-    bat \
 		bc \
 		bzip2 \
 		ca-certificates \
@@ -120,7 +141,6 @@ base_min() {
     iw \
 		jq \
 		less \
-		libc6-dev \
 		locales \
 		lsof \
 		make \
@@ -142,7 +162,7 @@ base_min() {
 		zip \
 		--no-install-recommends
 
-	apt autoremove
+	apt -y autoremove
 	apt autoclean
 	apt clean
 
@@ -154,28 +174,25 @@ base_min() {
 base() {
 	base_min;
 
-	apt update || true
-	apt -y upgrade
+	apt-get update || true
+	apt-get -y upgrade
 
-	apt install -y \
+	apt-get install -y \
 		apparmor \
     bluez \
     bolt \
 		bridge-utils \
     build-essential \
 		cgroupfs-mount \
-    cpufrequtls \
+    cpufrequtils \
 		fwupd \
 		fwupdate \
 		gnupg-agent \
 		google-cloud-sdk \
 		iwd \
     lastpass-cli \
-		libapparmor-dev \
 		libimobiledevice6 \
-		libltdl-dev \
 		libpam-systemd \
-		libseccomp-dev \
     pcscd \
 		pinentry-curses \
 		scdaemon \
@@ -200,96 +217,13 @@ base() {
     zsh \
     lm-sensors \
     exuberant-ctags \
-    docker-compose \
     docker.io \
     printer-driver-brlaser \
-    libcairo2-dev \
-    libcurl4-openssl-dev \
-    libdrm-dev \
-    libexpat1-dev \
-    libffi-dev \
-    libfl-dev \
-    libfontconfig1-dev \
-    libfreetype-dev \
-    libfreetype6-dev \
-    libglib2.0-dev \
-    libice-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libjpeg62-turbo-dev \
-    libjsoncpp-dev \
-    libmount-dev \
-    libmpdclient-dev \
-    libncurses-dev \
-    libnl-3-dev \
-    libnl-genl-3-dev \
-    libnl-route-3-dev \
-    libpcre2-dev \
-    libpcre3-dev \
-    libpixman-1-dev \
-    libpng-dev \
-    libpthread-stubs0-dev \
-    libpulse-dev \
-    librados-dev \
-    librbd-dev \
-    librdmacm-dev \
-    libselinux1-dev \
-    libsepol1-dev \
-    libsm-dev \
-    libssl-dev \
-    libuv1-dev \
-    libx11-dev \
-    libx11-xcb-dev \
-    libxau-dev \
-    libxcb-composite0-dev \
-    libxcb-cursor-dev \
-    libxcb-damage0-dev \
-    libxcb-dpms0-dev \
-    libxcb-dri2-0-dev \
-    libxcb-dri3-dev \
-    libxcb-ewmh-dev \
-    libxcb-glx0-dev \
-    libxcb-icccm4-dev \
-    libxcb-image0-dev \
-    libxcb-present-dev \
-    libxcb-randr0-dev \
-    libxcb-render-util0-dev \
-    libxcb-render0-dev \
-    libxcb-screensaver0-dev \
-    libxcb-shape0-dev \
-    libxcb-shm0-dev \
-    libxcb-sync-dev \
-    libxcb-util0-dev \
-    libxcb-xfixes0-dev \
-    libxcb-xinput-dev \
-    libxcb-xkb-dev \
-    libxcb-xrm-dev \
-    libxcb1-dev \
-    libxdamage-dev \
-    libxdmcp-dev \
-    libxext-dev \
-    libxfixes-dev \
-    libxkbfile-dev \
-    libxml2-dev \
-    libxrender-dev \
-    libxshmfence-dev \
-    libxslt1-dev \
-    libxt-dev \
-    libxxf86vm-dev \
-    uuid-dev \
-    x11proto-core-dev \
-    x11proto-damage-dev \
-    x11proto-dev \
-    x11proto-fixes-dev \
-    x11proto-xext-dev \
-    x11proto-xf86vidmode-dev \
-    xtrans-dev \
-    zlib1g-dev \
 		--no-install-recommends
 
 	setup_sudo
 
-	apt autoremove
+	apt -y autoremove
 	apt autoclean
 	apt clean
 }
@@ -311,7 +245,7 @@ setup_sudo() {
 	gpasswd -a "$TARGET_USER" systemd-network
 
 	# create docker group
-	sudo groupadd docker
+	sudo groupadd -f docker
 	sudo gpasswd -a "$TARGET_USER" docker
 
 	# add go path to secure path
@@ -357,6 +291,7 @@ install_golang() {
 	(
 	kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 	curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
+  #curl -sSL "https://dl.google.com/go/${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
 	local user="$USER"
 	# rebuild stdlib for faster builds
 	sudo chown -R "${user}" /usr/local/go/pkg
@@ -386,6 +321,7 @@ install_golang() {
 
 	# symlink weather binary for motd
 	sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
+)
 }
 
 # install graphics drivers
@@ -421,6 +357,11 @@ install_graphics() {
 	apt install -y "${pkgs[@]}" --no-install-recommends
 }
 
+install_scripts() {
+  echo "no scripts"
+}
+
+
 # install stuff for i3 window manager
 install_wmapps() {
 	apt update || true
@@ -444,7 +385,6 @@ install_wmapps() {
     breeze-icon-theme \
     dunst \
     firefox \
-    franz \
     gucharmap \
     hicolor-icon-theme \
     higan \
@@ -472,19 +412,19 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
 		# install dotfiles from repo
-    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+    #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git init
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add install "https://github.com/cwebster2/dotfiles"
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install master
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "git@github.com:cwebster2/dotfiles"
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote rm install
 	fi
 
-	# enable dbus for the user session
-	# systemctl --user enable dbus.socket
 
-	cd "$HOME"
 	)
+  install_zsh
 
-	install_vim;
-  install_emacs;
-  install_zsh;
 }
 
 install_vim() {
@@ -495,10 +435,7 @@ install_vim() {
 	# install .vim files
 	sudo rm -rf "${HOME}/.vim"
 	git clone --recursive git@github.com:cwebster2/vim.git "${HOME}/.vim"
-	(
-	cd "${HOME}/.vim"
-	)
-
+  #nvim -E +PlugInstall +q
 	# update alternatives to vim
 	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
 	sudo update-alternatives --config vi
@@ -519,15 +456,45 @@ install_emacs() {
 
 install_zsh() {
   (
-    chsh -s "$(command -v zsh)"
+    sudo chsh -s "$(command -v zsh)"
     cd "$HOME"
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    mv "${HOME}/.zshrc.pre-oh-my-zsh" "${HOME}/.zshrc"
+    cd "${HOME}/.oh-my-zsh/custom/plugins"
+    if  [ ! -d navi ]; then
+      git clone https://github.com/denisidoro/navi navi
+    fi
+    if  [ ! -d zsh-autosuggestions ]; then
+      git clone https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
+    fi
+    if  [ ! -d zsh-nvm ]; then
+      git clone https://github.com/lukechilds/zsh-nvm zsh-nvm
+    fi
+    cd "${HOME}/.oh-my-zsh/custom/themes"
+    if  [ ! -d powerlevel10k ]; then
+      git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k
+    fi
   )
+  cd "$HOME"
 }
 install_tools() {
-	echo "Installing golang..."
 	echo
-	install_golang;
+	echo "Installing vim dotfiles..."
+	echo
+	install_vim;
+	echo
+	echo "Installing emacs dotfiles..."
+	echo
+  install_emacs;
+	echo
+	echo "Installing dbus socket..."
+	echo
+	# enable dbus for the user session
+	systemctl --user enable dbus.socket
+
+	echo "Skipping Installing golang..."
+	echo
+	#install_golang;
 
 	echo
 	echo "Installing rust..."
@@ -535,9 +502,16 @@ install_tools() {
 	install_rust;
 
 	echo
+	echo "Installing node..."
+	echo
+  (
+    source .nvm/nvm.sh
+    nvm install node
+  )
+	echo
 	echo "Installing scripts..."
 	echo
-	sudo install.sh scripts;
+	#sudo install.sh scripts;
 }
 
 usage() {
