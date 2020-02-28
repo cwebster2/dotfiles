@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [ -z "$2" ]
+then
+  exit 2
+fi
+
+if [ -z "$1" ]
+then
+  exit 2
+fi
+
+MAXB=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+CURB=$(cat /sys/class/backlight/intel_backlight/brightness)
+let "PCT = $MAXB / 100"
+let "STEP = PCT * $2"
+
+case "$1" in
+  down)
+    let "STEP = $STEP * -1"
+    ;;
+esac
+
+let "NEWB = $CURB + $STEP"
+
+echo ${NEWB} > /sys/class/backlight/intel_backlight/brightness
