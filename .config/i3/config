@@ -182,6 +182,7 @@ for_window [class="zoom"] floating enable
 for_window [class="Lutris"] floating enable
 for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
+for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
 #for_window [class="Code"] floating enable
 #for_window [class="Firefox"] floating enable
 #for_window [class="Gimp"] floating enable
