@@ -152,6 +152,9 @@ plugins=(
   zsh-interactive-cd
 )
 
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities casey_ed25519 casey_rsa
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
