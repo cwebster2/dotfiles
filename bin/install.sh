@@ -158,6 +158,7 @@ base_min() {
 		vim \
     neovim \
     emacs-gtk \
+    wget \
 		xz-utils \
 		zip \
 		--no-install-recommends
@@ -265,7 +266,7 @@ setup_sudo() {
 
 # install rust
 install_rust() {
-	curl https://sh.rustup.rs -sSf | sh
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
 }
 
 # install/update golang from source
@@ -295,7 +296,7 @@ install_golang() {
 	local user="$USER"
 	# rebuild stdlib for faster builds
 	sudo chown -R "${user}" /usr/local/go/pkg
-	CGO_ENABLED=0 go install -a -installsuffix cgo std
+	#CGO_ENABLED=0 go install -a -installsuffix cgo std
 	)
 
 	# get commandline tools
@@ -443,6 +444,14 @@ install_vim() {
 	sudo update-alternatives --config vi
 	sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
 	sudo update-alternatives --config editor
+
+  #install language servers
+  source ${HOME}/.nvm/nvm.sh
+  npm install -g bash-language-server neovim
+  source ${HOME}/miniconda3/bin/activate
+  pip install neovim
+
+  nvim --headless +PlugInstall +qa
 	)
 }
 
@@ -477,9 +486,35 @@ install_zsh() {
   )
   cd "$HOME"
 }
+
+install_node() {
+  (
+    source ${HOME}/.nvm/nvm.sh
+    nvm install node
+    npm install -g typescript eslint
+  )
+}
+
+install_python() {
+  (
+    cd ${HOME}
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+    bash ${HOME}/miniconda.sh -b -p ${HOME}/miniconda3
+    rm ${HOME}/miniconda.sh
+  )
+}
+
 install_tools() {
 	echo
-	echo "Installing vim dotfiles..."
+	echo "Installing node..."
+	echo
+  install_node;
+	echo
+	echo "Installing python..."
+	echo
+  install_python;
+	echo
+	echo "Installing vim environment and dotfiles..."
 	echo
 	install_vim;
 	echo
@@ -489,25 +524,19 @@ install_tools() {
 	echo
 	echo "Installing dbus socket..."
 	echo
+
 	# enable dbus for the user session
 	systemctl --user enable dbus.socket
 
 	echo "Skipping Installing golang..."
 	echo
-	#install_golang;
+	install_golang;
 
 	echo
 	echo "Installing rust..."
 	echo
 	install_rust;
 
-	echo
-	echo "Installing node..."
-	echo
-  (
-    source .nvm/nvm.sh
-    nvm install node
-  )
 	echo
 	echo "Installing scripts..."
 	echo
@@ -525,6 +554,8 @@ usage() {
 	echo "  vim                                 - install vim specific dotfiles"
 	echo "  golang                              - install golang and packages"
 	echo "  rust                                - install rust"
+  echo "  python                              - install Python 3 (miniconda)"
+  echo "  node                                - install node via nvm"
 	echo "  scripts                             - install scripts"
 	echo "  tools                               - install golang, rust, and scripts"
 }
@@ -568,6 +599,10 @@ main() {
 		install_vim
 	elif [[ $cmd == "rust" ]]; then
 		install_rust
+	elif [[ $cmd == "node" ]]; then
+		install_node
+	elif [[ $cmd == "python" ]]; then
+		install_python
 	elif [[ $cmd == "golang" ]]; then
 		install_golang "$2"
 	elif [[ $cmd == "scripts" ]]; then
