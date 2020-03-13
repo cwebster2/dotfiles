@@ -260,6 +260,7 @@ setup_sudo() {
 	# that way things are removed on reboot
 	# i like things clean but you may not want this
 	mkdir -p "/home/$TARGET_USER/Downloads"
+  chown ${TARGET_USER}:${TARGET_USER} "/home/$TARGET_USER/Downloads"
 	echo -e "\\n# tmpfs for downloads\\ntmpfs\\t/home/${TARGET_USER}/Downloads\\ttmpfs\\tnodev,nosuid,size=2G\\t0\\t0" >> /etc/fstab
 }
 
@@ -295,7 +296,8 @@ install_golang() {
 	local user="$USER"
 	# rebuild stdlib for faster builds
 	sudo chown -R "${user}" /usr/local/go/pkg
-	#CGO_ENABLED=0 go install -a -installsuffix cgo std
+  export PATH=/usr/local/go/bin:${PATH}
+	CGO_ENABLED=0 go install -a -installsuffix cgo std
 	)
 
 	# get commandline tools
@@ -412,7 +414,7 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
     echo "Installing dotfiles branch ${DOTFILESBRANCH}"
-    DOTFILES=${DOTFILESBRANCH:-master}
+    DOTFILESBRANCH=${DOTFILESBRANCH:-master}
 		# install dotfiles from repo
     #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
@@ -426,7 +428,6 @@ get_dotfiles() {
 
 	)
   install_zsh
-
 }
 
 install_vim() {
@@ -437,6 +438,7 @@ install_vim() {
 	# install .vim files
 	sudo rm -rf "${HOME}/.vim"
   git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
+  cd "${HOME}/.vim"
 	git remote set-url origin git@github.com:cwebster2/vim
   #nvim -E +PlugInstall +q
 	# update alternatives to vim
@@ -462,6 +464,7 @@ install_emacs() {
     cd "$HOME"
     sudo rm -rf "${HOME}/.emacs.d"
     git clone "https://github.com/cwebster2/.emacs.d" "${HOME}/.emacs.d"
+    cd "${HOME}/.emacs.d"
 	  git remote set-url origin git@github.com:cwebster2/.emacs.d
   )
 }
@@ -473,9 +476,6 @@ install_zsh() {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     mv "${HOME}/.zshrc.pre-oh-my-zsh" "${HOME}/.zshrc"
     cd "${HOME}/.oh-my-zsh/custom/plugins"
-    if  [ ! -d navi ]; then
-      git clone https://github.com/denisidoro/navi navi
-    fi
     if  [ ! -d zsh-autosuggestions ]; then
       git clone https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
     fi
@@ -487,7 +487,17 @@ install_zsh() {
       git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k
     fi
   )
+  echo "zsh installed"
   cd "$HOME"
+}
+
+install_misc() {
+  (
+    cd "${HOME}"
+    git clone https://github.com/denisidoro/navi "${HOME}"/.navi
+    cd "${HOME}"/.navi
+    make BIN_DIR="${HOME}"/bin install
+  )
 }
 
 install_node() {
@@ -517,10 +527,6 @@ install_tools() {
 	echo
   install_python;
 	echo
-	echo "Installing vim environment and dotfiles..."
-	echo
-	install_vim;
-	echo
 	echo "Installing emacs dotfiles..."
 	echo
   install_emacs;
@@ -531,9 +537,10 @@ install_tools() {
 	# enable dbus for the user session
 	systemctl --user enable dbus.socket
 
-	echo "Skipping Installing golang..."
+  echo
+	echo "Installing golang..."
 	echo
-	install_golang;
+	install_golang "go1.13.8";
 
 	echo
 	echo "Installing rust..."
@@ -541,8 +548,14 @@ install_tools() {
 	install_rust;
 
 	echo
+	echo "Installing vim environment and dotfiles..."
+	echo
+  source ${HOME}/.env.d/tools.zsh
+	install_vim;
+	echo
 	echo "Installing scripts..."
 	echo
+  install_misc;
 	#sudo install.sh scripts;
 }
 
