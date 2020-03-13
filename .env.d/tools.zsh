@@ -51,5 +51,6 @@ test_and_set_path() {
   fi
 }
 
+test_and_set_path "${HOME}/bin"
 test_and_set_path "/usr/local/go/bin"
 test_and_set_path "${HOME}/.cargo/bin"
