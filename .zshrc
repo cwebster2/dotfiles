@@ -155,6 +155,10 @@ plugins=(
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 zstyle :omz:plugins:ssh-agent identities casey_ed25519 casey_rsa
 
+for file in ~/.env.d/*; do
+  source "$file"
+done
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -183,10 +187,6 @@ export EDITOR='nvim'
 #
 export DOTFILESBRANCH="master"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-for file in ~/.env.d/*; do
-  source "$file"
-done
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'
