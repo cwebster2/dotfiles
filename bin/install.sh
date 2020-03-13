@@ -155,7 +155,6 @@ base_min() {
 		tree \
 		tzdata \
 		unzip \
-		vim \
     neovim \
     emacs-gtk \
     wget \
@@ -412,12 +411,14 @@ get_dotfiles() {
   #todo install ssh key from lastpass
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
+    echo "Installing dotfiles branch ${DOTFILESBRANCH}"
+    DOTFILES=${DOTFILESBRANCH:-master}
 		# install dotfiles from repo
     #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git init
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add install "https://github.com/cwebster2/dotfiles"
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install master
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install ${DOTFILESBRANCH}
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "git@github.com:cwebster2/dotfiles"
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote rm install
 	fi
@@ -435,7 +436,8 @@ install_vim() {
 
 	# install .vim files
 	sudo rm -rf "${HOME}/.vim"
-	git clone --recursive git@github.com:cwebster2/vim.git "${HOME}/.vim"
+  git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
+	git remote set-url origin git@github.com:cwebster2/vim
   #nvim -E +PlugInstall +q
 	# update alternatives to vim
 	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
@@ -459,7 +461,8 @@ install_emacs() {
   (
     cd "$HOME"
     sudo rm -rf "${HOME}/.emacs.d"
-    git clone  --recursive git@github.com:cwebster2/.emacs.d.git "${HOME}/.emacs.d"
+    git clone "https://github.com/cwebster2/.emacs.d" "${HOME}/.emacs.d"
+	  git remote set-url origin git@github.com:cwebster2/.emacs.d
   )
 }
 
