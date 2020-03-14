@@ -413,7 +413,7 @@ install_wmapps() {
     libxcb1-dev \
     libxss-dev \
     libpulse-dev \
-    libxcb-screensaver0-dev
+    libxcb-screensaver0-dev \
 		--no-install-recommends
 
 }
@@ -452,7 +452,7 @@ install_vim() {
   git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
   cd "${HOME}/.vim"
 	git remote set-url origin git@github.com:cwebster2/vim
-  #nvim -E +PlugInstall +q
+
 	# update alternatives to vim
 	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
 	sudo update-alternatives --config vi
@@ -466,6 +466,8 @@ install_vim() {
   npm install -g bash-language-server neovim
   source ${HOME}/miniconda3/bin/activate
   pip install neovim
+
+  ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
 
   nvim --headless +PlugInstall +qa &
   sleep 300
@@ -531,7 +533,7 @@ install_misc() {
   echo "Install xidlehook"
   echo
   (
-    cargo +beta install xidlehook --bins
+    cargo install xidlehook --bins
   )
 
   # qmk_firmware prusaslicer Lector wally
