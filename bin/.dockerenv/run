@@ -1,0 +1,16 @@
+docker run \
+  -it --rm \
+  --name caseybox \
+  --init \
+  --group-add audio \
+  --group-add video \
+  --group-add docker \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $XAUTHORITY:/home/casey/.Xauthority \
+  -v /home/casey/.ssh-persistant:/home/casey/.ssh-persistant \
+  -e LASTPASS_USER \
+  -e KEYME_SSH_CONFIG_ID \
+  -e KEYME_KEYS_TO_LOAD \
+  -e EMAIL \
+  --net=host \
+  caseyboxenv:v1

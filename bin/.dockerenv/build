@@ -1,0 +1,7 @@
+docker build \
+  -t caseyboxenv:v1 \
+  --ulimit memlock=65536:65536  \
+  --rm \
+  --network host \
+  -f Dockerfile \
+  .. | tee build.log
