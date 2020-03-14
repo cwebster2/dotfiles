@@ -196,6 +196,7 @@ base() {
     pcscd \
 		pinentry-curses \
 		scdaemon \
+    psmisc \
 		systemd \
     fzf \
     gdm3 \
@@ -219,6 +220,9 @@ base() {
     exuberant-ctags \
     docker.io \
     printer-driver-brlaser \
+    prettyping \
+    bat \
+    exa \
 		--no-install-recommends
 
 	setup_sudo
@@ -226,6 +230,9 @@ base() {
 	apt -y autoremove
 	apt autoclean
 	apt clean
+
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen -a
 }
 
 # setup sudo for a user
@@ -293,13 +300,14 @@ install_golang() {
 	kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 	curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
   #curl -sSL "https://dl.google.com/go/${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
-	local user="$USER"
+	local user="$TARGET_USER"
 	# rebuild stdlib for faster builds
 	sudo chown -R "${user}" /usr/local/go/pkg
   export PATH=/usr/local/go/bin:${PATH}
 	CGO_ENABLED=0 go install -a -installsuffix cgo std
 	)
 
+  export PATH=/usr/local/go/bin:${PATH}
 	# get commandline tools
 	(
 	set -x
@@ -402,6 +410,10 @@ install_wmapps() {
     vlc \
     wmctrl \
     snapd \
+    libxcb1-dev \
+    libxss-dev \
+    libpulse-dev \
+    libxcb-screensaver0-dev
 		--no-install-recommends
 
 }
@@ -455,7 +467,9 @@ install_vim() {
   source ${HOME}/miniconda3/bin/activate
   pip install neovim
 
-  nvim --headless +PlugInstall +qa
+  nvim --headless +PlugInstall +qa &
+  sleep 300
+  killall nvim
 	)
 }
 
@@ -492,12 +506,35 @@ install_zsh() {
 }
 
 install_misc() {
+  echo
+  echo "Install Navi"
+  echo
   (
     cd "${HOME}"
     git clone https://github.com/denisidoro/navi "${HOME}"/.navi
     cd "${HOME}"/.navi
     make BIN_DIR="${HOME}"/bin install
   )
+
+  mkdir -p "${HOME}/src"
+
+  echo
+  echo "Install Bumblebee-status"
+  echo
+  (
+    cd "${HOME}/src"
+    git clone https://github.com/tobi-wan-kenobi/bumblebee-status
+    conda install -y psutil netifaces
+  )
+
+  echo
+  echo "Install xidlehook"
+  echo
+  (
+    cargo +beta install xidlehook --bins
+  )
+
+  # qmk_firmware prusaslicer Lector wally
 }
 
 install_node() {
