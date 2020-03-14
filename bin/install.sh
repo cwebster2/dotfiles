@@ -4,7 +4,7 @@ set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 export APT_LISTBUGS_FRONTEND=none
-export TARGET_USER=casey
+export TARGET_USER=${TARGET_USER:-casey}
 
 # Choose a user account to use for this installation
 get_user() {
@@ -231,7 +231,7 @@ base() {
 	apt autoclean
 	apt clean
 
-  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  sed -i '/en_US.UTF-8/ s/^# //' /etc/locale.gen
   locale-gen -a
 }
 
@@ -273,7 +273,11 @@ setup_sudo() {
 
 # install rust
 install_rust() {
-	curl https://sh.rustup.rs -sSf | sh -s -- -y
+  (
+  	curl https://sh.rustup.rs -sSf | sh -s -- -y
+    PATH=${HOME}/.cargo/bin:$PATH
+    rustup component add rls rust-analysis rust-src
+  )
 }
 
 # install/update golang from source
@@ -299,7 +303,6 @@ install_golang() {
 	(
 	kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 	curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
-  #curl -sSL "https://dl.google.com/go/${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
 	local user="$TARGET_USER"
 	# rebuild stdlib for faster builds
 	sudo chown -R "${user}" /usr/local/go/pkg
@@ -464,7 +467,7 @@ install_vim() {
   #install language servers
   source ${HOME}/.nvm/nvm.sh
   npm install -g bash-language-server neovim
-  source ${HOME}/miniconda3/bin/activate
+  #source ${HOME}/miniconda3/bin/activate
   pip install neovim
 
   ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
@@ -537,11 +540,25 @@ install_misc() {
   )
 
   # qmk_firmware prusaslicer Lector wally
+  echo
+  echo "Installing ergodox keyboard stuff"
+  echo
+  (
+    sudo bash -c "cat > /etc/udev/rules.d/50-wally.rules" << 'EOF'
+# Teensy rules for the Ergodox EZ Original / Shine / Glow
+ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+EOF
+
+    wget 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
+    chmod 755 "${HOME}/bin/wally"
+  )
 }
 
 install_node() {
   (
-    source ${HOME}/.nvm/nvm.sh
     nvm install node
     npm install -g typescript eslint
   )
@@ -557,6 +574,7 @@ install_python() {
 }
 
 install_tools() {
+  source ${HOME}/.nvm/nvm.sh
 	echo
 	echo "Installing node..."
 	echo
@@ -589,7 +607,7 @@ install_tools() {
 	echo
 	echo "Installing vim environment and dotfiles..."
 	echo
-  source ${HOME}/.env.d/tools.zsh
+  source ${HOME}/.env.d/zshenv.d/paths.zsh
 	install_vim;
 	echo
 	echo "Installing scripts..."
