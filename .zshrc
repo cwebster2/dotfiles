@@ -152,9 +152,6 @@ plugins=(
   zsh-interactive-cd
 )
 
-zstyle :omz:plugins:ssh-agent agent-forwarding on
-zstyle :omz:plugins:ssh-agent identities casey_ed25519 casey_rsa
-
 for file in ~/.env.d/*; do
   source "$file"
 done
@@ -190,8 +187,6 @@ alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'
-
-kitty + complete setup zsh | source /dev/stdin
 
 # fixing vi-mode
 bindkey -M vicmd '?' history-incremental-search-backward
