@@ -15,8 +15,6 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-kitty + complete setup zsh | source /dev/stdin
-
 source ~/.fonts/fontawesome/*.sh
 
 alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
