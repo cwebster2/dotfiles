@@ -1,5 +1,7 @@
 echo "+ tools"
 
+source ~/.nvm/nvm.sh
+
 source ~/.fonts/fontawesome/*.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
