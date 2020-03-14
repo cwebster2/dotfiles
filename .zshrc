@@ -152,10 +152,6 @@ plugins=(
   zsh-interactive-cd
 )
 
-for file in ~/.env.d/*; do
-  source "$file"
-done
-
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -177,7 +173,9 @@ export EDITOR='nvim'
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-kitty + complete setup zsh | source /dev/stdin
+for file in ~/.env.d/zshrc-post.d/*; do
+  source "$file"
+done
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

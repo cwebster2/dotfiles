@@ -1,4 +1,16 @@
-echo "+ Adding user functions to env"
+echo "+ tools"
+
+source ~/.fonts/fontawesome/*.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+tabme() {
+  if [ -n "$1" ]; then
+    kitty @ new-window --new-tab --tab-title "${(@pj" ")@}"
+  else
+    kitty @ new-window --new-tab
+  fi
+}
 
 app() {
   google-chrome --kiosk --app="$1"
