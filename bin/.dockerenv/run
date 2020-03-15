@@ -12,5 +12,6 @@ docker run \
   -e KEYME_SSH_CONFIG_ID \
   -e KEYME_KEYS_TO_LOAD \
   -e EMAIL \
+  -e TERM \
   --net=host \
   dotfiles:v1
