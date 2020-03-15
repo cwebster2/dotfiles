@@ -28,5 +28,7 @@ test_and_set_path "/usr/local/go/bin"
 test_and_set_path "${HOME}/.cargo/bin"
 test_and_set_path "${HOME}/.local/bin"
 
-export GOPATH=$(go env GOPATH)
-test_and_set_path "${GOPATH}/bin"
+if [ ! -z $(command -v go) ]; then
+  export GOPATH=$(go env GOPATH)
+  test_and_set_path "${GOPATH}/bin"
+fi
