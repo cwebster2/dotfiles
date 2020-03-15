@@ -13,4 +13,4 @@ docker run \
   -e KEYME_KEYS_TO_LOAD \
   -e EMAIL \
   --net=host \
-  caseyboxenv:v1
+  dotfiles:v1
