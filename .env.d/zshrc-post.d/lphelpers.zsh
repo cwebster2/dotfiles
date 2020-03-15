@@ -1,5 +1,6 @@
 
 DOCKERHUB_CRED_ID=1080835710212629145
+IFTTT_WEBHOOK_KEY_ID=9106252128134595293
 
 _dockerLogin() {
   DOCKERHUB_CREDS=$(lpass show --notes ${DOCKERHUB_CRED_ID})
@@ -8,6 +9,11 @@ _dockerLogin() {
   echo "${DOCKERHUB_TOKEN}" | docker login --username ${DOCKERHUB_USERNAME} --password-stdin
 }
 
-_loginToAll() {
+_iftttAccessKey() {
+  export IFTTT_WEBHOOK_KEY=$(lpass show --notes ${IFTTT_WEBHOOK_KEY_ID})
+}
+
+_setAllSecretsAndLogins() {
   _dockerLogin
+  _iftttAccessKey
 }
