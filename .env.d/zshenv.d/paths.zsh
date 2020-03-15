@@ -17,6 +17,8 @@ unset __conda_setup
 # <<< conda initialize <<<
 fi
 
+export GOPATH=$(go env GOPATH)
+
 test_and_set_path() {
   if [[ -d "$1" && ! "${PATH}" =~ "$1" ]]; then
     export PATH="${1}:${PATH}"
@@ -24,5 +26,6 @@ test_and_set_path() {
 }
 
 test_and_set_path "${HOME}/bin"
+test_and_set_path "${GOPATH}/bin"
 test_and_set_path "/usr/local/go/bin"
 test_and_set_path "${HOME}/.cargo/bin"
