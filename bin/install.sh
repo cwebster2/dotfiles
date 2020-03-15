@@ -93,6 +93,49 @@ EOF
   deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 EOF
 
+  cat <<- EOF > /etc/apt/sources.list.d/keybase.list
+  deb http://prerelease.keybase.io/deb stable main
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/lutris.list
+  deb http://download.opensuse.org/repositories/home:/strycore/Debian_Unstable/ ./
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/microsoft-prod.list
+  deb [arch=amd64] https://packages.microsoft.com/debian/10/prod buster main
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/teams.list
+   deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/vscode.list
+   deb [arch=amd64] http://packages.microsoft.com/repos/vscode stable main
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/slack.list
+  deb https://packagecloud.io/slacktechnologies/slack/debian/ jessie main
+EOF
+
+  cat <<- EOF > /etc/apt/sources.list.d/spotify.list
+  deb http://repository.spotify.com stable non-free
+EOF
+
+  # Import the slack public key
+  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys DB085A08CA13B8ACB917E0F6D938EC0D038651BD
+
+  # Import the storycore key
+  curl http://download.opensuse.org/repositories/home:/strycore/Debian_Unstable/Release.key | apt-key add -
+
+  # Import the keybase key
+  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 222B85B0F90BE2D24CFEB93F47484E50656D16C7
+
+  # Import the spotify keys
+  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 2EBF997C15BDA244B6EBF5D84773BD5E130D1D45
+
+  # Import the microsoft key
+  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
+
   # Import the Google Chrome public key
   curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 
@@ -103,15 +146,8 @@ EOF
   apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 6B283E95745A6D903009F7CA641EED65CD4E8809
 
   #TODO: More sources!
-  # google chrome, keybase, lutris, ms, slack, spotify, vscode
+
 }
-
-# conda / python
-# last change shell to zsh, start zsh and source tools
-
-#TODO
-#bumblebee stats and anything else manually built for i3
-
 
 base_min() {
 	apt-get update || true
@@ -223,6 +259,7 @@ base() {
     prettyping \
     bat \
     exa \
+    libsecret-1-dev \
 		--no-install-recommends
 
 	setup_sudo
@@ -310,7 +347,7 @@ install_golang() {
 	CGO_ENABLED=0 go install -a -installsuffix cgo std
 	)
 
-  export PATH=/usr/local/go/bin:${PATH}
+  export PATH=/usr/local/go/bin:${GOPATH}/bin:${PATH}
 	# get commandline tools
 	(
 	set -x
@@ -417,8 +454,17 @@ install_wmapps() {
     libxss-dev \
     libpulse-dev \
     libxcb-screensaver0-dev \
+    teams \
+    code-insiders \
+    lutris \
+    slack-desktop \
+    spotify-client \
+    keybase \
 		--no-install-recommends
 
+	  apt -y autoremove
+	  apt autoclean
+	  apt clean
 }
 
 get_dotfiles() {
@@ -554,6 +600,41 @@ EOF
 
     wget 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
     chmod 755 "${HOME}/bin/wally"
+  )
+
+  echo
+  echo "Installing cloud cli tools"
+  echo
+  (
+    pip install azure-cli --upgrade --user
+    pip install awscli --upgrade --user
+  )
+
+  echo
+  echo "Installing azuredatastudio"
+  echo
+  (
+     wget https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
+     sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
+     sudo apt-get install -f
+  )
+
+  echo
+  echo "Installing docker credential helper"
+  echo
+  (
+    export GOPATH=$(go env GOPATH)
+    go get github.com/docker/docker-credential-helpers
+    cd ${GOPATH}/src/github.com/docker/docker-credential-helpers
+    make secretservice
+    ln -s ${PWD}/bin/docker-credential-secretservice ${GOPATH}/bin
+
+    mkdir -p  ${HOME}/.docker
+    cat <<- EOF > ${HOME}/.docker/config.json
+    {
+      "credsStore": "secretservice"
+    }
+EOF
   )
 }
 
