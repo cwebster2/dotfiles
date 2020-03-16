@@ -1,5 +1,5 @@
 docker build \
-  -t dotfiles:v1 \
+  -t dotfiles:v2 \
   --rm \
   --network host \
   -f Dockerfile \

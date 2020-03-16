@@ -1,10 +1,11 @@
 docker run \
   -it --rm \
-  --name caseybox \
+  --name dotfiles \
   --init \
   --group-add audio \
   --group-add video \
   --group-add docker \
+  --privileged=true \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $XAUTHORITY:/home/casey/.Xauthority \
   -v /home/casey/.ssh-persistant:/home/casey/.ssh-persistant \
@@ -13,5 +14,8 @@ docker run \
   -e KEYME_KEYS_TO_LOAD \
   -e EMAIL \
   -e TERM \
+  -e LANG \
+  -e LC_ALL \
   --net=host \
-  dotfiles:v1
+  -e SNAPCRAFT_SETUP_CORE \
+  dotfiles:v2
