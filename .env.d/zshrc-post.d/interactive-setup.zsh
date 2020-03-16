@@ -1,3 +1,5 @@
 kitty + complete setup zsh | source /dev/stdin
 
-source <(navi widget zsh)
+if [ ! -z $(command -v navi) ]; then
+  source <(navi widget zsh)
+fi
