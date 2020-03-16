@@ -147,7 +147,6 @@ plugins=(
   rust
   cargo
   golang
-  navi
   vi-mode
   zsh-interactive-cd
 )
