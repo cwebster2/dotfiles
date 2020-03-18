@@ -185,14 +185,12 @@ fi
 export DOTFILESBRANCH="razer-ubuntu"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-for file in ~/.env.d/*; do
+for file in ~/.env.d/zshrc-post.d/*; do
   source "$file"
 done
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'
-
-kitty + complete setup zsh | source /dev/stdin
 
 # fixing vi-mode
 bindkey -M vicmd '?' history-incremental-search-backward
@@ -201,19 +199,3 @@ bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/casey/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/casey/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/casey/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/casey/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-

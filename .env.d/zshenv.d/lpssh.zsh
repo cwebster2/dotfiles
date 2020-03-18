@@ -60,6 +60,7 @@ add_key () {
   _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
   _chmod 400 "${TMP_SSH_KEY_DIR}/$2"
   _chmod 400 "${TMP_SSH_KEY_DIR}/$2.pub"
+  ssh-add "${TMP_SSH_KEY_DIR}/$2"
 }
 
 keyme () {

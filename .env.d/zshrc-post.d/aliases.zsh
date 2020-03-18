@@ -1,6 +1,7 @@
-echo "+ aliasing tools"
+echo "+ aliases"
 
 alias code='code-insiders'
+
 if which batcat > /dev/null; then
   alias cat='batcat'
 fi
@@ -13,9 +14,7 @@ if [ -f /usr/bin/exa ]; then
   alias ll='exa -l'
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-source ~/.fonts/fontawesome/*.sh
-
 alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
 alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
+
+alias vpn='cli-go wireguard connect'
