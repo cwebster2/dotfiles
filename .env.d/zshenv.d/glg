@@ -1,6 +1,0 @@
-alias vpn='cli-go wireguard connect'
-export GLG_CLI_BROWSER=firefox
-export SECRETS_NAMESPACE=cwebster
-export SECRETS_SHARED_NAMESPACE=developmentglobal
-export SECRETS_CREDENTIAL_SOURCE=file
-LASTPASS_USER="cwebster@glgroup.com"
