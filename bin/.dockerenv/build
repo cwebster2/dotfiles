@@ -1,0 +1,6 @@
+docker build \
+  -t dotfiles:v2 \
+  --rm \
+  --network host \
+  -f Dockerfile \
+  .. | tee build.log
