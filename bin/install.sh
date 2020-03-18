@@ -119,6 +119,7 @@ get_dotfiles() {
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install ${DOTFILESBRANCH}
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "git@github.com:cwebster2/dotfiles"
     GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote rm install
+    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git config status.showuntrackedfiles no
 	fi
 
 
