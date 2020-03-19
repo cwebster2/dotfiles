@@ -235,8 +235,9 @@ EOF
   echo "Installing Discord"
   echo
   (
-    echo "skipping"
-     #sudo snap install discord
+    sudo snap install discord
+    sudo snap install slack
+    sudo snap install spotify
   )
 
   echo
