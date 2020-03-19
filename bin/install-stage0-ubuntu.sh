@@ -185,6 +185,8 @@ base_min() {
     wget \
 		xz-utils \
 		zip \
+    plymouth-label \
+    plymouth-themes \
 		--no-install-recommends
 
 	apt -y autoremove
