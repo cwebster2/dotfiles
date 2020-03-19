@@ -110,7 +110,7 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
     echo "Installing dotfiles branch ${DOTFILESBRANCH}"
-    DOTFILESBRANCH=${DOTFILESBRANCH:-master}
+    DOTFILESBRANCH=${DOTFILESBRANCH:-razer-ubuntu}
 		# install dotfiles from repo
     #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
