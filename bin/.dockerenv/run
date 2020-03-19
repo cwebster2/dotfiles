@@ -1,6 +1,6 @@
 docker run \
   -it --rm \
-  --name dotfiles \
+  --name dotfiles-razer \
   --init \
   --group-add audio \
   --group-add video \
@@ -18,4 +18,4 @@ docker run \
   -e LC_ALL \
   --net=host \
   -e SNAPCRAFT_SETUP_CORE \
-  dotfiles:v2
+  dotfiles:razer-v1

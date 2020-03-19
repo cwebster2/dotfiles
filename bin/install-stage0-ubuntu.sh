@@ -38,12 +38,12 @@ setup_sources_min() {
   apt-get update || true
   apt-get install -y \
     apt-transport-https \
-    apt-listbugs \
     ca-certificates \
     curl \
     dirmngr \
     gnupg2 \
     lsb-release \
+    software-properties-common \
     --no-install-recommends
 
   # turn off translations, speed up apt update
@@ -55,19 +55,14 @@ setup_sources_min() {
 setup_sources() {
   setup_sources_min;
 
-  cat <<- EOF > /etc/apt/sources.list
-  deb http://httpredir.debian.org/debian sid main contrib non-free
-  deb-src http://httpredir.debian.org/debian/ sid main contrib non-free
+#  cat <<- EOF > /etc/apt/sources.list
+#EOF
 
-  deb http://httpredir.debian.org/debian experimental main contrib non-free
-  deb-src http://httpredir.debian.org/debian experimental main contrib non-free
-EOF
+  add-apt-repository ppa:yubico/stable
+  add-apt-repository ppa:openrazer/stable
+  add-apt-repository ppa:polychromatic/stable
+  add-apt-repository ppa:wireguard/wireguard
 
-  # yubico
-  cat <<- EOF > /etc/apt/sources.list.d/yubico.list
-  deb http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
-  deb-src http://ppa.launchpad.net/yubico/stable/ubuntu xenial main
-EOF
 
   # tlp: Advanced Linux Power Management
   cat <<- EOF > /etc/apt/sources.list.d/tlp.list
@@ -77,7 +72,7 @@ EOF
 EOF
 
   # Create an environment variable for the correct distribution
-  CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+  CLOUD_SDK_REPO="cloud-sdk"
   export CLOUD_SDK_REPO
 
   # Add the Cloud SDK distribution URI as a package source
@@ -97,12 +92,8 @@ EOF
   deb http://prerelease.keybase.io/deb stable main
 EOF
 
-  cat <<- EOF > /etc/apt/sources.list.d/lutris.list
-  deb http://download.opensuse.org/repositories/home:/strycore/Debian_Unstable/ ./
-EOF
-
   cat <<- EOF > /etc/apt/sources.list.d/microsoft-prod.list
-  deb [arch=amd64] https://packages.microsoft.com/debian/10/prod buster main
+  deb [arch=amd64] https://packages.microsoft.com/ubuntu/19.10/prod eoan main
 EOF
 
   cat <<- EOF > /etc/apt/sources.list.d/teams.list
@@ -123,9 +114,6 @@ EOF
 
   # Import the slack public key
   apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys DB085A08CA13B8ACB917E0F6D938EC0D038651BD
-
-  # Import the storycore key
-  curl http://download.opensuse.org/repositories/home:/strycore/Debian_Unstable/Release.key | apt-key add -
 
   # Import the keybase key
   apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 222B85B0F90BE2D24CFEB93F47484E50656D16C7
@@ -257,11 +245,11 @@ base() {
     printer-driver-brlaser \
     prettyping \
     bat \
-    exa \
     libsecret-1-dev \
     libssl-dev \
 		--no-install-recommends
 
+# FIXME    exa \
 	setup_sudo
 
 	apt -y autoremove
@@ -274,7 +262,7 @@ base() {
 #EOF
 
   sed -i '/en_US.UTF-8/ s/^# //' /etc/locale.gen
-  locale-gen -a
+  locale-gen
   dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 }
@@ -331,7 +319,7 @@ install_graphics() {
 			pkgs+=( xserver-xorg-video-intel )
 			;;
 		"geforce")
-			pkgs+=( nvidia-driver )
+			pkgs+=( nvidia-driver-440 )
 			;;
 		"optimus")
 			pkgs+=( nvidia-kernel-dkms bumblebee-nvidia primus )
@@ -392,12 +380,13 @@ install_wmapps() {
     libxcb-screensaver0-dev \
     teams \
     code-insiders \
-    lutris \
-    slack-desktop \
     spotify-client \
     keybase \
+    polychromatic \
 		--no-install-recommends
 
+# FIXME
+    #slack-desktop \
 	  apt -y autoremove
 	  apt autoclean
 	  apt clean

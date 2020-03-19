@@ -190,6 +190,14 @@ install_misc() {
   mkdir -p "${HOME}/src"
 
   echo
+  echo "Install fzf"
+  echo
+  (
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
+    ${HOME}/.fzf/install
+  )
+
+  echo
   echo "Install Bumblebee-status"
   echo
   (
