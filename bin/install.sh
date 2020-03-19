@@ -110,7 +110,7 @@ get_dotfiles() {
 
 	if [[ ! -d "${HOME}/.dotfiles" ]]; then
     echo "Installing dotfiles branch ${DOTFILESBRANCH}"
-    DOTFILESBRANCH=${DOTFILESBRANCH:-master}
+    DOTFILESBRANCH=${DOTFILESBRANCH:-razer-ubuntu}
 		# install dotfiles from repo
     #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
     #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
@@ -190,6 +190,14 @@ install_misc() {
   mkdir -p "${HOME}/src"
 
   echo
+  echo "Install fzf"
+  echo
+  (
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
+    ${HOME}/.fzf/install
+  )
+
+  echo
   echo "Install Bumblebee-status"
   echo
   (
@@ -227,8 +235,9 @@ EOF
   echo "Installing Discord"
   echo
   (
-    echo "skipping"
-     #sudo snap install discord
+    sudo snap install discord
+    sudo snap install slack
+    sudo snap install spotify
   )
 
   echo

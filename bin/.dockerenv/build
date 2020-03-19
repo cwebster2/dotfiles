@@ -1,5 +1,5 @@
 docker build \
-  -t dotfiles:v2 \
+  -t dotfiles:razer-v1 \
   --rm \
   --network host \
   -f Dockerfile \
