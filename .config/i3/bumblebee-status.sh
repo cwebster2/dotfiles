@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/miniconda3/bin/activate
-source ~/.fonts/FontAwesome/*.sh
+source ~/.fonts/fontawesome/*.sh
 
 /home/casey/src/bumblebee-status/bumblebee-status \
   -m spotify cpu memory nic docker_ps pasink pasource time dunst \

@@ -235,7 +235,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
 bindsym XF86Suspend exec --no-startup-id $lockscreen
 
-exec_always --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec --no-startup-id nm-applet
 exec --no-startup-id polychromatic-tray-applet
 
@@ -243,7 +243,7 @@ exec --no-startup-id polychromatic-tray-applet
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 
 bar {
-    status_command /home/casey/.i3/bumblebee-status.sh
+    status_command /home/casey/.config/i3/bumblebee-status.sh
     mode dock
     position top
     tray_output primary
@@ -260,6 +260,8 @@ exec --no-startup-id kdeconnect-indicator
 # Screen Shots
 bindsym Print exec "flameshot gui"
 bindsym Control+Print exec "flameshot screen -r -c"
+
+exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 
 # I basically never want Caps Lock to do what it normally does.
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
