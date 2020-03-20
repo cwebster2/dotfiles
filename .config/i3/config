@@ -236,6 +236,7 @@ bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
 bindsym XF86Suspend exec --no-startup-id $lockscreen
 
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
+
 exec --no-startup-id nm-applet
 exec --no-startup-id polychromatic-tray-applet
 
@@ -262,9 +263,12 @@ bindsym Print exec "flameshot gui"
 bindsym Control+Print exec "flameshot screen -r -c"
 
 exec --no-startup-id /home/casey/.config/i3/autolock.sh &
+<<<<<<< HEAD
 
 # I basically never want Caps Lock to do what it normally does.
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
+=======
+>>>>>>> master
 # Syncthing!
 #exec --no-startup-id "syncthing -no-browser"
 
