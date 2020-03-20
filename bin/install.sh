@@ -8,24 +8,24 @@ export TARGET_USER=${TARGET_USER:-casey}
 
 # Choose a user account to use for this installation
 get_user() {
-	if [ -z "${TARGET_USER-}" ]; then
-		mapfile -t options < <(find /home/* -maxdepth 0 -printf "%f\\n" -type d)
-		# if there is only one option just use that user
-		if [ "${#options[@]}" -eq "1" ]; then
-			readonly TARGET_USER="${options[0]}"
-			echo "Using user account: ${TARGET_USER}"
-			return
-		fi
+  if [ -z "${TARGET_USER-}" ]; then
+    mapfile -t options < <(find /home/* -maxdepth 0 -printf "%f\\n" -type d)
+    # if there is only one option just use that user
+    if [ "${#options[@]}" -eq "1" ]; then
+      readonly TARGET_USER="${options[0]}"
+      echo "Using user account: ${TARGET_USER}"
+      return
+    fi
 
-		# iterate through the user options and print them
-		PS3='command -v user account should be used? '
+    # iterate through the user options and print them
+    PS3='command -v user account should be used? '
 
-		select opt in "${options[@]}"; do
-			readonly TARGET_USER=$opt
-			break
-		done
-		fi
-	}
+    select opt in "${options[@]}"; do
+      readonly TARGET_USER=$opt
+      break
+    done
+  fi
+}
 
 check_is_sudo() {
   if [ "$EUID" -ne 0 ]; then
@@ -37,7 +37,7 @@ check_is_sudo() {
 # install rust
 install_rust() {
   (
-  	curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
     rustup component add rls rust-analysis rust-src
     cargo install xidlehook --bins
@@ -47,111 +47,111 @@ install_rust() {
 
 # install/update golang from source
 install_golang() {
-	export GO_VERSION
-	GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
-	export GO_SRC=/usr/local/go
+  export GO_VERSION
+  GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
+  export GO_SRC=/usr/local/go
 
-	# if we are passing the version
-	if [[ -n "$1" ]]; then
-		GO_VERSION=$1
-	fi
+  # if we are passing the version
+  if [[ -n "$1" ]]; then
+    GO_VERSION=$1
+  fi
 
-	# purge old src
-	if [[ -d "$GO_SRC" ]]; then
-		sudo rm -rf "$GO_SRC"
-		sudo rm -rf "$GOPATH"
-	fi
+  # purge old src
+  if [[ -d "$GO_SRC" ]]; then
+    sudo rm -rf "$GO_SRC"
+    sudo rm -rf "$GOPATH"
+  fi
 
-	GO_VERSION=${GO_VERSION#go}
+  GO_VERSION=${GO_VERSION#go}
 
-	# subshell
-	(
-	kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
-	curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
-	local user="$TARGET_USER"
-	# rebuild stdlib for faster builds
-	sudo chown -R "${user}" /usr/local/go/pkg
-  export PATH=/usr/local/go/bin:${PATH}
-	CGO_ENABLED=0 go install -a -installsuffix cgo std
-	)
+  # subshell
+  (
+    kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
+    curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
+    local user="$TARGET_USER"
+    # rebuild stdlib for faster builds
+    sudo chown -R "${user}" /usr/local/go/pkg
+    export PATH=/usr/local/go/bin:${PATH}
+    CGO_ENABLED=0 go install -a -installsuffix cgo std
+  )
 
   export PATH=/usr/local/go/bin:${GOPATH}/bin:${PATH}
-	# get commandline tools
-	(
-	set -x
-	set +e
-	go get golang.org/x/lint/golint
-	go get golang.org/x/tools/cmd/cover
-	go get golang.org/x/tools/cmd/gopls
-	go get golang.org/x/review/git-codereview
-	go get golang.org/x/tools/cmd/goimports
-	go get golang.org/x/tools/cmd/gorename
-	go get golang.org/x/tools/cmd/guru
+  # get commandline tools
+  (
+    set -x
+    set +e
+    go get golang.org/x/lint/golint
+    go get golang.org/x/tools/cmd/cover
+    go get golang.org/x/tools/cmd/gopls
+    go get golang.org/x/review/git-codereview
+    go get golang.org/x/tools/cmd/goimports
+    go get golang.org/x/tools/cmd/gorename
+    go get golang.org/x/tools/cmd/guru
 
-	go get github.com/axw/gocov/gocov
-	go get honnef.co/go/tools/cmd/staticcheck
+    go get github.com/axw/gocov/gocov
+    go get honnef.co/go/tools/cmd/staticcheck
 
-	# Tools for vimgo.
-	go get github.com/jstemmer/gotags
-	go get github.com/nsf/gocode
-	go get github.com/rogpeppe/godef
-  go get -u github.com/sourcegraph/go-langserver
+    # Tools for vimgo.
+    go get github.com/jstemmer/gotags
+    go get github.com/nsf/gocode
+    go get github.com/rogpeppe/godef
+    go get -u github.com/sourcegraph/go-langserver
 
-	# symlink weather binary for motd
-	sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
-)
+    # symlink weather binary for motd
+    sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
+  )
 }
 
 get_dotfiles() {
-	# create subshell
-	(
-	cd "$HOME"
-  #todo install ssh key from lastpass
+  # create subshell
+  (
+    cd "$HOME"
+    #todo install ssh key from lastpass
 
-	if [[ ! -d "${HOME}/.dotfiles" ]]; then
-    echo "Installing dotfiles branch ${DOTFILESBRANCH}"
-    DOTFILESBRANCH=${DOTFILESBRANCH:-master}
-		# install dotfiles from repo
-    #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
-    #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git init
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add install "https://github.com/cwebster2/dotfiles"
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install ${DOTFILESBRANCH}
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "git@github.com:cwebster2/dotfiles"
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote rm install
-    GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git config status.showuntrackedfiles no
-	fi
+    if [[ ! -d "${HOME}/.dotfiles" ]]; then
+      echo "Installing dotfiles branch ${DOTFILESBRANCH}"
+      DOTFILESBRANCH=${DOTFILESBRANCH:-master}
+      # install dotfiles from repo
+      #git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME clone git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+      #git clone --bare  git@github.com:cwebster2/dotfiles.git "${HOME}/.dotfiles"
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git init
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add install "https://github.com/cwebster2/dotfiles"
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull install ${DOTFILESBRANCH}
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "git@github.com:cwebster2/dotfiles"
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote rm install
+      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git config status.showuntrackedfiles no
+    fi
 
 
-	)
+  )
   install_zsh
 }
 
 install_vim() {
-	# create subshell
-	(
-	cd "$HOME"
+  # create subshell
+  (
+    cd "$HOME"
 
-	# install .vim files
-	sudo rm -rf "${HOME}/.vim"
-  git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
-  cd "${HOME}/.vim"
-	git remote set-url origin git@github.com:cwebster2/vim
+    # install .vim files
+    sudo rm -rf "${HOME}/.vim"
+    git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
+    cd "${HOME}/.vim"
+    git remote set-url origin git@github.com:cwebster2/vim
 
-	# update alternatives to vim
-	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-	sudo update-alternatives --config vi
-	sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-	sudo update-alternatives --config vi
-	sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
-	sudo update-alternatives --config editor
+    # update alternatives to vim
+    sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
+    sudo update-alternatives --config vi
+    sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
+    sudo update-alternatives --config vi
+    sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
+    sudo update-alternatives --config editor
 
-  ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
+    ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
 
-  nvim --headless +PlugInstall +qa &
-  sleep 300
-  killall nvim
-	)
+    nvim --headless +PlugInstall +qa &
+    sleep 300
+    killall nvim
+  )
 }
 
 install_emacs() {
@@ -160,7 +160,7 @@ install_emacs() {
     sudo rm -rf "${HOME}/.emacs.d"
     git clone "https://github.com/cwebster2/.emacs.d" "${HOME}/.emacs.d"
     cd "${HOME}/.emacs.d"
-	  git remote set-url origin git@github.com:cwebster2/.emacs.d
+    git remote set-url origin git@github.com:cwebster2/.emacs.d
   )
 }
 
@@ -194,7 +194,21 @@ install_misc() {
   echo
   (
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
-    ${HOME}/.fzf/install
+    ${HOME}/.fzf/install --no-update-rc
+  )
+
+  echo
+  echo "Install delta"
+  echo
+  (
+    DELTA_VERSION="0.0.17"
+    TEMPDIR=$(mktemp -d)
+    pushd ${TEMPDIR} 2> /dev/null
+    wget -qO- "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/delta-${DELTA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" | tar xvz
+    cp "delta-${DELTA_VERSION}-x86_64-unknown-linux-gnu/delta" ${HOME}/bin
+    popd 2> /dev/null
+    rm -rf ${TEMPDIR}
+    git config --global core.pager 'delta --dark --plus-color="#012800" --minus-color="#340001"'
   )
 
   echo
@@ -210,7 +224,7 @@ install_misc() {
   echo "Installing ergodox keyboard stuff"
   echo
   (
-    sudo bash -c "cat > /etc/udev/rules.d/50-wally.rules" << 'EOF'
+  sudo bash -c "cat > /etc/udev/rules.d/50-wally.rules" << 'EOF'
 # Teensy rules for the Ergodox EZ Original / Shine / Glow
 ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
 ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
@@ -218,25 +232,26 @@ SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MO
 KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
 EOF
 
-    wget -q 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
-    chmod 755 "${HOME}/bin/wally"
+  wget -q 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
+  chmod 755 "${HOME}/bin/wally"
   )
 
   echo
   echo "Installing azuredatastudio"
   echo
   (
-     wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
-     sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
-     sudo apt-get install -f
+    wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
+    sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
+    sudo apt-get install -f
   )
 
   echo
   echo "Installing Discord"
   echo
   (
-    echo "skipping"
-     #sudo snap install discord
+    set +e
+    sudo snap install discord
+    echo "Done"
   )
 
   echo
@@ -289,89 +304,89 @@ install_python() {
 }
 
 install_tools() {
-	echo
-	echo "Installing node..."
-	echo
+  echo
+  echo "Installing node..."
+  echo
   install_node;
-	echo
-	echo "Installing python..."
-	echo
+  echo
+  echo "Installing python..."
+  echo
   install_python;
-	echo
-	echo "Installing emacs dotfiles..."
-	echo
+  echo
+  echo "Installing emacs dotfiles..."
+  echo
   install_emacs;
-	echo
-	echo "Installing dbus socket..."
-	echo
+  echo
+  echo "Installing dbus socket..."
+  echo
 
-	# enable dbus for the user session
-	systemctl --user enable dbus.socket
+  # enable dbus for the user session
+  systemctl --user enable dbus.socket
 
   echo
-	echo "Installing golang..."
-	echo
-	install_golang "go1.13.8";
+  echo "Installing golang..."
+  echo
+  install_golang "go1.13.8";
 
-	echo
-	echo "Installing rust..."
-	echo
-	install_rust;
+  echo
+  echo "Installing rust..."
+  echo
+  install_rust;
 
   # re-set paths now that rust and go are installed
   source ${HOME}/.env.d/zshenv.d/paths.zsh
 
-	echo
-	echo "Installing vim environment and dotfiles..."
-	echo
-	install_vim;
+  echo
+  echo "Installing vim environment and dotfiles..."
+  echo
+  install_vim;
 
-	echo
-	echo "Installing user programs..."
-	echo
+  echo
+  echo "Installing user programs..."
+  echo
   install_misc;
 }
 
 usage() {
-	echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop\\n"
-	echo "Usage:"
-	echo "  dotfiles                            - get dotfiles"
-	echo "  vim                                 - install vim specific dotfiles"
-	echo "  golang                              - install golang and packages"
-	echo "  rust                                - install rust"
+  echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop\\n"
+  echo "Usage:"
+  echo "  dotfiles                            - get dotfiles"
+  echo "  vim                                 - install vim specific dotfiles"
+  echo "  golang                              - install golang and packages"
+  echo "  rust                                - install rust"
   echo "  python                              - install Python 3 (miniconda)"
   echo "  node                                - install node via nvm"
-	echo "  tools                               - install golang, rust, and scripts"
+  echo "  tools                               - install golang, rust, and scripts"
 }
 
 main() {
-	local cmd=$1
+  local cmd=$1
 
-	if [[ -z "$cmd" ]]; then
-		usage
-		exit 1
-	fi
+  if [[ -z "$cmd" ]]; then
+    usage
+    exit 1
+  fi
 
-	if [[ $cmd == "dotfiles" ]]; then
-		get_user
-		get_dotfiles
-	elif [[ $cmd == "vim" ]]; then
-		install_vim
-	elif [[ $cmd == "rust" ]]; then
-		install_rust
-	elif [[ $cmd == "node" ]]; then
-		install_node
-	elif [[ $cmd == "python" ]]; then
-		install_python
-	elif [[ $cmd == "golang" ]]; then
-		install_golang "$2"
-	elif [[ $cmd == "scripts" ]]; then
-		install_scripts
-	elif [[ $cmd == "tools" ]]; then
-		install_tools
-	else
-		usage
-	fi
+  if [[ $cmd == "dotfiles" ]]; then
+    get_user
+    get_dotfiles
+  elif [[ $cmd == "vim" ]]; then
+    install_vim
+  elif [[ $cmd == "rust" ]]; then
+    install_rust
+  elif [[ $cmd == "node" ]]; then
+    install_node
+  elif [[ $cmd == "python" ]]; then
+    install_python
+  elif [[ $cmd == "golang" ]]; then
+    install_golang "$2"
+  elif [[ $cmd == "scripts" ]]; then
+    install_scripts
+  elif [[ $cmd == "tools" ]]; then
+    install_tools
+  else
+    usage
+  fi
 }
 
 main "$@"
