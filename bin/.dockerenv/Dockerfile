@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FROM ubuntu:20.04
 
 ENV TARGET_USER casey
