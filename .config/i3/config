@@ -275,12 +275,12 @@ bindsym XF86AudioPrev exec playerctl previous
 #bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
 #bindsym XF86Suspend exec --no-startup-id $lockscreen
 
-exec_always --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 #exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 bar {
-    status_command /home/casey/.i3/bumblebee-status.sh
+    status_command /home/casey/.config/i3/bumblebee-status.sh
     mode dock
     position top
     tray_output primary
@@ -300,7 +300,7 @@ exec --no-startup-id kdeconnect-indicator
 bindsym Print exec "flameshot gui"
 bindsym Control+Print exec "flameshot screen -r -c"
 
-exec --no-startup-id /home/casey/.i3/autolock.sh &
+exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 # Syncthing!
 #exec --no-startup-id "syncthing -no-browser"
 

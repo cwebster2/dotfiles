@@ -88,6 +88,13 @@ keyme () {
     local name=$(echo $key_and_name | awk '{print $2}')
     add_key "${id}" "${name}"
   done
+  SSHPDIR=${HOME}/.ssh-persistant
+  if [ ! -d "${SSHPDIR}" ]; then
+    echo Making tmp dir "${SSHPDIR}"...
+    mkdir -p "${SSHPDIR}" 2> /dev/null
+    chown $USER:$USER "${SSHPDIR}"
+    chmod 700 "${SSHPDIR}"
+  fi
 }
 
 agentme () {
