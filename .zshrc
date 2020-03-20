@@ -148,7 +148,6 @@ plugins=(
   rust
   cargo
   golang
-  navi
   vi-mode
   zsh-interactive-cd
 )
@@ -176,6 +175,10 @@ fi
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+for file in ~/.env.d/zshrc-post.d/*; do
+  source "$file"
+done
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -184,10 +187,6 @@ fi
 
 export DOTFILESBRANCH="razer-ubuntu"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-for file in ~/.env.d/zshrc-post.d/*; do
-  source "$file"
-done
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'

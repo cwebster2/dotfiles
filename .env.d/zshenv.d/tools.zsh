@@ -4,8 +4,6 @@ source ~/.nvm/nvm.sh
 
 source ~/.fonts/fontawesome/*.sh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 tabme() {
   if [ -n "$1" ]; then
     kitty @ new-window --new-tab --tab-title "${(@pj" ")@}"
