@@ -168,8 +168,10 @@ install_zsh() {
   (
     sudo chsh -s "$(command -v zsh)"
     cd "$HOME"
+    export RUNZSH=no
+    export CHSH=no
+    export KEEP_ZSHRC=yes
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    mv "${HOME}/.zshrc.pre-oh-my-zsh" "${HOME}/.zshrc"
     cd "${HOME}/.oh-my-zsh/custom/plugins"
     if  [ ! -d zsh-autosuggestions ]; then
       git clone https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
