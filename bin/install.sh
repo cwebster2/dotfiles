@@ -196,7 +196,7 @@ install_misc() {
   echo
   (
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
-    ${HOME}/.fzf/install --no-update-rc
+    ${HOME}/.fzf/install --no-update-rc --key-bindings --completion
   )
 
   echo
