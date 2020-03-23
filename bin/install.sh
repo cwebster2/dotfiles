@@ -166,10 +166,9 @@ install_emacs() {
 
 install_zsh() {
   (
-    sudo chsh -s "$(command -v zsh)" ${TARGET_USER}
     cd "$HOME"
     export RUNZSH=no
-    export CHSH=no
+    export CHSH=yes
     export KEEP_ZSHRC=yes
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     cd "${HOME}/.oh-my-zsh/custom/plugins"
