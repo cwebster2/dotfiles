@@ -166,7 +166,7 @@ install_emacs() {
 
 install_zsh() {
   (
-    sudo chsh -s "$(command -v zsh)"
+    sudo chsh -s "$(command -v zsh)" ${TARGET_USER}
     cd "$HOME"
     export RUNZSH=no
     export CHSH=no
