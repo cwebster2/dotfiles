@@ -140,11 +140,11 @@ install_vim() {
 
     # update alternatives to vim
     sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-    sudo update-alternatives --config vi
-    sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-    sudo update-alternatives --config vi
+    sudo update-alternatives --set vi "$(command -v nvim)"
+    sudo update-alternatives --install /usr/bin/vim vim "$(command -v nvim)" 60
+    sudo update-alternatives --set vim "$(command -v nvim)"
     sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
-    sudo update-alternatives --config editor
+    sudo update-alternatives --set editor "$(command -v nvim)"
 
     ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
 
