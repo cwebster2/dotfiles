@@ -193,6 +193,19 @@ install_misc() {
   mkdir -p "${HOME}/src"
 
   echo
+  echo "Installing Openrazer and Polychromatic"
+  echo
+  (
+    sudo add-apt-repository -y ppa:openrazer/stable
+    sudo add-apt-repository -y ppa:polychromatic/stable
+    sudo apt-get update
+    sudo apt-get install -y \
+      openrazer-meta \
+      polychromatic \
+      --no-install-recommends
+  )
+
+  echo
   echo "Install fzf"
   echo
   (
@@ -293,6 +306,18 @@ EOF
     cd comfortable-swipe
     bash install
     sudo gpasswd -a "${TARGET_USER}" $(ls -l /dev/input/event* | awk '{print $4}' | head --line=1)
+
+    sudo bash -c "cat > /usr/local/share/comfortable-swipe/comfortable-swipe.conf" << 'EOF'
+threshold = 0.0
+left3 = Super_L+Left
+left4 = Super_L+shift+Left
+right3 = Super_L+Right
+right4 = Super_L+shift+Right
+up3 = Super_L+Up
+up4 = Super_L+shift+Up
+down3 = Super_L+Down
+down4 = Super_L+shift+Down
+EOF
     popd
   )
 
