@@ -150,7 +150,7 @@ install_vim() {
     ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
 
     nvim --headless +PlugInstall +qa &
-    sleep 300
+    sleep 180
     killall nvim
   )
 }
@@ -276,6 +276,24 @@ EOF
       "credsStore": "secretservice"
     }
 EOF
+  )
+
+  echo
+  echo "Installing Comfortable Swipe"
+  echo
+  (
+    sudo apt-get install -y \
+      libinput-tools \
+      libxdo-dev \
+      g++ \
+      --no-install-recommends
+
+    pushd ${HOME}/src
+    git clone https://github.com/Hikari9/comfortable-swipe.git --depth 1
+    cd comfortable-swipe
+    bash install
+    sudo gpasswd -a "${TARGET_USER}" $(ls -l /dev/input/event* | awk '{print $4}' | head --line=1)
+    popd
   )
 
   echo
