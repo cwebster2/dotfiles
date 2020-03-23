@@ -170,6 +170,7 @@ install_zsh() {
     export RUNZSH=no
     export CHSH=yes
     export KEEP_ZSHRC=yes
+    sudo chsh -s $(command -v zsh) ${TARGET_USER}
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     cd "${HOME}/.oh-my-zsh/custom/plugins"
     if  [ ! -d zsh-autosuggestions ]; then
