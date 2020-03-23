@@ -42,6 +42,7 @@ install_rust() {
     rustup component add rls rust-analysis rust-src
     cargo install xidlehook --bins
     cargo install navi
+    cargo install exa
   )
 }
 
