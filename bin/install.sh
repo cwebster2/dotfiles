@@ -205,6 +205,7 @@ install_misc() {
       openrazer-meta \
       polychromatic \
       --no-install-recommends
+    sudo gpasswd -a ${TARGET_USER} plugdev
   )
 
   echo
