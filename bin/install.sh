@@ -172,7 +172,7 @@ install_zsh() {
   (
     cd "$HOME"
     export RUNZSH=no
-    export CHSH=yes
+    export CHSH=no
     export KEEP_ZSHRC=yes
     sudo chsh -s $(command -v zsh) ${TARGET_USER}
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
