@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+#
+# Get an ssh pubic key from keybase
+
+_kbusage() {
+  echo 1>&2 "usage: importKeyFromKeybase <keybase username>"
+}
+
+importKeyFromKeybase() {
+  USER=${1}
+  if [ -z "${1}" ]; then
+    _kbusage;
+    return 2;
+  fi
+  echo "Importing ${USER}'s public key from keybase"
+  #zmodload zsh/regex
+  KEYDATA=$(curl --silent https://keybase.io/${USER}/pgp_keys.asc | gpg --import 2>&1)
+  if [[ "${KEYDATA}" =~ "^gpg: key ([A-F0-9]+): " ]]; then
+    KEYID=${match}
+    echo "Setting Trust on key ${KEYID}"
+    expect -c "spawn gpg --edit-key ${KEYID} trust quit; send \"5\ry\r\"; expect eof"
+  fi
+}
