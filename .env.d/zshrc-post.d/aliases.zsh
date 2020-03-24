@@ -2,15 +2,15 @@ echo "+ aliases"
 
 alias code='code-insiders'
 
-if which batcat > /dev/null; then
+if [ ! -z $(command -v batcat) ]; then
   alias cat='batcat'
 fi
 
-if [ -f /home/casey/bin/prettyping ]; then
+if [ ! -z $(command -v prettyping) ]; then
   alias ping='prettyping --nolegend'
 fi
 
-if [ -f /usr/bin/exa ]; then
+if [ ! -z $(command -v exa) ]; then
   alias ll='exa -l'
 fi
 
