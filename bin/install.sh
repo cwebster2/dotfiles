@@ -113,13 +113,17 @@ get_dotfiles() {
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
       DOTFILESBRANCH=${DOTFILESBRANCH:-razer-ubuntu}
       # install dotfiles from repo
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git init
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote add origin "https://github.com/cwebster2/dotfiles"
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git fetch --all
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git branch -f ${DOTFILESBRANCH} origin/${DOTFILESBRANCH}
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git pull origin ${DOTFILESBRANCH}
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git config status.showuntrackedfiles no
-      GIT_DIR="${HOME}/.dotfiles" GIT_WORK_TREE="${HOME}" GIT_DIR_WORK_TREE=1 git remote set-url origin "git@github.com:cwebster2/dotfiles"
+      export GIT_DIR="${HOME}/.dotfiles"
+      export GIT_WORK_TREE="${HOME}"
+      export GIT_DIR_WORK_TREE=1
+      git init
+      git remote add origin "https://github.com/cwebster2/dotfiles"
+      git fetch --all
+      git branch -f ${DOTFILESBRANCH} origin/${DOTFILESBRANCH}
+      git checkout ${DOTFILESBRANCH}
+      git pull origin ${DOTFILESBRANCH}
+      git config status.showuntrackedfiles no
+      git remote set-url origin "git@github.com:cwebster2/dotfiles"
     fi
 
   )
