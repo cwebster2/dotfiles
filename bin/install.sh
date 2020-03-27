@@ -410,6 +410,48 @@ usage() {
   echo "  tools                               - install golang, rust, and scripts"
 }
 
+create_zfs_snapshot() {
+  echo
+  echo "Creating ZFS Snapshot"
+  echo
+
+  if [[ -z $(command -v zfs) ]]; then
+    echo "zfs not found, skipping"
+    return 0
+  fi
+
+  sudo zfs snapshot create rpool/USERDATA@stage0install
+  sudo zfs snapshot create rpool/ROOT@stage0install
+}
+
+rollback_zfs_snapshot() {
+  echo
+  echo "An error occured during install, rolling back to filesystem state before this install step"
+  echo
+
+  if [[ -z $(command -v zfs) ]]; then
+    echo "zfs not found, skipping"
+    return 0
+  fi
+
+  sudo zfs rollback rpool/ROOT@stage0install
+  sudo zfs rollback rpool/USERDATA@stage0install
+}
+
+destroy_zfs_snapshot() {
+  echo
+  echo "The install step was successful, removing zfs snapshot"
+  echo
+
+  if [[ -z $(command -v zfs) ]]; then
+    echo "zfs not found, skipping"
+    return 0
+  fi
+
+  sudo zfs destroy rpool/ROOT@stage0install
+  sudo zfs destroy rpool/USERDATA@stage0install
+}
+
 main() {
   local cmd=$1
 
@@ -417,6 +459,10 @@ main() {
     usage
     exit 1
   fi
+
+  create_zfs_snapshot
+
+  trap 'rollback_zfs_snapshot' ERR
 
   if [[ $cmd == "dotfiles" ]]; then
     get_user
@@ -438,6 +484,8 @@ main() {
   else
     usage
   fi
+
+  destroy_zfs_snapshot
 }
 
 main "$@"
