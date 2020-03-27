@@ -420,8 +420,8 @@ create_zfs_snapshot() {
     return 0
   fi
 
-  sudo zfs snapshot create rpool/USERDATA@stage0install
-  sudo zfs snapshot create rpool/ROOT@stage0install
+  sudo zfs snapshot -r rpool/USERDATA@stage0install
+  sudo zfs snapshot -r create rpool/ROOT@stage0install
 }
 
 rollback_zfs_snapshot() {
@@ -434,8 +434,8 @@ rollback_zfs_snapshot() {
     return 0
   fi
 
-  sudo zfs rollback rpool/ROOT@stage0install
-  sudo zfs rollback rpool/USERDATA@stage0install
+  sudo zfs rollback -r rpool/ROOT@stage0install
+  sudo zfs rollback -r rpool/USERDATA@stage0install
 }
 
 destroy_zfs_snapshot() {
@@ -448,8 +448,8 @@ destroy_zfs_snapshot() {
     return 0
   fi
 
-  sudo zfs destroy rpool/ROOT@stage0install
-  sudo zfs destroy rpool/USERDATA@stage0install
+  sudo zfs destroy -r rpool/ROOT@stage0install
+  sudo zfs destroy -r rpool/USERDATA@stage0install
 }
 
 main() {
