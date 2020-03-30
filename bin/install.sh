@@ -329,7 +329,7 @@ EOF
   echo
   (
     sudo mkdir -p /etc/ssh/sshd_config.d
-    sudo bash -c "cat > /etc/ssh/sshd_config.d/99-local.conff" << 'EOF'
+    sudo bash -c "cat > /etc/ssh/sshd_config.d/99-local.conf" << 'EOF'
 AuthorizedKeysFile  .ssh/authorized_keys .ssh-persistant/authorized_keys
 PasswordAuthentication no
 ChallengeResponseAuthentication no
@@ -353,6 +353,11 @@ EOF
   (
     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
+
+    sudo bash -c "cat > /etc/gdm3/greeter.dconf-defaults" << 'EOF'
+sleep-inactive-ac-timeout=0
+sleep-inactive-ac-type='nothing'
+EOF
   )
 }
 
