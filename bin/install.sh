@@ -325,6 +325,22 @@ EOF
   )
 
   echo
+  echo "Setting up sshd"
+  echo
+  (
+    sudo mkdir -p /etc/ssh/sshd_config.d
+    sudo bash -c "cat > /etc/ssh/sshd_config.d/99-local.conff" << 'EOF'
+AuthorizedKeysFile  .ssh/authorized_keys .ssh-persistant/authorized_keys
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+AllowAgentForwarding yes
+X11Forwarding yes
+EOF
+
+  sudo systemctl restart ssh.service
+  )
+
+  echo
   echo "Setting up symlinks"
   echo
   (
