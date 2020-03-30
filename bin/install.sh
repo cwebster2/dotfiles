@@ -346,6 +346,14 @@ EOF
   (
     ln -s ${HOME}/.config/i3/i3exit.sh ${HOME}/bin
   )
+
+  echo
+  echo "Setting sleep timeouts"
+  echo
+  (
+    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
+    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
+  )
 }
 
 install_node() {
