@@ -285,6 +285,19 @@ EOF
   (
     ln -s ${HOME}/.config/i3/i3exit.sh ${HOME}/bin
   )
+
+  echo
+  echo "Setting sleep timeouts"
+  echo
+  (
+    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
+    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
+
+    sudo bash -c "cat > /etc/gdm3/greeter.dconf-defaults" << 'EOF'
+sleep-inactive-ac-timeout=0
+sleep-inactive-ac-type='nothing'
+EOF
+  )
 }
 
 install_node() {
