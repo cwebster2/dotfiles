@@ -358,6 +358,11 @@ EOF
 sleep-inactive-ac-timeout=0
 sleep-inactive-ac-type='nothing'
 EOF
+    sudo bash -c "cat >> /usr/share/gdm/greeter.dconf-defaults" << 'EOF'
+sleep-inactive-ac-timeout=0
+sleep-inactive-ac-type='nothing'
+EOF
+    sudo pkill --signal 'HUP' --uid 'gdm' 'dconf-service' || true
   )
 }
 
