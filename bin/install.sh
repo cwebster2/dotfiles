@@ -3,6 +3,7 @@ set -e
 set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 export APT_LISTBUGS_FRONTEND=none
 export TARGET_USER=${TARGET_USER:-casey}
 
@@ -494,9 +495,9 @@ main() {
     exit 1
   fi
 
+  trap 'rollback_zfs_snapshot' ERR SIGINT
+  trap 'destroy_zfs_snapshot' EXIT
   create_zfs_snapshot
-
-  trap 'rollback_zfs_snapshot' ERR
 
   if [[ $cmd == "dotfiles" ]]; then
     get_user
@@ -518,8 +519,6 @@ main() {
   else
     usage
   fi
-
-  destroy_zfs_snapshot
 }
 
 main "$@"
