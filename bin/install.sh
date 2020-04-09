@@ -336,6 +336,7 @@ PasswordAuthentication no
 ChallengeResponseAuthentication no
 AllowAgentForwarding yes
 X11Forwarding yes
+StreamLocalBindUnlink yes
 EOF
 
   sudo systemctl restart ssh.service
