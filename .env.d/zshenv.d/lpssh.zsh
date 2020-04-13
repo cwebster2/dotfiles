@@ -98,9 +98,5 @@ keyme () {
 }
 
 agentme () {
-  sudo killall ssh-agent
-  eval `ssh-agent`
-  ssh-add "${HOME}/.ssh/"* \
-    1> /dev/null \
-    2> /dev/null
+  gpg-connect-agent enable-ssh-support /bye
 }
