@@ -92,6 +92,7 @@ install_golang() {
 
     go get github.com/axw/gocov/gocov
     go get honnef.co/go/tools/cmd/staticcheck
+    go get github.com/genuinetools/weather
 
     # Tools for vimgo.
     go get github.com/jstemmer/gotags
