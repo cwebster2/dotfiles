@@ -139,7 +139,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  ssh-agent
   gpg-agent
   zsh-nvm
   vscode
