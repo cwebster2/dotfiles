@@ -98,9 +98,8 @@ keyme () {
 }
 
 agentme () {
-  sudo killall ssh-agent
-  eval `ssh-agent`
-  ssh-add "${HOME}/.ssh/"* \
-    1> /dev/null \
-    2> /dev/null
+  kill -9 $(pidof scdaemon) >/dev/null 2>&1 || true
+  kill -9 $(pidof gpg-agent) >/dev/null 2>&1 || true
+  gpg-connect-agent /bye >/dev/null 2>&1 || true
+  gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
 }
