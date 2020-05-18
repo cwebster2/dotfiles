@@ -1,4 +1,4 @@
-echo "+ Setting paths"
+#echo "+ Setting paths"
 
 if [ -d "${HOME}/miniconda3" ]; then
 # >>> conda initialize >>>

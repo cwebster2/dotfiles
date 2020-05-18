@@ -1,4 +1,4 @@
-echo "+ tools"
+#echo "+ tools"
 
 source ~/.nvm/nvm.sh
 

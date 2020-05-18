@@ -184,6 +184,9 @@ install_zsh() {
     if  [ ! -d zsh-nvm ]; then
       git clone https://github.com/lukechilds/zsh-nvm zsh-nvm
     fi
+    if [ ! -d zsh-lazyload ]; then
+      git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
+    fi
     cd "${HOME}/.oh-my-zsh/custom/themes"
     if  [ ! -d powerlevel10k ]; then
       git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k

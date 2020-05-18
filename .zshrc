@@ -149,6 +149,7 @@ plugins=(
   golang
   vi-mode
   zsh-interactive-cd
+  zsh-lazyload
 )
 
 source $ZSH/oh-my-zsh.sh
