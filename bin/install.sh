@@ -94,11 +94,14 @@ install_golang() {
     go get honnef.co/go/tools/cmd/staticcheck
     go get github.com/genuinetools/weather
 
+    go get github.com/wagoodman/dive
+
     # Tools for vimgo.
     go get github.com/jstemmer/gotags
     go get github.com/nsf/gocode
     go get github.com/rogpeppe/godef
     go get -u github.com/sourcegraph/go-langserver
+
 
     # symlink weather binary for motd
     sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
