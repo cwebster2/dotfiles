@@ -1,0 +1,10 @@
+# make 4 windows in 2x2 layout
+enabled_layouts grid, tall, horizontal
+cd ~
+layout grid
+launch zsh
+launch zsh
+launch zsh
+launch zsh
+
+new_tab long running

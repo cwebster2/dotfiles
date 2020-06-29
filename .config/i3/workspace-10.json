@@ -1,0 +1,69 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "none",
+    "current_border_width": 0,
+    "floating": "auto_off",
+    "geometry": {
+        "height": 600,
+        "width": 800,
+        "x": 0,
+        "y": 0
+    },
+    "name": "Spotify Premium",
+    "percent": 0.5,
+    "swallows": [
+        {
+            "instance": "^spotify$"
+        }
+    ],
+    "type": "con"
+}
+
+{
+    // splitv split container with 2 children
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+                "height": 1067,
+                "width": 1921,
+                "x": 1918,
+                "y": 28
+            },
+            "name": "Slack | table | Valor",
+            "percent": 0.5,
+            "swallows": [
+                {
+                    "instance": "^slack$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 0,
+            "floating": "auto_off",
+            "geometry": {
+                "height": 2131,
+                "width": 3840,
+                "x": 0,
+                "y": 0
+            },
+            "name": "Volume Control",
+            "percent": 0.5,
+            "swallows": [
+                {
+                    "instance": "^pavucontrol$"
+                }
+            ],
+            "type": "con"
+        }
+    ]
+}
