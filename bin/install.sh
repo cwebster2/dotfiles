@@ -141,8 +141,10 @@ install_vim() {
 
     # install .vim files
     sudo rm -rf "${HOME}/.vim"
-    git clone "https://github.com/cwebster2/vim" "${HOME}/.vim"
-    cd "${HOME}/.vim"
+    sudo rm -rf "${HOME}/.config/nvim"
+    git clone "https://github.com/cwebster2/vim" "${HOME}/.config/nvim"
+    ln -s "${HOME}/.config/nvim" "${HOME}/.vim"
+    cd "${HOME}/.config/nvim"
     git remote set-url origin git@github.com:cwebster2/vim
 
     # update alternatives to vim
@@ -152,8 +154,6 @@ install_vim() {
     sudo update-alternatives --set vim "$(command -v nvim)"
     sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
     sudo update-alternatives --set editor "$(command -v nvim)"
-
-    ln -s ${HOME}/.vim/coc-settings.json ${HOME}/.config/nvim
 
     nvim --headless +PlugInstall +qa &
     sleep 300
