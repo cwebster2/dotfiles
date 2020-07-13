@@ -321,6 +321,6 @@ exec google-chrome
 exec slack
 exec spotify
 exec teams
-exec google-chrome --kiosk --app='http://outlook.office365.com'
+#exec google-chrome --kiosk --app='http://outlook.office365.com'
 exec zoom
 exec steam
