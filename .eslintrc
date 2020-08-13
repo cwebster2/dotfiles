@@ -1,0 +1,15 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2018,
+    },
+    "extends": ["eslint:recommended"],
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+        "semi": "error",
+        "no-console": [0],
+        "indent": [ "error", 2 ]
+    }
+}
