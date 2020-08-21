@@ -189,7 +189,7 @@
   POWERLEVEL9K_VI_MODE_VISUAL_BACKGROUND='clear'
   POWERLEVEL9K_HOST_REMOTE_FOREGROUND='blue'
   POWERLEVEL9K_HOST_REMOTE_BACKGROUND='clear'
-  POWERLEVEL9K_HOST_LOCAL_FOREGROUND='blue'
+  POWERLEVEL9K_HOST_LOCAL_FOREGROUND='royalblue1'
   POWERLEVEL9K_HOST_LOCAL_BACKGROUND='clear'
 
   #################################[ os_icon: os identifier ]##################################
@@ -200,7 +200,7 @@
 
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='royalblue1'
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
   # Default prompt symbol.
@@ -897,7 +897,8 @@
   # The default value of POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION expands to $CONDA_PROMPT_MODIFIER
   # without the surrounding parentheses, or to the last path component of CONDA_PREFIX if the former
   # is empty.
-  typeset -g POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION='${${${${CONDA_PROMPT_MODIFIER#\(}% }%\)}:-${CONDA_PREFIX:t}}'
+  #typeset -g POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION='${${${${CONDA_PROMPT_MODIFIER#\(}% }%\)}:-${CONDA_PREFIX:t}}'
+  typeset -g POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION='${P9K_ANACONDA_PYTHON_VERSION} (${CONDA_PREFIX:t})'
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_ANACONDA_VISUAL_IDENTIFIER_EXPANSION='⭐'
