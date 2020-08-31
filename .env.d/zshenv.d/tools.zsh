@@ -1,4 +1,6 @@
-#echo "+ tools"
+if [[ $- =~ "i" ]]; then
+  echo "+ tools"
+fi
 
 source ~/.nvm/nvm.sh
 

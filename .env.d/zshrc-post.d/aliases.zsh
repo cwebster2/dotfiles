@@ -1,4 +1,6 @@
-echo "+ aliases"
+if [[ $- =~ "i" ]]; then
+  echo "+ aliases"
+fi
 
 alias code='code-insiders'
 
