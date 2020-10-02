@@ -18,7 +18,7 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:FuraCode Nerd Font 10
-font pango:DejaVu Sans Mono 8
+font pango:Hack Nerd Font Mono 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -270,7 +270,8 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Need to test
-bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
@@ -317,10 +318,9 @@ exec --no-startup-id "i3-msg 'workspace 10♫; append_layout /home/casey/.
 
 exec kitty --session ~/.i3/default-kitty-session
 exec discord
-exec google-chrome
+exec google-chrome --use-gl=desktop
 exec slack
 exec spotify
 exec teams
-#exec google-chrome --kiosk --app='http://outlook.office365.com'
 exec zoom
 exec steam
