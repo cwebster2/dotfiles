@@ -31,7 +31,7 @@ default_border pixel 0
 # kill focused window
 bindsym $mod+q kill
 
-bindsym $mod+Ctrl+l exec --no-startup-id i3lock-fancy
+bindsym $mod+l exec --no-startup-id i3lock-fancy
 
 # start dmenu (a program launcher)
 #bindsym $mod+r exec rofi -show run -fullscreen -padding 400
@@ -50,10 +50,10 @@ for_window [class="^Spotify Premium$"] border none
 
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+m focus left
+bindsym $mod+n focus down
+bindsym $mod+e focus up
+bindsym $mod+i focus right
 
 # move focus to monitor
 #bindsym $mod+shift+ focus output DP-2
@@ -71,10 +71,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+m move left
+bindsym $mod+Shift+n move down
+bindsym $mod+Shift+e move up
+bindsym $mod+Shift+i move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -83,7 +83,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+minus split h
+bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -94,7 +94,7 @@ bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+p layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -111,10 +111,10 @@ bindsym $mod+a focus parent
 # Kill and reload dunst.
 bindsym $mod+Shift+d --release exec --no-startup-id "killall dunst;notify-send test test"
 
-bindsym $mod+Shift+y exec --no-startup-id i3resize left
-bindsym $mod+Shift+u exec --no-startup-id i3resize down
-bindsym $mod+Shift+i exec --no-startup-id i3resize up
-bindsym $mod+Shift+o exec --no-startup-id i3resize right
+bindsym $mod+Ctrl+m exec --no-startup-id i3resize left
+bindsym $mod+Ctrl+n exec --no-startup-id i3resize down
+bindsym $mod+Ctrl+e exec --no-startup-id i3resize up
+bindsym $mod+Ctrl+i exec --no-startup-id i3resize right
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -205,8 +205,8 @@ for_window [class="Steam"] floating enable
 #for_window [class="Wine"] floating enable
 #for_window [class="Wireshark"] floating enable
 
-bindsym $mod+n move scratchpad
-bindsym $mod+Shift+n scratchpad show
+bindsym $mod+b move scratchpad
+bindsym $mod+Shift+b scratchpad show
 #
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -322,5 +322,5 @@ exec google-chrome --use-gl=desktop
 exec slack
 exec spotify
 exec teams
-exec zoom
+#exec zoom
 exec steam
