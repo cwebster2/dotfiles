@@ -1,4 +1,4 @@
-echo "+ tools"
+[[ -o interactive ]] && echo "+ tools"
 
 source ~/.nvm/nvm.sh
 

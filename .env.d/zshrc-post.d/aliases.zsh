@@ -1,4 +1,4 @@
-echo "+ aliases"
+[[ -o interactive ]] && echo "+ aliases"
 
 alias code='code-insiders'
 

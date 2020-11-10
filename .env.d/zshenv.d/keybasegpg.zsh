@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
-# Get an ssh pubic key from keybase
-echo "+ keybase.io helper"
+#Get an ssh pubic key from keybase
+[[ -o interactive ]] && echo "+ keybase.io helper"
 
 _kbusage() {
   echo 1>&2 "usage: importKeyFromKeybase <keybase username>"

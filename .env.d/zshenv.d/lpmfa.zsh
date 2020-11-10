@@ -16,7 +16,7 @@
 ## you want to grab.  This will automatically copy the code to your clipboard
 ############################################################################
 
-echo "+ lpass mfa helper"
+[[ -o interactive ]] && echo "+ lpass mfa helper"
 
 function _which() {
   which $1 > /dev/null
