@@ -210,6 +210,7 @@ install_lsp_servers() {
       yaml-language-server \
       typescript-language-server \
       vim-language-server
+    #TODO add gopls, jsonls, JAVA_HOME, jdtls, rust-analyzer, terraform-ls
     (
       mkdir -p "${HOME}"/src
       cd "${HOME}"/src
@@ -413,6 +414,7 @@ usage() {
   echo "  python                              - install Python 3 (miniconda)"
   echo "  node                                - install node via nvm"
   echo "  tools                               - install golang, rust, and scripts"
+  echo "  lsp                                 - install language servers for nvim"
 }
 
 main() {
@@ -440,6 +442,8 @@ main() {
     install_scripts
   elif [[ $cmd == "tools" ]]; then
     install_tools
+  elif [[ $cmd == "lsp" ]]; then
+    install_lsp_servers
   else
     usage
   fi
