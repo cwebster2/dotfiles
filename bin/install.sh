@@ -195,6 +195,37 @@ install_zsh() {
   cd "$HOME"
 }
 
+install_lsp_servers() {
+  echo
+  echo "Installing language servers"
+  echo
+  (
+    sudo -y apt-get install ninja-build
+    cargo install --git https://github.com/latex-lsp/texlab.git --locked
+    pip install --quiet python-language-server
+    npm install --silent -g \
+      bash-language-server \
+      dockerfile-language-server-nodejs \
+      vscode-json-languageserver \
+      yaml-language-server \
+      typescript-language-server \
+      vim-language-server
+    (
+      mkdir -p "${HOME}"/src
+      cd "${HOME}"/src
+      git clone https://github.com/sumneko/lua-language-server
+      cd lua-language-server
+      git submodule update --init --recursive
+      cd 3rd\luamake
+      tools\ninja.exe -f ninja\msvc.ninja
+      cd ..\..
+      3rd\luamake\luamake.exe rebuild
+    )
+    echo "Language servers installed"
+    cd "${HOME}"
+  )
+}
+
 install_misc() {
   mkdir -p "${HOME}/src"
 
@@ -307,7 +338,10 @@ install_node() {
   (
     source ${HOME}/.nvm/nvm.sh
     nvm install node
-    npm install --silent -g typescript eslint bash-language-server neovim
+    npm install --silent -g \
+      typescript \
+      eslint \
+      neovim
   )
 }
 
