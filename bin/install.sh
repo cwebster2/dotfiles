@@ -200,7 +200,15 @@ install_lsp_servers() {
   echo "Installing language servers"
   echo
   (
-    sudo -y apt-get install ninja-build
+    TFTSVER=${TFLSVER:-0.12.1}
+    TFTSARCH=${TFTSARCH:-amd64}
+    rustup component add rust-src
+    curl -fLo "${HOME}"/bin/rust-analyzer "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux"
+    chmod 755 "${HOME}"/bin/rust-analyzer
+    curl -fLo "${HOME}"/bin/terroform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFTSVER}/terraform-ls_${TFTSVER}_linux_${TFTSARCH}.zip"
+    unzip "${HOME}"/bin/terroform-ls.zip -d "${HOME}"/bin
+    rm "${HOME}"/bin/terroform-ls.zip
+    chmod 755 "${HOME}"/bin/terroform-ls
     cargo install --git https://github.com/latex-lsp/texlab.git --locked
     pip install --quiet python-language-server
     npm install --silent -g \
@@ -212,6 +220,7 @@ install_lsp_servers() {
       vim-language-server
     #TODO add gopls, jsonls, JAVA_HOME, jdtls, rust-analyzer, terraform-ls
     (
+      sudo -y apt-get install ninja-build
       mkdir -p "${HOME}"/src
       cd "${HOME}"/src
       git clone https://github.com/sumneko/lua-language-server

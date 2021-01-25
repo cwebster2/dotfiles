@@ -170,6 +170,7 @@ assign [class="Google-chrome"] $ws3
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
 assign [class="Slack"] $ws1
+assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
 assign [class="Spotify"] $ws10
@@ -183,7 +184,9 @@ for_window [class="Lutris"] floating enable
 for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
 for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
+for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
 for_window [class="obsidian"] move scratchpad
+#for_window [class="filemanager"] floating enable
 #for_window [class="Code"] floating enable
 #for_window [class="Firefox"] floating enable
 #for_window [class="Gimp"] floating enable
@@ -205,8 +208,9 @@ for_window [class="Steam"] floating enable
 #for_window [class="Wine"] floating enable
 #for_window [class="Wireshark"] floating enable
 
-bindsym $mod+b move scratchpad
-bindsym $mod+Shift+b scratchpad show
+bindsym $mod+Shift+j move scratchpad
+bindsym $mod+j scratchpad show
+bindsym $mod+b [class="obsidian"] scratchpad show
 #
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -225,10 +229,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym m resize shrink width 10 px or 10 ppt
+        bindsym n resize grow height 10 px or 10 ppt
+        bindsym e resize shrink height 10 px or 10 ppt
+        bindsym i resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
