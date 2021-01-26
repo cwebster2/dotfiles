@@ -208,7 +208,7 @@ install_lsp_servers() {
     curl -fLo "${HOME}"/bin/terraform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFLSVER}/terraform-ls_${TFLSVER}_linux_${TFLSARCH}.zip"
     unzip "${HOME}"/bin/terraform-ls.zip -d "${HOME}"/bin
     rm "${HOME}"/bin/terraform-ls.zip
-    chmod 755 "${HOME}"/bin/terroform-ls
+    chmod 755 "${HOME}"/bin/terraform-ls
     cargo install --git https://github.com/latex-lsp/texlab.git --locked
     pip install --quiet python-language-server
     npm install --silent -g \
