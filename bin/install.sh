@@ -200,17 +200,26 @@ install_lsp_servers() {
   echo "Installing language servers"
   echo
   (
+    echo "Fetching the terraform language server"
     TFLSVER=${TFLSVER:-0.12.1}
     TFLSARCH=${TFLSARCH:-amd64}
-    rustup component add rust-src
-    curl -fLo "${HOME}"/bin/rust-analyzer "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux"
-    chmod 755 "${HOME}"/bin/rust-analyzer
     curl -fLo "${HOME}"/bin/terraform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFLSVER}/terraform-ls_${TFLSVER}_linux_${TFLSARCH}.zip"
     unzip "${HOME}"/bin/terraform-ls.zip -d "${HOME}"/bin
     rm "${HOME}"/bin/terraform-ls.zip
     chmod 755 "${HOME}"/bin/terraform-ls
+
+    echo "Fetching the rust analyzer language server"
+    rustup component add rust-src
+    curl -fLo "${HOME}"/bin/rust-analyzer "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux"
+    chmod 755 "${HOME}"/bin/rust-analyzer
+
+    echo "Building the tex language server"
     cargo install --git https://github.com/latex-lsp/texlab.git --locked
+
+    echo "Installing the python language server"
     pip install --quiet python-language-server
+
+    echo "Installing bash, docker, json, yaml, ts/js, and vimscript language servers"
     npm install --silent -g \
       bash-language-server \
       dockerfile-language-server-nodejs \
@@ -218,7 +227,8 @@ install_lsp_servers() {
       yaml-language-server \
       typescript-language-server \
       vim-language-server
-    #TODO add gopls, jsonls, JAVA_HOME, jdtls, rust-analyzer, terraform-ls
+
+    echo "Building the lua language server"
     (
       sudo -y apt-get install ninja-build
       mkdir -p "${HOME}"/src
@@ -231,6 +241,15 @@ install_lsp_servers() {
       cd ..\..
       3rd\luamake\luamake.exe rebuild
     )
+
+    echo "Installing the go language server"
+    (
+      # this is needed because go get is bad
+      set -x
+      set +e
+      go get -u github.com/sourcegraph/go-langserver
+    )
+
     echo "Language servers installed"
     cd "${HOME}"
   )
