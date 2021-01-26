@@ -411,7 +411,7 @@ install_tools() {
   echo
   echo "Installing golang..."
   echo
-  install_golang "go1.13.8";
+  install_golang "go1.15.7";
 
   echo
   echo "Installing rust..."
