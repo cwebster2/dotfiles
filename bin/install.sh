@@ -200,14 +200,14 @@ install_lsp_servers() {
   echo "Installing language servers"
   echo
   (
-    TFTSVER=${TFLSVER:-0.12.1}
-    TFTSARCH=${TFTSARCH:-amd64}
+    TFLSVER=${TFLSVER:-0.12.1}
+    TFLSARCH=${TFLSARCH:-amd64}
     rustup component add rust-src
     curl -fLo "${HOME}"/bin/rust-analyzer "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux"
     chmod 755 "${HOME}"/bin/rust-analyzer
-    curl -fLo "${HOME}"/bin/terroform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFTSVER}/terraform-ls_${TFTSVER}_linux_${TFTSARCH}.zip"
-    unzip "${HOME}"/bin/terroform-ls.zip -d "${HOME}"/bin
-    rm "${HOME}"/bin/terroform-ls.zip
+    curl -fLo "${HOME}"/bin/terraform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFLSVER}/terraform-ls_${TFLSVER}_linux_${TFLSARCH}.zip"
+    unzip "${HOME}"/bin/terraform-ls.zip -d "${HOME}"/bin
+    rm "${HOME}"/bin/terraform-ls.zip
     chmod 755 "${HOME}"/bin/terroform-ls
     cargo install --git https://github.com/latex-lsp/texlab.git --locked
     pip install --quiet python-language-server
