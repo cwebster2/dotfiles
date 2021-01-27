@@ -34,13 +34,18 @@ check_is_sudo() {
   fi
 }
 
+function is_bin_in_path {
+  builtin type -P "$1" &> /dev/null
+}
+
 # install rust
 install_rust() {
   (
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
+    sudo apt-get install -y
     rustup component add rls rust-analysis rust-src
-    cargo install xidlehook --bins
+    is_bin_in_path i3 && cargo install xidlehook --bins
     cargo install navi
     cargo install exa
   )
