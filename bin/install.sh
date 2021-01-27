@@ -261,7 +261,7 @@ install_lsp_servers() {
       # this is needed because go get is bad
       set -x
       set +e
-      go get -u github.com/sourcegraph/go-langserver
+      GO111MODULE=on go get golang.org/x/tools/gopls@latest
     )
 
     echo "Language servers installed"
