@@ -148,16 +148,15 @@ install_vim() {
     git remote set-url origin git@github.com:cwebster2/vim
 
     # update alternatives to vim
-    sudo update-alternatives --install /usr/bin/vi vi "$(command -v nvim)" 60
-    sudo update-alternatives --set vi "$(command -v nvim)"
-    sudo update-alternatives --install /usr/bin/vim vim "$(command -v nvim)" 60
-    sudo update-alternatives --set vim "$(command -v nvim)"
-    sudo update-alternatives --install /usr/bin/editor editor "$(command -v nvim)" 60
-    sudo update-alternatives --set editor "$(command -v nvim)"
+    curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimaget"
+    sudo update-alternatives --install /usr/bin/vi vi "$(command -v )"${HOME}"/bin/nvim.appimage" 60
+    sudo update-alternatives --set vi "$(command -v "${HOME}"/bin/nvim.appimage)"
+    sudo update-alternatives --install /usr/bin/vim vim "$(command -v "${HOME}"/bin/nvim.appimage)" 60
+    sudo update-alternatives --set vim "$(command -v "${HOME}"/bin/nvim.appimage)"
+    sudo update-alternatives --install /usr/bin/editor editor "$(command -v "${HOME}"/bin/nvim.appimage)" 60
+    sudo update-alternatives --set editor "$(command -v "${HOME}"/bin/nvim.appimage)"
 
-    nvim --headless +PlugInstall +qa &
-    sleep 300
-    killall nvim
+    "${HOME}"/bin/nvim.appimage --headless +PlugInstall +qa
   )
 }
 
