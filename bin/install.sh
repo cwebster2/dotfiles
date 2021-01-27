@@ -157,6 +157,7 @@ install_vim() {
     # Todo detect if docker and only do this if so
     (
       pushd "$HOME"/bin 2>/dev/null
+      chmod +x ./nvim.appimage
       ./nvim.appimage --appimage-extract
       mv squashfs-root nvim
       popd 2>/dev/null
