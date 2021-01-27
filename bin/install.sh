@@ -115,6 +115,7 @@ get_dotfiles() {
   # create subshell
   (
     cd "$HOME"
+    sudo apt-get install kitty-terminfo
     #todo install ssh key from lastpass
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
@@ -151,6 +152,7 @@ install_vim() {
     ln -s "${HOME}/.config/nvim" "${HOME}/.vim"
     cd "${HOME}/.config/nvim"
     git remote set-url origin git@github.com:cwebster2/vim
+    git checkout nvim-lua
 
     # update alternatives to vim
     curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
@@ -242,16 +244,16 @@ install_lsp_servers() {
 
     echo "Building the lua language server"
     (
-      sudo -y apt-get install ninja-build
+      sudo apt-get -y install ninja-build
       mkdir -p "${HOME}"/src
       cd "${HOME}"/src
       git clone https://github.com/sumneko/lua-language-server
       cd lua-language-server
       git submodule update --init --recursive
-      cd 3rd\luamake
-      tools\ninja.exe -f ninja\msvc.ninja
-      cd ..\..
-      3rd\luamake\luamake.exe rebuild
+      cd 3rd/luamake
+      ninja -f ninja/linux.ninja
+      cd ../..
+      ./3rd/luamake/luamake rebuild
     )
 
     echo "Installing the go language server"
