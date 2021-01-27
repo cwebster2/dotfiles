@@ -154,12 +154,19 @@ install_vim() {
 
     # update alternatives to vim
     curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-    sudo update-alternatives --install /usr/bin/vi vi "$(command -v )"${HOME}"/bin/nvim.appimage" 60
-    sudo update-alternatives --set vi "$(command -v "${HOME}"/bin/nvim.appimage)"
-    sudo update-alternatives --install /usr/bin/vim vim "$(command -v "${HOME}"/bin/nvim.appimage)" 60
-    sudo update-alternatives --set vim "$(command -v "${HOME}"/bin/nvim.appimage)"
-    sudo update-alternatives --install /usr/bin/editor editor "$(command -v "${HOME}"/bin/nvim.appimage)" 60
-    sudo update-alternatives --set editor "$(command -v "${HOME}"/bin/nvim.appimage)"
+    # Todo detect if docker and only do this if so
+    (
+      pushd "$HOME"/bin 2>/dev/null
+      ./nvim.appimage --appimage-extract
+      mv squashfs-root nvim
+      popd 2>/dev/null
+    )
+    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
+    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
 
     "${HOME}"/bin/nvim.appimage --headless +PlugInstall +qa
   )
