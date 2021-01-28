@@ -240,7 +240,8 @@ install_lsp_servers() {
       vscode-json-languageserver \
       yaml-language-server \
       typescript-language-server \
-      vim-language-server
+      vim-language-server \
+      vls
 
     echo "Building the lua language server"
     (
