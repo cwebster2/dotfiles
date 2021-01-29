@@ -1,3 +1,4 @@
 channels:
   - conda-forge
   - defaults
+env_prompt: ({prefix})
