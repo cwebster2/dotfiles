@@ -168,10 +168,13 @@ install_vim() {
     sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
     sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
     sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
 
-    "${HOME}"/bin/nvim/AppRun --headless +PlugInstall +qa
+    "${HOME}"/bin/nvim/AppRun --headless +PackerCompile +qa
+    # this still needs to run PackerSync which doesnt seem to work headless
   )
 }
 
@@ -242,6 +245,9 @@ install_lsp_servers() {
       typescript-language-server \
       vim-language-server \
       vls
+
+    echo "Installing efm general purpose ls"
+    go get github.com/mattn/efm-langserver
 
     echo "Building the lua language server"
     (
