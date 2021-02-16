@@ -38,12 +38,15 @@ EOF
 }
 
 function mfa() {
-  LASTPASS_MFA_SECRETS_ID="${LASTPASS_MFA_SECRETS_ID:-2483405299151369756}"
+  LASTPASS_MFA_SECRETS_ID="${LASTPASS_MFA_SECRETS_ID:-294da919-8090-4813-b193-acd1015916df}"
 
-  _which lpass || _punt "You need to install the lpass cli"
+  _which bw || _punt "You need to install the bitwarden cli"
   _which oathtool || _punt "You need to install oathtool"
 
-  MFA_SECRETS=$(lpass show --note "${LASTPASS_MFA_SECRETS_ID}")
+  2>&1 bw login --check > /dev/null || bw login --apikey
+  2>&1 bw unlock --check > /dev/null || export BW_SESSION=$(bw unlock --raw)
+
+  MFA_SECRETS=$(bw get item "${LASTPASS_MFA_SECRETS_ID}" | jq --raw-output .notes)
 
   select account in $(echo "${MFA_SECRETS}" | jq -cr 'keys[]'); do
     local secret=$(echo "${MFA_SECRETS}" | jq -r ".${account}")
@@ -55,3 +58,5 @@ function mfa() {
     break;
   done
 }
+
+    bw get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config

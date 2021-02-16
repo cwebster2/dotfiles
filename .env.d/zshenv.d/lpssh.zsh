@@ -29,10 +29,11 @@ export KEYME_KEYS_TO_LOAD="
 _lastPassUserHelp () {
 echo '
 
-Error:  Missing LASTPASS_USER Environment
+Error:  Missing bitwarden Environment
 
 Syntax:
-  export LASTPASS_USER="jdoe@email.com"
+  export BW_CLIENTID="user.guid"
+  export BW_CLIENTSECRET="secret"
 
 You should probably set this in your bashrc or zshrc
 '
@@ -54,20 +55,23 @@ TMP_SSH_KEY_DIR="/run/user/$(id -u)/.ssh"
 
 add_key () {
   echo Installing Key: $2
-  lpass show "$1" --field "Private Key" > "${TMP_SSH_KEY_DIR}/$2"
-  lpass show "$1" --field "Public Key" > "${TMP_SSH_KEY_DIR}/$2.pub"
-  _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2"
-  _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
-  _chmod 400 "${TMP_SSH_KEY_DIR}/$2"
-  _chmod 400 "${TMP_SSH_KEY_DIR}/$2.pub"
-  ssh-add "${TMP_SSH_KEY_DIR}/$2"
+  echo Fix for bitwarden use
+  #lpass show "$1" --field "Private Key" > "${TMP_SSH_KEY_DIR}/$2"
+  #lpass show "$1" --field "Public Key" > "${TMP_SSH_KEY_DIR}/$2.pub"
+  #_purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2"
+  #_purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
+  #_chmod 400 "${TMP_SSH_KEY_DIR}/$2"
+  #_chmod 400 "${TMP_SSH_KEY_DIR}/$2.pub"
+  #ssh-add "${TMP_SSH_KEY_DIR}/$2"
 }
 
 keyme () {
   [ -z "${KEYME_KEYS_TO_LOAD}" ] && _keysToLoadHelp && return
-  [ -z "${LASTPASS_USER}" ] && _lastPassUserHelp && return
-  echo Lastpass login...
-  2>&1 lpass ls > /dev/null || lpass login "${LASTPASS_USER}"
+  [ -z "${BW_CLIENTID}" ] && _keysToLoadHelp && return
+  [ -z "${BW_CLIENTSECRET}" ] && _keysToLoadHelp && return
+  echo Bitwarden login...
+  2>&1 bw login --check > /dev/null || bw login --apikey
+  2>&1 bw unlock --check > /dev/null || export BW_SESSION=$(bw unlock --raw)
   echo Purging "${TMP_SSH_KEY_DIR}"
   [ -d "${TMP_SSH_KEY_DIR}" ] && rm -rf "${TMP_SSH_KEY_DIR}"
   echo Making tmp dir "${TMP_SSH_KEY_DIR}"...
@@ -76,7 +80,7 @@ keyme () {
   chmod 700 "${TMP_SSH_KEY_DIR}"
   if [ ! -f "${TMP_SSH_KEY_DIR}"/config ]; then
     echo "Installing ssh config"
-    lpass show --note "${KEYME_SSH_CONFIG_ID}" > "${TMP_SSH_KEY_DIR}"/config
+    bw get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
     chmod 600 "${TMP_SSH_KEY_DIR}"/config
   fi
   echo Purging "${HOME}/.ssh"
