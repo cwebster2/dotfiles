@@ -212,6 +212,24 @@ install_zsh() {
   cd "$HOME"
 }
 
+install_lsp_servers_npm() {
+  echo
+  echo "Installing bash, docker, json, yaml, ts/js, and vimscript language servers"
+  echo
+  (
+    npm install --silent -g \
+      bash-language-server \
+      dockerfile-language-server-nodejs \
+      vscode-json-languageserver \
+      yaml-language-server \
+      typescript-language-server \
+      vim-language-server \
+      vls \
+      eslint_d
+  )
+}
+
+# break this up into multiple functions that can reinstall components e.g. when node is upgraded
 install_lsp_servers() {
   echo
   echo "Installing language servers"
@@ -236,15 +254,7 @@ install_lsp_servers() {
     echo "Installing the python language server"
     pip install --quiet python-language-server
 
-    echo "Installing bash, docker, json, yaml, ts/js, and vimscript language servers"
-    npm install --silent -g \
-      bash-language-server \
-      dockerfile-language-server-nodejs \
-      vscode-json-languageserver \
-      yaml-language-server \
-      typescript-language-server \
-      vim-language-server \
-      vls
+    install_lsp_servers_npm
 
     echo "Installing efm general purpose ls"
     go get github.com/mattn/efm-langserver
@@ -391,7 +401,10 @@ install_node() {
     npm install --silent -g \
       typescript \
       eslint \
-      neovim
+      neovim \
+      prettier \
+      eslint_d \
+      @bitwarden/cli
   )
 }
 

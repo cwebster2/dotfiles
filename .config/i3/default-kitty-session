@@ -7,18 +7,18 @@ launch zsh
 launch zsh
 launch zsh
 
-new_tab long running
+#new_tab long running
 
-new_tab work1
-layout fat
-launch zsh
-launch zsh
-launch zsh
-
-new_tab work2
-layout fat
-launch zsh
-launch zsh
-launch zsh
-
-new_tab local
+#new_tab work1
+#layout fat
+#launch zsh
+#launch zsh
+#launch zsh
+#
+#new_tab work2
+#layout fat
+#launch zsh
+#launch zsh
+#launch zsh
+#
+#new_tab local

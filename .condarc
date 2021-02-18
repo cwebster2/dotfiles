@@ -1,3 +1,4 @@
 channels:
   - conda-forge
   - defaults
+anaconda_upload: true
