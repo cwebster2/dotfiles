@@ -59,4 +59,3 @@ function mfa() {
   done
 }
 
-    bw get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
