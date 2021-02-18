@@ -45,7 +45,6 @@ function mfa() {
   _bw_get_session
 
   MFA_ACCOUNTS=$(bw list items | jq '.[] | select(.login.totp!=null) | .name')
-  echo "${MFA_ACCOUNTS}"
 
   (
     local IFS=$'\n'
