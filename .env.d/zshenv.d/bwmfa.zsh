@@ -38,18 +38,17 @@ EOF
 }
 
 function mfa() {
-  LASTPASS_MFA_SECRETS_ID="${LASTPASS_MFA_SECRETS_ID:-294da919-8090-4813-b193-acd1015916df}"
+  #LASTPASS_MFA_SECRETS_ID="${LASTPASS_MFA_SECRETS_ID:-294da919-8090-4813-b193-acd1015916df}"
 
   _which bw || _punt "You need to install the bitwarden cli"
-  _which oathtool || _punt "You need to install oathtool"
 
   _bw_get_session
 
-  MFA_SECRETS=$(bw get item "${LASTPASS_MFA_SECRETS_ID}" | jq --raw-output .notes)
+  MFA_ACCOUNTS=$(bw list items | jq --raw-output '.[] | select(.login.totp!=null) | .name')
 
-  select account in $(echo "${MFA_SECRETS}" | jq -cr 'keys[]'); do
-    local secret=$(echo "${MFA_SECRETS}" | jq -r ".${account}")
-    local code=$(oathtool -b --totp "${secret}")
+  select account in $(echo "${MFA_ACCOUNTS}"); do
+    local secret="$account"
+    local code=$(bw get totp "$account")
     _which xsel && echo -n "${code}" | xsel --primary --input
     _which xsel && echo -n "${code}" | xsel --clipboard --input
     _which pbcopy && echo -n "${code}" | pbcopy
