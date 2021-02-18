@@ -43,10 +43,11 @@ function mfa() {
   _which bw || _punt "You need to install the bitwarden cli"
   _which oathtool || _punt "You need to install oathtool"
 
-  2>&1 bw login --check > /dev/null || bw login --apikey
-  2>&1 bw unlock --check > /dev/null || export BW_SESSION=$(bw unlock --raw)
+  _bw_get_session
+  #2>&1 bw login --check > /dev/null || bw login --apikey
+  #2>&1 bw unlock --check > /dev/null || export BW_SESSION=$(bw unlock --raw)
 
-  MFA_SECRETS=$(bw get item "${LASTPASS_MFA_SECRETS_ID}" | jq --raw-output .notes)
+  MFA_SECRETS=$(bw --session $BW_SESSION get item "${LASTPASS_MFA_SECRETS_ID}" | jq --raw-output .notes)
 
   select account in $(echo "${MFA_SECRETS}" | jq -cr 'keys[]'); do
     local secret=$(echo "${MFA_SECRETS}" | jq -r ".${account}")
@@ -58,4 +59,3 @@ function mfa() {
     break;
   done
 }
-

@@ -70,8 +70,7 @@ keyme () {
   [ -z "${BW_CLIENTID}" ] && _keysToLoadHelp && return
   [ -z "${BW_CLIENTSECRET}" ] && _keysToLoadHelp && return
   echo Bitwarden login...
-  2>&1 bw login --check > /dev/null || bw login --apikey
-  2>&1 bw unlock --check > /dev/null || export BW_SESSION=$(bw unlock --raw)
+  _bw_get_session
   echo Purging "${TMP_SSH_KEY_DIR}"
   [ -d "${TMP_SSH_KEY_DIR}" ] && rm -rf "${TMP_SSH_KEY_DIR}"
   echo Making tmp dir "${TMP_SSH_KEY_DIR}"...
@@ -80,7 +79,7 @@ keyme () {
   chmod 700 "${TMP_SSH_KEY_DIR}"
   if [ ! -f "${TMP_SSH_KEY_DIR}"/config ]; then
     echo "Installing ssh config"
-    bw get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
+    bw --session $BW_SESSION get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
     chmod 600 "${TMP_SSH_KEY_DIR}"/config
   fi
   echo Purging "${HOME}/.ssh"
