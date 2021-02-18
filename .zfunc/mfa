@@ -16,8 +16,6 @@
 ## you want to grab.  This will automatically copy the code to your clipboard
 ############################################################################
 
-[[ -o interactive ]] && echo "+ lpass mfa helper"
-
 function _which() {
   which $1 > /dev/null
 }
@@ -27,7 +25,7 @@ function _punt() {
   exit 1
 }
 
-function _lpmfamessage() {
+function _bwmfamessage() {
 local account="$1"
 local code="$2"
 cat << EOF
@@ -54,8 +52,10 @@ function mfa() {
       _which xsel && echo -n "${code}" | xsel --primary --input
       _which xsel && echo -n "${code}" | xsel --clipboard --input
       _which pbcopy && echo -n "${code}" | pbcopy
-      _lpmfamessage "${account}" "${code}"
+      _bwmfamessage "${account}" "${code}"
       break;
     done
   )
 }
+
+mfa "$@"

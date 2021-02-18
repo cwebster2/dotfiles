@@ -1,8 +1,3 @@
-#!/usr/bin/env bash
-
-
-
-
 #########################################################
 ## Keys
 #########################################################
@@ -31,11 +26,6 @@ echo '
 
 Error:  Missing bitwarden Environment
 
-Syntax:
-  export BW_CLIENTID="user.guid"
-  export BW_CLIENTSECRET="secret"
-
-You should probably set this in your bashrc or zshrc
 '
 }
 
@@ -100,9 +90,4 @@ keyme () {
   fi
 }
 
-agentme () {
-  kill -9 $(pidof scdaemon) >/dev/null 2>&1 || true
-  kill -9 $(pidof gpg-agent) >/dev/null 2>&1 || true
-  gpg-connect-agent /bye >/dev/null 2>&1 || true
-  gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
-}
+keyme "$@"

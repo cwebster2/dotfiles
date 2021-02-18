@@ -1,5 +1,6 @@
 [[ -o interactive ]] && echo "+ Setting paths"
 
+[[ -o interactive ]] && echo "  + miniconda"
 if [ -d "${HOME}/miniconda3" ]; then
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -19,6 +20,7 @@ fi
 
 test_and_set_path() {
   if [[ -d "$1" && ! "${PATH}" =~ "$1" ]]; then
+    [[ -o interactive ]] && echo "  + ${PATH}"
     export PATH="${1}:${PATH}"
   fi
 }

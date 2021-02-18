@@ -14,6 +14,8 @@ if [ ! -z $(command -v exa) ]; then
   alias ll='exa -l'
 fi
 
+alias bw_login="_bw_get_session; export BW_SESSION"
+
 alias gitroot='cd "$(git rev-parse --show-toplevel)"'
 alias vimupdate='nvim +PlugClean +PlugUpdate +qa'
 

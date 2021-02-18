@@ -1,0 +1,19 @@
+IFS=$'\n'
+local account="$1"
+local bw_entries=$(bw list items --search "${account}")
+local count=$(echo "${bw_entries}" | jq length)
+
+[ -z "${bw_entries}" ] && return
+if [ "${count}" -gt 1 ]; then
+  select bw_entry in $(echo "${bw_entries}" | jq --raw-output '.[].name'); do
+    bw_entries=$(echo "${bw_entries}" | jq --arg entry "${bw_entry}" '.[] | select(.name==$entry)')
+    break
+  done
+else
+  bw_entries=$(echo "${bw_entries}" | jq .[0])
+fi
+
+BWID=$(echo "${bw_entries}" | jq --raw-output .name)
+echo "Copying Password To Clipboard: ${BWID}"
+
+bw get password "${BWID}" | xsel --clipboard --input
