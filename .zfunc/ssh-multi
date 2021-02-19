@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 kitty @ launch  --title mutli-ssh-parent --type tab /usr/bin/kitty @ send-text -m title:multi-ssh --stdin
 kitty @ launch  --title multi-ssh
 kitty @ launch  --title multi-ssh

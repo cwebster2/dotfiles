@@ -1,0 +1,3 @@
+kitty @ launch  --title mutli-ssh --type tab /usr/bin/kitty
+kitty @ launch  --title multi-ssh
+kitty @ +kitten broadcast -m title:multi-ssh

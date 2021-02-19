@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 FLIPPING=$(nvidia-settings -tq AllowFlipping)
 
 if [ "$FLIPPING" -eq "0" ]; then

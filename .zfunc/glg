@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+kitty @ launch  --title glg --type tab ssh glg
+kitty @ launch  ssh-delay 5 glg
+kitty @ launch  ssh-delay 5 glg
