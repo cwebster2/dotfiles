@@ -20,7 +20,7 @@ fi
 
 test_and_set_path() {
   if [[ -d "$1" && ! "${PATH}" =~ "$1" ]]; then
-    [[ -o interactive ]] && echo "  + ${PATH}"
+    [[ -o interactive ]] && echo "  + ${1}"
     export PATH="${1}:${PATH}"
   fi
 }
