@@ -36,8 +36,6 @@ EOF
 }
 
 function mfa() {
-  #LASTPASS_MFA_SECRETS_ID="${LASTPASS_MFA_SECRETS_ID:-294da919-8090-4813-b193-acd1015916df}"
-
   _which bw || _punt "You need to install the bitwarden cli"
 
   _bw_get_session
