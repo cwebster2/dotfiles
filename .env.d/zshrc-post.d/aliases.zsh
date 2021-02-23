@@ -16,7 +16,7 @@ fi
 
 alias bw_login="_bw_get_session; export BW_SESSION"
 
-alias gitroot='cd "$(git rev-parse --show-toplevel)"'
+alias groot='cd "$(git rev-parse --show-toplevel)"'
 alias vimupdate='nvim +PlugClean +PlugUpdate +qa'
 
 alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
