@@ -1,0 +1,4 @@
+DOCKERHUB_CREDS=$(bw get item ${DOCKERHUB_CRED_ID:-e750c07a-127f-439c-8353-acd1015916df} | '.notes | fromjson')
+DOCKERHUB_USERNAME=$(echo "${DOCKERHUB_CREDS}" | jq --raw-output '.loginId')
+DOCKERHUB_TOKEN=$(echo "${DOCKERHUB_CREDS}" | jq --raw-output '.accessToken')
+echo "${DOCKERHUB_TOKEN}" | docker login --username ${DOCKERHUB_USERNAME} --password-stdin

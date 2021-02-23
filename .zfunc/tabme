@@ -1,0 +1,5 @@
+if [ -n "$1" ]; then
+  kitty @ new-window --new-tab --tab-title "${(@pj" ")@}"
+else
+  kitty @ new-window --new-tab
+fi

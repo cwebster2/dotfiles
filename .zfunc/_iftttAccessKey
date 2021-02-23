@@ -1,0 +1,1 @@
+export IFTTT_WEBHOOK_KEY=$(bw get item ${IFTTT_WEBHOOK_KEY_ID:-2eeaacd1-8c62-4372-ba73-acd1015916df} | jq --raw-output .notes)

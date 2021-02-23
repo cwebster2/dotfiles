@@ -1,0 +1,9 @@
+FLIPPING=$(nvidia-settings -tq AllowFlipping)
+
+if [ "$FLIPPING" -eq "0" ]; then
+  FLIPPING=1
+else
+  FLIPPING=0
+fi
+
+nvidia-settings -a AllowFlipping=${FLIPPING}
