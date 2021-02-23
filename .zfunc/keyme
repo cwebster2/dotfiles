@@ -69,7 +69,7 @@ keyme () {
   chmod 700 "${TMP_SSH_KEY_DIR}"
   if [ ! -f "${TMP_SSH_KEY_DIR}"/config ]; then
     echo "Installing ssh config"
-    bw get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
+    bw --session "${BW_SESSION}" get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
     chmod 600 "${TMP_SSH_KEY_DIR}"/config
   fi
   echo Purging "${HOME}/.ssh"
