@@ -1,7 +1,3 @@
-#!/usr/bin/env zsh
-#
-# Get an ssh pubic key from keybase
-
 _kbusage() {
   echo 1>&2 "usage: importKeyFromKeybase <keybase username>"
 }
@@ -21,3 +17,5 @@ importKeyFromKeybase() {
     expect -c "spawn gpg --edit-key ${KEYID} trust quit; send \"5\ry\r\"; expect eof"
   fi
 }
+
+importKeyFromKeybase "$@"
