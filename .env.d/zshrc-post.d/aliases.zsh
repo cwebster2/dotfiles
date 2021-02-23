@@ -1,6 +1,4 @@
-if [[ $- =~ "i" ]]; then
-  echo "+ aliases"
-fi
+[[ -o interactive ]] && echo "+ aliases"
 
 alias code='code-insiders'
 
@@ -16,10 +14,10 @@ if [ ! -z $(command -v exa) ]; then
   alias ll='exa -l'
 fi
 
+alias bw_login="_bw_get_session; export BW_SESSION"
+
 alias groot='cd "$(git rev-parse --show-toplevel)"'
 alias vimupdate='nvim +PlugClean +PlugUpdate +qa'
 
 alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
 alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
-
-alias vpn='cli-go wireguard connect'
