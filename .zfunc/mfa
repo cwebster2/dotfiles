@@ -40,13 +40,13 @@ function mfa() {
 
   _bw_get_session
 
-  MFA_ACCOUNTS=$(bw list items | jq '.[] | select(.login.totp!=null) | .name')
+  MFA_ACCOUNTS=$(bw --session "${BW_SESSION}" list items | jq '.[] | select(.login.totp!=null) | .name')
 
   (
     local IFS=$'\n'
     select account in $(echo "${MFA_ACCOUNTS}" | jq -rc .); do
       local secret="$account"
-      local code=$(bw get totp "$account")
+      local code=$(bw --session "${BW_SESSION}" get totp "$account")
       _which xsel && echo -n "${code}" | xsel --primary --input
       _which xsel && echo -n "${code}" | xsel --clipboard --input
       _which pbcopy && echo -n "${code}" | pbcopy
