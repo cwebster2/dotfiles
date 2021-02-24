@@ -15,3 +15,8 @@ fi
 if [ ! -z $(command -v bw) ]; then
   source <(bw completion --shell zsh)
 fi
+
+[[ -o interactive ]] && echo "  + glgroup"
+if [ ! -z $(command -v glgroup) ]; then
+  source <(glgroup bashcomplete)
+fi
