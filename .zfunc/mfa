@@ -26,11 +26,9 @@ function _punt() {
 }
 
 function _bwmfamessage() {
-local account="$1"
-local code="$2"
+local code="$1"
 cat << EOF
 Code copied to your clipboard
-  Account: ${account}
   Code   : ${code}
 EOF
 }
@@ -40,20 +38,18 @@ function mfa() {
 
   _bw_get_session
 
-  MFA_ACCOUNTS=$(bw --session "${BW_SESSION}" list items | jq '.[] | select(.login.totp!=null) | .name')
+  local header='Name|Id'
+  local items="$(bw --session "${BW_SESSION}" list items | jq -r '.[] | select(.login.totp!=null) | .name + "|" + .id')"
+  local table="$(echo ${header}$'\n'${items} | column -s '|' -t)"
 
-  (
-    local IFS=$'\n'
-    select account in $(echo "${MFA_ACCOUNTS}" | jq -rc .); do
-      local secret="$account"
-      local code=$(bw --session "${BW_SESSION}" get totp "$account")
-      _which xsel && echo -n "${code}" | xsel --primary --input
-      _which xsel && echo -n "${code}" | xsel --clipboard --input
-      _which pbcopy && echo -n "${code}" | pbcopy
-      _bwmfamessage "${account}" "${code}"
-      break;
-    done
-  )
+  local account=$(echo "${table}" | fzf --layout=reverse --header-lines=1)
+  local id=$(echo ${account} | perl -pe 's|.*(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})|$1|')
+
+  local code=$(bw --session "${BW_SESSION}" get totp "$id")
+  _which xsel && echo -n "${code}" | xsel --primary --input
+  _which xsel && echo -n "${code}" | xsel --clipboard --input
+  _which pbcopy && echo -n "${code}" | pbcopy
+  _bwmfamessage "${code}"
 }
 
 mfa "$@"
