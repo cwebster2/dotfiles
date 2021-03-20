@@ -182,9 +182,12 @@ install_emacs() {
   (
     cd "$HOME"
     sudo rm -rf "${HOME}/.emacs.d"
-    git clone "https://github.com/cwebster2/.emacs.d" "${HOME}/.emacs.d"
-    cd "${HOME}/.emacs.d"
-    git remote set-url origin git@github.com:cwebster2/.emacs.d
+    sudo rm -rf "${HOME}/.doom.d"
+    git clone "https://github.com/hlissner/doom-emacs" "${HOME}/.emacs.d"
+    git clone "https://github.com/cwebster2/.doom.d" "${HOME}/.doom.d"
+    "${HOME}/.emacs.d/bin/doom" install --yes
+    cd "${HOME}/.doom.d"
+    git remote set-url origin git@github.com:cwebster2/.doom.d
   )
 }
 
