@@ -1,0 +1,8 @@
+echo "Shutting down any remaining running docker containers...."
+docker rm --force $(docker ps -aq)
+echo "Pruning the entire docker build cache"
+docker builder prune --all --force
+echo "Removing any and all docker images/layers..."
+docker rmi --force $(docker image ls -aq)
+echo "Removing any and all docker volumes..."
+docker volume rm --force $(docker volume ls -q)
