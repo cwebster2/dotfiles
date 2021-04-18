@@ -46,6 +46,7 @@ install_rust() {
     sudo apt-get install -y
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
+    is_bin_in_path i3 && cargo install i3-auto-layout
     cargo install navi
     cargo install exa
   )
