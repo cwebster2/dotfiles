@@ -239,6 +239,8 @@ install_lsp_servers() {
   echo "Installing language servers"
   echo
   (
+    install_lsp_servers_npm
+
     echo "Fetching the terraform language server"
     TFLSVER=${TFLSVER:-0.12.1}
     TFLSARCH=${TFLSARCH:-amd64}
@@ -481,6 +483,7 @@ usage() {
   echo "  node                                - install node via nvm"
   echo "  tools                               - install golang, rust, and scripts"
   echo "  lsp                                 - install language servers for nvim"
+  echo "  update-npm-things                   - update various globally installed npm things"
 }
 
 main() {
@@ -510,6 +513,8 @@ main() {
     install_tools
   elif [[ $cmd == "lsp" ]]; then
     install_lsp_servers
+  elif [[ $cmd == "update-npm-things" ]]; then
+    install_lsp_servers_npm
   else
     usage
   fi
