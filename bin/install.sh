@@ -185,7 +185,7 @@ install_vim() {
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
 
-    "${HOME}"/.config/nvim/lspinstall.sh
+    "${HOME}"/.config/nvim/lspinstall.sh all
   )
 }
 
