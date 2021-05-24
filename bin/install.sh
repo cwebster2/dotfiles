@@ -174,13 +174,13 @@ install_vim() {
     sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
 
-    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
     fi
 
-    "${HOME}"/bin/nvim/AppRun -u NONE --headless \
+    "${HOME}"/bin/nvim/AppRun -u NONE \
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
@@ -196,7 +196,9 @@ install_emacs() {
     sudo rm -rf "${HOME}/.doom.d"
     git clone "https://github.com/hlissner/doom-emacs" "${HOME}/.emacs.d"
     git clone "https://github.com/cwebster2/.doom.d" "${HOME}/.doom.d"
-    #"${HOME}/.emacs.d/bin/doom" --yes install
+    "${HOME}/.emacs.d/bin/doom" env
+    "${HOME}/.emacs.d/bin/doom" --yes install
+    "${HOME}/.emacs.d/bin/doom" env -c
     cd "${HOME}/.doom.d"
     git remote set-url origin git@github.com:cwebster2/.doom.d
   )
@@ -216,6 +218,9 @@ install_zsh() {
     fi
     if  [ ! -d zsh-nvm ]; then
       git clone https://github.com/lukechilds/zsh-nvm zsh-nvm
+    fi
+    if  [ ! -d zsh-lazyload ]; then
+      git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
     fi
     cd "${HOME}/.oh-my-zsh/custom/themes"
     if  [ ! -d powerlevel10k ]; then
