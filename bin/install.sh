@@ -174,8 +174,18 @@ install_vim() {
     sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
 
-    "${HOME}"/bin/nvim/AppRun --headless +PackerCompile +qa
-    # this still needs to run PackerSync which doesnt seem to work headless
+    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+
+    if ! [ -d "$PACKER_DIRECTORY" ]; then
+      git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
+    fi
+
+    "${HOME}"/bin/nvim/AppRun -u NONE \
+      +'autocmd User PackerComplete quitall' \
+      +'lua require("plugins")' \
+      +'lua require("packer").sync()'
+
+    "${HOME}"/.config/nvim/lspinstall.sh all
   )
 }
 
@@ -186,7 +196,7 @@ install_emacs() {
     sudo rm -rf "${HOME}/.doom.d"
     git clone "https://github.com/hlissner/doom-emacs" "${HOME}/.emacs.d"
     git clone "https://github.com/cwebster2/.doom.d" "${HOME}/.doom.d"
-    #"${HOME}/.emacs.d/bin/doom" --yes install
+    "${HOME}/.emacs.d/bin/doom" --yes --no-env --no-fonts install
     cd "${HOME}/.doom.d"
     git remote set-url origin git@github.com:cwebster2/.doom.d
   )
@@ -207,6 +217,9 @@ install_zsh() {
     if  [ ! -d zsh-nvm ]; then
       git clone https://github.com/lukechilds/zsh-nvm zsh-nvm
     fi
+    if  [ ! -d zsh-lazyload ]; then
+      git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
+    fi
     cd "${HOME}/.oh-my-zsh/custom/themes"
     if  [ ! -d powerlevel10k ]; then
       git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k
@@ -214,82 +227,6 @@ install_zsh() {
   )
   echo "zsh installed"
   cd "$HOME"
-}
-
-install_lsp_servers_npm() {
-  echo
-  echo "Installing bash, docker, json, yaml, ts/js, and vimscript language servers"
-  echo
-  (
-    npm install --silent -g \
-      bash-language-server \
-      dockerfile-language-server-nodejs \
-      vscode-json-languageserver \
-      yaml-language-server \
-      typescript-language-server \
-      vim-language-server \
-      vls \
-      eslint_d
-  )
-}
-
-# break this up into multiple functions that can reinstall components e.g. when node is upgraded
-install_lsp_servers() {
-  echo
-  echo "Installing language servers"
-  echo
-  (
-    install_lsp_servers_npm
-
-    echo "Fetching the terraform language server"
-    TFLSVER=${TFLSVER:-0.12.31}
-    TFLSARCH=${TFLSARCH:-amd64}
-    curl -fLo "${HOME}"/bin/terraform-ls.zip "https://releases.hashicorp.com/terraform-ls/${TFLSVER}/terraform-ls_${TFLSVER}_linux_${TFLSARCH}.zip"
-    unzip "${HOME}"/bin/terraform-ls.zip -d "${HOME}"/bin
-    rm "${HOME}"/bin/terraform-ls.zip
-    chmod 755 "${HOME}"/bin/terraform-ls
-
-    echo "Fetching the rust analyzer language server"
-    rustup component add rust-src
-    curl -fLo "${HOME}"/bin/rust-analyzer "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux"
-    chmod 755 "${HOME}"/bin/rust-analyzer
-
-    echo "Building the tex language server"
-    cargo install --git https://github.com/latex-lsp/texlab.git --locked
-
-    echo "Installing the python language server"
-    pip install --quiet python-language-server
-
-    install_lsp_servers_npm
-
-    echo "Installing efm general purpose ls"
-    go get github.com/mattn/efm-langserver
-
-    echo "Building the lua language server"
-    (
-      sudo apt-get -y install ninja-build
-      mkdir -p "${HOME}"/src
-      cd "${HOME}"/src
-      git clone https://github.com/sumneko/lua-language-server
-      cd lua-language-server
-      git submodule update --init --recursive
-      cd 3rd/luamake
-      ninja -f ninja/linux.ninja
-      cd ../..
-      ./3rd/luamake/luamake rebuild
-    )
-
-    echo "Installing the go language server"
-    (
-      # this is needed because go get is bad
-      set -x
-      set +e
-      GO111MODULE=on go get golang.org/x/tools/gopls@latest
-    )
-
-    echo "Language servers installed"
-    cd "${HOME}"
-  )
 }
 
 install_misc() {
