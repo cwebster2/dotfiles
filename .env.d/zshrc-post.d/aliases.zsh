@@ -11,7 +11,9 @@ if [ ! -z $(command -v prettyping) ]; then
 fi
 
 if [ ! -z $(command -v exa) ]; then
-  alias ll='exa -l'
+  alias ls='exa --icons'
+  alias ll='ls -l'
+  alias lla='ls -la'
 fi
 
 alias bw_login="_bw_get_session; export BW_SESSION"
