@@ -169,7 +169,7 @@ assign [class="Google-chrome"] $ws3
 #assign [class="discord"] $ws1
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
-assign [class="Slack"] $ws1
+assign [class="Slack"] $ws10
 assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
@@ -307,7 +307,7 @@ bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaP
 exec --no-startup-id kdeconnect-indicator
 
 # notes
-exec --no-startup-id /home/casey/bin/Obsidian-0.6.0.AppImage --no-sandbox
+exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
 
 # Screen Shots
 bindsym Print exec "flameshot gui"
@@ -320,6 +320,7 @@ exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1.json'"
 exec --no-startup-id "i3-msg 'workspace 10♫; append_layout /home/casey/.i3/workspace-10.json'"
 
+exec --no-startup-id i3-auto-layout &
 exec kitty --session ~/.i3/default-kitty-session
 exec discord
 exec google-chrome --use-gl=desktop
