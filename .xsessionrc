@@ -1,1 +1,5 @@
 source ~/.fonts/fontawesome/*.sh
+
+if [ -f "${HOME}/.config/i3/config.$(hostname)" ]; then
+  ln -s "${HOME}/.config/i3/config.$(hostname)" "${HOME}/.config/i3/config"
+fi
