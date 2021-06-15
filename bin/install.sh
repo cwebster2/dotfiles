@@ -180,7 +180,7 @@ install_vim() {
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
     fi
 
-    "${HOME}"/bin/nvim/AppRun -u NONE \
+    "${HOME}"/bin/nvim/AppRun -u NONE --headless \
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
@@ -196,7 +196,7 @@ install_emacs() {
     sudo rm -rf "${HOME}/.doom.d"
     git clone "https://github.com/hlissner/doom-emacs" "${HOME}/.emacs.d"
     git clone "https://github.com/cwebster2/.doom.d" "${HOME}/.doom.d"
-    "${HOME}/.emacs.d/bin/doom" --yes --no-env --no-fonts install
+    "${HOME}/.emacs.d/bin/doom" --yes install --no-env --no-fonts
     cd "${HOME}/.doom.d"
     git remote set-url origin git@github.com:cwebster2/.doom.d
   )
@@ -375,10 +375,6 @@ install_tools() {
   echo
   install_python;
   echo
-  echo "Installing emacs dotfiles..."
-  echo
-  install_emacs;
-  echo
   echo "Installing dbus socket..."
   echo
 
@@ -399,11 +395,6 @@ install_tools() {
   source ${HOME}/.env.d/zshenv.d/paths.zsh
 
   echo
-  echo "Installing vim environment and dotfiles..."
-  echo
-  install_vim;
-
-  echo
   echo "Installing user programs..."
   echo
   install_misc;
@@ -414,6 +405,7 @@ usage() {
   echo "Usage:"
   echo "  dotfiles                            - get dotfiles"
   echo "  vim                                 - install vim specific dotfiles"
+  echo "  emacs                               - install emacs specific dotfiles"
   echo "  golang                              - install golang and packages"
   echo "  rust                                - install rust"
   echo "  python                              - install Python 3 (miniconda)"
@@ -434,6 +426,8 @@ main() {
     get_dotfiles
   elif [[ $cmd == "vim" ]]; then
     install_vim
+  elif [[ $cmd == "emacs" ]]; then
+    install_emacs
   elif [[ $cmd == "rust" ]]; then
     install_rust
   elif [[ $cmd == "node" ]]; then
