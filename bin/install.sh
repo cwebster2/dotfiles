@@ -360,7 +360,7 @@ install_python() {
   )
   (
     source ${HOME}/miniconda3/bin/activate
-    pip install --quiet neovim azure-cli awscli
+    pip install --quiet neovim azure-cli awscli docker
     conda install -y psutil netifaces dbus-python pango
   )
 }
