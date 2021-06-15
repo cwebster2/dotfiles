@@ -13,7 +13,10 @@ source ~/miniconda3/bin/activate
   cpu2.temp_pattern="temp1_input" \
   shell.command='echo ⌨ $(upower -i /org/freedesktop/UPower/devices/keyboard_dev_CA_D5_E5_3F_FA_06 | grep percentage | cut -f2 -d: | tr -d " %")%' \
   shell.interval="60" \
-  -t iceberg-dark-powerline  \
-  --markup=pango
+  spotify.layout="spotify.song" \
+  spotify.concise_controls="1" \
+  -t iceberg-dark-powerline
+  # --markup=pango
 #  -t wal-powerline
+# docker_ps
   #-t solarized-dark-awesome \
