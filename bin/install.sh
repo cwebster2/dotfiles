@@ -259,7 +259,7 @@ install_misc() {
   echo
   (
     cd "${HOME}/src"
-    git clone https://github.com/tobi-wan-kenobi/bumblebee-status
+    git clone --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
   )
 
   # qmk_firmware prusaslicer Lector wally
