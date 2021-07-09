@@ -337,6 +337,21 @@ EOF
   )
 }
 
+install_terraform() {
+  (
+    mkdir -p "${HOME}/src"
+    pushd "${HOME}/src" 2>/dev/null
+    git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+    popd 2>/dev/null
+    pushd "${HOME}/bin" 2>/dev/null
+    ln -s /home/casey/src/tfenv/bin/terraform .
+    ln -s /home/casey/src/tfenv/bin/tfenv .
+    "${HOME}/bin/tfenv" install 0.12.31
+    "${HOME}/bin/tfenv" use 0.12.31
+    popd 2>/dev/null
+  )
+}
+
 install_node() {
   (
     source ${HOME}/.nvm/nvm.sh
@@ -390,6 +405,11 @@ install_tools() {
   echo "Installing rust..."
   echo
   install_rust;
+
+  echo
+  echo "Installing terraform"
+  echo
+  install_terraform;
 
   # re-set paths now that rust and go are installed
   source ${HOME}/.env.d/zshenv.d/paths.zsh
