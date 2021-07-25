@@ -44,15 +44,14 @@ _chmod () {
 TMP_SSH_KEY_DIR="/run/user/$(id -u)/.ssh"
 
 add_key () {
-  echo Installing Key: $2
-  echo Fix for bitwarden use
-  #lpass show "$1" --field "Private Key" > "${TMP_SSH_KEY_DIR}/$2"
-  #lpass show "$1" --field "Public Key" > "${TMP_SSH_KEY_DIR}/$2.pub"
-  #_purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2"
-  #_purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
-  #_chmod 400 "${TMP_SSH_KEY_DIR}/$2"
-  #_chmod 400 "${TMP_SSH_KEY_DIR}/$2.pub"
-  #ssh-add "${TMP_SSH_KEY_DIR}/$2"
+  echo Installing Key: "${2}" \("${1}"\)
+  bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Private Key:\(.*\)Public.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2"
+  bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Public Key:\(.*\)Host.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2.pub"
+  _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2"
+  _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
+  _chmod 400 "${TMP_SSH_KEY_DIR}/$2"
+  _chmod 400 "${TMP_SSH_KEY_DIR}/$2.pub"
+  ssh-add "${TMP_SSH_KEY_DIR}/$2"
 }
 
 keyme () {
@@ -79,6 +78,7 @@ keyme () {
   for key_and_name in $(echo "${KEYME_KEYS_TO_LOAD}"); do
     local id=$(echo $key_and_name | awk '{print $1}')
     local name=$(echo $key_and_name | awk '{print $2}')
+    echo "adding key ${id} with name ${name}"
     add_key "${id}" "${name}"
   done
   SSHPDIR=${HOME}/.ssh-persistant
