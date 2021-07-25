@@ -262,7 +262,7 @@ client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color      
 
 #163
 exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 0x0 --rotate normal --dpi 136 --output DP-3 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --dpi 136 --output DP-5 --off
-exec --no-startup-id compton --config ~/.config/compton/compton.conf
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # These work
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
