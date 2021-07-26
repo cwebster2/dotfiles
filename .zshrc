@@ -119,6 +119,9 @@ autoload -Uz $fpath[1]/*(.:t)
 #
 export DOTFILESBRANCH="master"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dfa="dotfile status --short | grep -e '^.M' | awk '{print \$2}' | fzf --multi --height 90% --print0 --preview 'git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff --color {}' | xargs -0 -t -o git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add"
+alias dfc="dotfile commit -v"
+alias dfs="dotfile status"
 alias luamake=/home/casey/src/lua-language-server/3rd/luamake/luamake
 
 # Fix windows 777 colors
