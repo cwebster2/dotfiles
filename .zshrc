@@ -119,6 +119,7 @@ autoload -Uz $fpath[1]/*(.:t)
 #
 export DOTFILESBRANCH="master"
 alias dotfile='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias luamake=/home/casey/src/lua-language-server/3rd/luamake/luamake
 
 # Fix windows 777 colors
 export LS_COLORS='ow=01;36;40'
@@ -134,6 +135,3 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-alias luamake=/home/casey/src/lua-language-server/3rd/luamake/luamake
