@@ -215,7 +215,7 @@ client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color      
 #}
 
 exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --dpi 100 --rotate normal --output DP-1 --off --output HDMI-0 --off --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
-exec --no-startup-id compton --config ~/.config/compton/compton.conf
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # These work
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
