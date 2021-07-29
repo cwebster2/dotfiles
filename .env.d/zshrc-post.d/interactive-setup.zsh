@@ -16,3 +16,5 @@ fi
 if [ ! -z $(command -v bw) ]; then
   source <(bw completion --shell zsh)
 fi
+
+export DOCKER_BUILDKIT=1
