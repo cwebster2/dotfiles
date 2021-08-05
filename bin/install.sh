@@ -47,8 +47,12 @@ install_rust() {
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
-    cargo install navi
-    cargo install exa
+    cargo install \
+      navi \
+      exa \
+      fnm \
+      ripgrep \
+      bat
   )
 }
 
@@ -213,9 +217,6 @@ install_zsh() {
     cd "${HOME}/.oh-my-zsh/custom/plugins"
     if  [ ! -d zsh-autosuggestions ]; then
       git clone https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
-    fi
-    if  [ ! -d zsh-nvm ]; then
-      git clone https://github.com/lukechilds/zsh-nvm zsh-nvm
     fi
     if  [ ! -d zsh-lazyload ]; then
       git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
