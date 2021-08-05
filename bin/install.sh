@@ -290,6 +290,15 @@ EOF
   )
 
   echo
+  echo "Installing ranger"
+  echo
+  
+  (
+    sudo apt-get install -y ranger
+    echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
+  )
+
+  echo
   echo "Installing Discord"
   echo
   (
@@ -355,8 +364,9 @@ install_terraform() {
 
 install_node() {
   (
-    source ${HOME}/.nvm/nvm.sh
-    nvm install node
+    eval "$(fnm env)"
+    fnm install --lts
+    fnm use default
     npm install --silent -g \
       typescript \
       eslint \
