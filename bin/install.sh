@@ -290,6 +290,15 @@ EOF
   )
 
   echo
+  echo "Installing ranger"
+  echo
+  
+  (
+    sudo apt-get install -y ranger
+    echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
+  )
+
+  echo
   echo "Installing Discord"
   echo
   (
