@@ -38,8 +38,11 @@ function is_bin_in_path {
   builtin type -P "$1" &> /dev/null
 }
 
-# install rust
+
 install_rust() {
+  echo
+  echo "Installing rust..."
+  echo
   (
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
@@ -63,8 +66,10 @@ install_rust() {
   )
 }
 
-# install/update golang from source
 install_golang() {
+  echo
+  echo "Installing golang..."
+  echo
   export GO_VERSION
   GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
   export GO_SRC=/usr/local/go
@@ -94,9 +99,9 @@ install_golang() {
   )
 
   export PATH=/usr/local/go/bin:${GOPATH}/bin:${PATH}
-  # get commandline tools
   (
     set -x
+    # go get returns non zereo on some cases that we do not want to abort on
     set +e
     go get golang.org/x/lint/golint
     go get golang.org/x/tools/cmd/cover
@@ -123,7 +128,7 @@ install_golang() {
   )
 }
 
-get_dotfiles() {
+install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
@@ -237,9 +242,7 @@ install_zsh() {
   cd "$HOME"
 }
 
-install_misc() {
-  mkdir -p "${HOME}/src"
-
+install_fzf() {
   echo
   echo "Install fzf"
   echo
@@ -247,22 +250,29 @@ install_misc() {
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
     ${HOME}/.fzf/install --no-update-rc --key-bindings --completion
   )
+}
 
+install_delta() {
   echo
   echo "Configure delta"
   echo
   (
     git config --global core.pager 'delta --dark --plus-color="#012800" --minus-color="#340001"'
   )
+}
 
+install_wm_status() {
   echo
   echo "Install Bumblebee-status"
   echo
   (
+    mkdir -p "${HOME}/src"
     cd "${HOME}/src"
     git clone --depth 1 --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
   )
+}
 
+install_ergodox() {
   # qmk_firmware prusaslicer Lector wally
   echo
   echo "Installing ergodox keyboard stuff"
@@ -279,7 +289,20 @@ EOF
   wget -q 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
   chmod 755 "${HOME}/bin/wally"
   )
+}
 
+install_ranger() {
+  echo
+  echo "Installing ranger"
+  echo
+
+  (
+    sudo apt-get install -y ranger
+    echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
+  )
+}
+
+install_azuredatastudio() {
   echo
   echo "Installing azuredatastudio"
   echo
@@ -288,16 +311,9 @@ EOF
     sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
     sudo apt-get install -f
   )
+}
 
-  echo
-  echo "Installing ranger"
-  echo
-  
-  (
-    sudo apt-get install -y ranger
-    echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
-  )
-
+install_discord() {
   echo
   echo "Installing Discord"
   echo
@@ -306,7 +322,9 @@ EOF
     sudo snap install discord
     echo "Done"
   )
+}
 
+install_docker_cred_helper(){
   echo
   echo "Installing docker credential helper"
   echo
@@ -325,6 +343,19 @@ EOF
     }
 EOF
   )
+}
+
+install_misc() {
+
+  source ${HOME}/.env.d/zshenv.d/paths.zsh
+  install_fzf
+  install_delta
+  install_wm_status
+  install_ergodox
+  install_ranger
+  install_azuredatastudio
+  install_discord
+  install_docker_cred_helper
 
   echo
   echo "Setting up symlinks"
@@ -345,9 +376,19 @@ sleep-inactive-ac-timeout=0
 sleep-inactive-ac-type='nothing'
 EOF
   )
+
+  echo
+  echo "Installing dbus socket..."
+  echo
+
+  # enable dbus for the user session
+  systemctl --user enable dbus.socket
 }
 
 install_terraform() {
+  echo
+  echo "Installing terraform"
+  echo
   (
     mkdir -p "${HOME}/src"
     pushd "${HOME}/src" 2>/dev/null
@@ -356,17 +397,20 @@ install_terraform() {
     pushd "${HOME}/bin" 2>/dev/null
     ln -s /home/casey/src/tfenv/bin/terraform .
     ln -s /home/casey/src/tfenv/bin/tfenv .
-    "${HOME}/bin/tfenv" install 0.12.31
-    "${HOME}/bin/tfenv" use 0.12.31
+    "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.3}
+    "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.3}
     popd 2>/dev/null
   )
 }
 
 install_node() {
+  echo
+  echo "Installing node..."
+  echo
   (
     eval "$(fnm env)"
     fnm install --lts
-    fnm use default
+    # fnm use default
     npm install --silent -g \
       typescript \
       eslint \
@@ -378,6 +422,9 @@ install_node() {
 }
 
 install_python() {
+  echo
+  echo "Installing python..."
+  echo
   (
     cd ${HOME}
     wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -392,43 +439,14 @@ install_python() {
 }
 
 install_tools() {
-  echo
-  echo "Installing node..."
-  echo
   install_node;
-  echo
-  echo "Installing python..."
-  echo
   install_python;
-  echo
-  echo "Installing dbus socket..."
-  echo
-
-  # enable dbus for the user session
-  systemctl --user enable dbus.socket
-
-  echo
-  echo "Installing golang..."
-  echo
   install_golang "go1.15.7";
-
-  echo
-  echo "Installing rust..."
-  echo
   install_rust;
-
-  echo
-  echo "Installing terraform"
-  echo
   install_terraform;
-
-  # re-set paths now that rust and go are installed
-  source ${HOME}/.env.d/zshenv.d/paths.zsh
-
-  echo
-  echo "Installing user programs..."
-  echo
   install_misc;
+
+
 }
 
 usage() {
@@ -454,7 +472,7 @@ main() {
 
   if [[ $cmd == "dotfiles" ]]; then
     get_user
-    get_dotfiles
+    install_dotfiles
   elif [[ $cmd == "vim" ]]; then
     install_vim
   elif [[ $cmd == "emacs" ]]; then
