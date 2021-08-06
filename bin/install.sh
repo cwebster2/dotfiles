@@ -52,7 +52,14 @@ install_rust() {
       exa \
       fnm \
       ripgrep \
-      bat
+      bat \
+      du-dust \
+      pastel \
+      toupgrade \
+      zoxide \
+      git-delta \
+      gping \
+      fd-find
   )
 }
 
@@ -242,16 +249,9 @@ install_misc() {
   )
 
   echo
-  echo "Install delta"
+  echo "Configure delta"
   echo
   (
-    DELTA_VERSION="0.0.17"
-    TEMPDIR=$(mktemp -d)
-    pushd ${TEMPDIR} 2> /dev/null
-    wget -qO- "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/delta-${DELTA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" | tar xvz
-    cp "delta-${DELTA_VERSION}-x86_64-unknown-linux-gnu/delta" ${HOME}/bin
-    popd 2> /dev/null
-    rm -rf ${TEMPDIR}
     git config --global core.pager 'delta --dark --plus-color="#012800" --minus-color="#340001"'
   )
 
@@ -260,7 +260,7 @@ install_misc() {
   echo
   (
     cd "${HOME}/src"
-    git clone --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
+    git clone --depth 1 --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
   )
 
   # qmk_firmware prusaslicer Lector wally
