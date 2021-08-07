@@ -439,10 +439,11 @@ install_python() {
 }
 
 install_tools() {
+  # rust first, it install fnm, needed for node
+  install_rust;
   install_node;
   install_python;
   install_golang "go1.15.7";
-  install_rust;
   install_terraform;
   install_misc;
 
