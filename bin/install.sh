@@ -58,7 +58,7 @@ install_rust() {
       bat \
       du-dust \
       pastel \
-      toupgrade \
+      topgrade \
       zoxide \
       git-delta \
       gping \
@@ -392,11 +392,11 @@ install_terraform() {
   (
     mkdir -p "${HOME}/src"
     pushd "${HOME}/src" 2>/dev/null
-    git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+    git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
     popd 2>/dev/null
     pushd "${HOME}/bin" 2>/dev/null
-    ln -s /home/casey/src/tfenv/bin/terraform .
-    ln -s /home/casey/src/tfenv/bin/tfenv .
+    ln -s "${HOME}/.tfenv/bin/terraform" .
+    ln -s "${HOME}/.tfenv/bin/tfenv" .
     "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.3}
     "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.3}
     popd 2>/dev/null
@@ -441,6 +441,7 @@ install_python() {
 install_tools() {
   # rust first, it install fnm, needed for node
   install_rust;
+  export PATH=${HOME}/.cargo/bin:$PATH
   install_node;
   install_python;
   install_golang "go1.15.7";
