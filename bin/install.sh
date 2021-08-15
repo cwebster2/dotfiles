@@ -2,6 +2,7 @@
 set -e
 set -o pipefail
 
+# TODO genenralize.  nvim setup
 export DEBIAN_FRONTEND=noninteractive
 export APT_LISTBUGS_FRONTEND=none
 export TARGET_USER=${TARGET_USER:-casey}
@@ -44,7 +45,7 @@ install_rust() {
   echo "Installing rust..."
   echo
   (
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
     (
       set +e
