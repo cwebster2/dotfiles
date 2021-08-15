@@ -182,6 +182,8 @@ install_vim() {
       mv squashfs-root nvim
       popd 2>/dev/null
     )
+    (
+       set +e
     sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
     sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
@@ -190,7 +192,7 @@ install_vim() {
     sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
     sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
     sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
-
+    )
     PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
