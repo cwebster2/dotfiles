@@ -308,11 +308,11 @@ install_azuredatastudio() {
   echo
   echo "Installing azuredatastudio"
   echo
-  (
+  # (
     # wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
     # sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
     # sudo apt-get install -f
-  )
+  # )
 }
 
 install_discord() {
