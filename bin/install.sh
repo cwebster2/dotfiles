@@ -46,7 +46,10 @@ install_rust() {
   (
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
-    sudo apt-get install -y
+    (
+      set +e
+      sudo apt-get install -y
+    )
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
@@ -132,8 +135,6 @@ install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
-    sudo apt-get install kitty-terminfo
-    #todo install ssh key from lastpass
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
@@ -297,7 +298,6 @@ install_ranger() {
   echo
 
   (
-    sudo apt-get install -y ranger
     echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
   )
 }
@@ -307,9 +307,9 @@ install_azuredatastudio() {
   echo "Installing azuredatastudio"
   echo
   (
-    wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
-    sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
-    sudo apt-get install -f
+    # wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
+    # sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
+    # sudo apt-get install -f
   )
 }
 
