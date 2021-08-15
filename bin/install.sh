@@ -135,6 +135,7 @@ install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
+    rm -f ~/.zshrc
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
