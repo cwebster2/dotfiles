@@ -2,8 +2,6 @@
 set -e
 set -o pipefail
 
-export DEBIAN_FRONTEND=noninteractive
-export APT_LISTBUGS_FRONTEND=none
 export TARGET_USER=${TARGET_USER:-casey}
 
 # Choose a user account to use for this installation
@@ -44,9 +42,8 @@ install_rust() {
   echo "Installing rust..."
   echo
   (
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
-    sudo apt-get install -y
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
@@ -132,8 +129,6 @@ install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
-    sudo apt-get install kitty-terminfo
-    #todo install ssh key from lastpass
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
@@ -173,24 +168,30 @@ install_vim() {
 
     # update alternatives to vim
     curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-    # Todo detect if docker and only do this if so
-    (
-      pushd "$HOME"/bin 2>/dev/null
-      chmod +x ./nvim.appimage
-      ./nvim.appimage --appimage-extract
-      mv squashfs-root nvim
-      popd 2>/dev/null
-    )
-    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
+    # # Todo detect if docker and only do this if so
+    # (
+    #   pushd "$HOME"/bin 2>/dev/null
+    #   chmod +x ./nvim.appimage
+    #   ./nvim.appimage --appimage-extract
+    #   mv squashfs-root nvim
+    #   popd 2>/dev/null
+    # )
 
-    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/nvim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vi"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/editor"
+
+    # sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
+
+    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
@@ -202,6 +203,7 @@ install_vim() {
       +'lua require("packer").sync()'
 
     "${HOME}"/.config/nvim/lspinstall.sh all
+    "${HOME}"/.config/nvim/dapinstall.sh all
   )
 }
 
@@ -293,23 +295,11 @@ EOF
 
 install_ranger() {
   echo
-  echo "Installing ranger"
+  echo "Configure ranger"
   echo
 
   (
-    sudo apt-get install -y ranger
     echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
-  )
-}
-
-install_azuredatastudio() {
-  echo
-  echo "Installing azuredatastudio"
-  echo
-  (
-    wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
-    sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
-    sudo apt-get install -f
   )
 }
 
@@ -326,16 +316,9 @@ install_discord() {
 
 install_docker_cred_helper(){
   echo
-  echo "Installing docker credential helper"
+  echo "Configure docker credential helper"
   echo
   (
-    export GOPATH=$(go env GOPATH)
-    set +e
-    go get github.com/docker/docker-credential-helpers
-    cd ${GOPATH}/src/github.com/docker/docker-credential-helpers
-    make secretservice
-    ln -s ${PWD}/bin/docker-credential-secretservice ${GOPATH}/bin
-
     mkdir -p  ${HOME}/.docker
     cat <<- EOF > ${HOME}/.docker/config.json
     {
@@ -353,7 +336,6 @@ install_misc() {
   install_wm_status
   install_ergodox
   install_ranger
-  install_azuredatastudio
   install_discord
   install_docker_cred_helper
 
@@ -444,7 +426,7 @@ install_tools() {
   export PATH=${HOME}/.cargo/bin:$PATH
   install_node;
   install_python;
-  install_golang "go1.15.7";
+  install_golang;
   install_terraform;
   install_misc;
 
