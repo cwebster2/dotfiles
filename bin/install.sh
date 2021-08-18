@@ -117,6 +117,7 @@ install_golang() {
     go get github.com/nsf/gocode
     go get github.com/rogpeppe/godef
     go get -u github.com/sourcegraph/go-langserver
+    go get github.com/sachaos/viddy
 
     # symlink weather binary for motd
     sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
