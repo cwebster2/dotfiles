@@ -1,0 +1,318 @@
+set $gnome-schema org.gnome.desktop.interface
+set $mod Mod4
+set $term kitty
+
+exec_always {
+  gsettings $gnome-schema gtk-theme 'Materia-dark'
+}
+
+bar {
+    status_command /home/casey/.config/i3/bumblebee-status.sh
+    mode dock
+    position top
+    tray_output primary
+    tray_padding 2
+    font pango:Hack Nerd Font 8
+    strip_workspace_numbers yes
+    strip_workspace_name no
+}
+
+font pango:Hack Nerd Font Mono 8
+output * bg ~/.config/i3/wallpaper.jpg fill
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec --no-startup-id $term
+
+default_border pixel 0
+
+# kill focused window
+bindsym $mod+q kill
+
+bindsym $mod+l exec --no-startup-id swaylock -f -c 000000
+
+# start dmenu (a program launcher)
+bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi | xargs swaymsg exec --
+
+# clipboard history and management
+exec --no-startup-id greenclip daemon
+bindsym $mod+Ctrl+r exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' | xargs swaymsg exec --
+
+# SSH launcher thing.
+bindsym $mod+g exec rofi -show ssh | xargs swaymsg exec --
+
+# spotify: no border
+for_window [class="^Spotify$"] border none
+for_window [class="^Spotify Premium$"] border none
+
+
+# change focus
+bindsym $mod+m focus left
+bindsym $mod+n focus down
+bindsym $mod+e focus up
+bindsym $mod+i focus right
+
+# move focus to monitor
+#bindsym $mod+shift+ focus output DP-2
+#bindsym $mod+shift+ focus output DP-0
+#bindsym $mod+shift+ focus output DP-4
+
+# move to monitor
+bindsym $mod+Ctrl+Left move workspace to output left
+bindsym $mod+Ctrl+Right move workspace to output right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+m move left
+bindsym $mod+Shift+n move down
+bindsym $mod+Shift+e move up
+bindsym $mod+Shift+i move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+p layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Kill and reload dunst.
+bindsym $mod+Shift+d --release exec --no-startup-id "killall dunst;notify-send test test"
+
+#bindsym $mod+Ctrl+m exec --no-startup-id i3resize left
+#bindsym $mod+Ctrl+n exec --no-startup-id i3resize down
+#bindsym $mod+Ctrl+e exec --no-startup-id i3resize up
+#bindsym $mod+Ctrl+i exec --no-startup-id i3resize right
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9🐱‍💻"
+set $ws10 "10♫"
+
+workspace $ws1 output DP-2
+workspace $ws2 output DP-4
+workspace $ws3 output DP-0
+workspace $ws4 output DP-4
+workspace $ws5 output DP-0
+workspace $ws6 output DP-4
+workspace $ws7 output DP-4
+workspace $ws8 output DP-4
+workspace $ws9 output DP-0
+workspace $ws10 output DP-2
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+assign [class="kitty"] $ws2
+assign [class="Google-chrome"] $ws3
+#assign [class="discord"] $ws1
+assign [class="Code"] $ws4
+assign [class="zoom"] $ws6
+assign [class="Slack"] $ws10
+assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
+assign [class="Steam"] $ws8
+assign [class="Lutris"] $ws8
+assign [class="Spotify"] $ws10
+assign [class="Spotify Premium"] $ws10
+#assign [class="teams.microsoft.com"] $ws1
+#assign [class="outlook.office365.com"] $ws1
+
+# skype, steam, wine: float Gimp
+for_window [class="zoom"] floating enable
+for_window [class="Lutris"] floating enable
+for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
+for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
+for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
+for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
+for_window [class="obsidian"] move scratchpad
+#for_window [class="filemanager"] floating enable
+#for_window [class="Code"] floating enable
+#for_window [class="Firefox"] floating enable
+#for_window [class="Gimp"] floating enable
+#for_window [class="google-chrome"] floating enable
+#for_window [class="Google-chrome"] floating enable
+#for_window [class="Keybase"] floating enable
+#for_window [class="Neoman"] floating enable
+#for_window [class="NES"] floating enable
+#for_window [class="Pidgin"] floating enable
+#for_window [class="Portal"] floating enable
+#for_window [class="RStudio"] floating enable
+#for_window [class="Skype"] floating enable
+#for_window [class="Slack"] floating enable
+for_window [class="Steam"] floating enable
+#for_window [class="Tor Browser"] floating enable
+#for_window [class="Virt-viewer"] floating enable
+#for_window [class="VirtualBox"] floating enable
+#for_window [class="vlc"] floating enable
+#for_window [class="Wine"] floating enable
+#for_window [class="Wireshark"] floating enable
+
+bindsym $mod+Shift+j move scratchpad
+bindsym $mod+j scratchpad show
+bindsym $mod+b [class="obsidian"] scratchpad show
+#
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+Q exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'"
+
+bindsym $mod+Tab workspace back_and_forth
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym m resize shrink width 10 px or 10 ppt
+        bindsym n resize grow height 10 px or 10 ppt
+        bindsym e resize shrink height 10 px or 10 ppt
+        bindsym i resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+z mode "resize"
+
+set $bg-color            #31363b
+set $inactive-bg-color   #31363b
+set $text-color          #fcfcfc
+set $inactive-text-color #95a5a6
+set $urgent-bg-color     #f67400
+
+#                        border             bground            text                 ind
+client.focused           $bg-color          $bg-color          $text-color          #00ff00
+client.unfocused         $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive  $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
+
+#163
+exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 0x0 --rotate normal --dpi 136 --output DP-3 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --dpi 136 --output DP-5 --off
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+
+# These work
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# These don't work
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Need to test
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# doesnt work
+#bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
+#bindsym XF86Suspend exec --no-startup-id $lockscreen
+
+#exec gnome-settings-daemon
+#exec gnome-keyring-daemon
+
+
+# Global hotkey to play/pause Spotify.
+bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+
+# Do the KDE connect thing.
+exec --no-startup-id kdeconnect-indicator
+
+# notes
+exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
+
+# Screen Shots
+bindsym Print exec "flameshot gui"
+bindsym Control+Print exec "flameshot screen -r -c"
+
+#exec --no-startup-id /home/casey/.config/i3/autolock.sh &
+# Syncthing!
+#exec --no-startup-id "syncthing -no-browser"
+
+exec --no-startup-id "swaymsg 'workspace 1; append_layout /home/casey/.i3/workspace-1.json'"
+exec --no-startup-id "swaymsg 'workspace 10♫; append_layout /home/casey/.i3/workspace-10.json'"
+
+#exec_always --no-startup-id i3-auto-layout &
+#exec kitty --session ~/.i3/default-kitty-session
+#exec discord
+#exec google-chrome --use-gl=desktop
+#exec slack
+#exec spotify
+#exec teams
+##exec zoom
+#exec steam
