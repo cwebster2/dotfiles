@@ -2,8 +2,6 @@
 set -e
 set -o pipefail
 
-export DEBIAN_FRONTEND=noninteractive
-export APT_LISTBUGS_FRONTEND=none
 export TARGET_USER=${TARGET_USER:-casey}
 
 # Choose a user account to use for this installation
@@ -38,12 +36,14 @@ function is_bin_in_path {
   builtin type -P "$1" &> /dev/null
 }
 
-# install rust
+
 install_rust() {
+  echo
+  echo "Installing rust..."
+  echo
   (
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
-    sudo apt-get install -y
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
@@ -55,7 +55,7 @@ install_rust() {
       bat \
       du-dust \
       pastel \
-      toupgrade \
+      topgrade \
       zoxide \
       git-delta \
       gping \
@@ -63,8 +63,10 @@ install_rust() {
   )
 }
 
-# install/update golang from source
 install_golang() {
+  echo
+  echo "Installing golang..."
+  echo
   export GO_VERSION
   GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
   export GO_SRC=/usr/local/go
@@ -94,9 +96,9 @@ install_golang() {
   )
 
   export PATH=/usr/local/go/bin:${GOPATH}/bin:${PATH}
-  # get commandline tools
   (
     set -x
+    # go get returns non zereo on some cases that we do not want to abort on
     set +e
     go get golang.org/x/lint/golint
     go get golang.org/x/tools/cmd/cover
@@ -124,12 +126,10 @@ install_golang() {
   )
 }
 
-get_dotfiles() {
+install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
-    sudo apt-get install kitty-terminfo
-    #todo install ssh key from lastpass
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
@@ -169,24 +169,30 @@ install_vim() {
 
     # update alternatives to vim
     curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-    # Todo detect if docker and only do this if so
-    (
-      pushd "$HOME"/bin 2>/dev/null
-      chmod +x ./nvim.appimage
-      ./nvim.appimage --appimage-extract
-      mv squashfs-root nvim
-      popd 2>/dev/null
-    )
-    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
-    sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
+    # # Todo detect if docker and only do this if so
+    # (
+    #   pushd "$HOME"/bin 2>/dev/null
+    #   chmod +x ./nvim.appimage
+    #   ./nvim.appimage --appimage-extract
+    #   mv squashfs-root nvim
+    #   popd 2>/dev/null
+    # )
 
-    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/nvim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vi"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/editor"
+
+    # sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
+    # sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
+    # sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
+
+    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
@@ -198,6 +204,7 @@ install_vim() {
       +'lua require("packer").sync()'
 
     "${HOME}"/.config/nvim/lspinstall.sh all
+    "${HOME}"/.config/nvim/dapinstall.sh all
   )
 }
 
@@ -238,9 +245,7 @@ install_zsh() {
   cd "$HOME"
 }
 
-install_misc() {
-  mkdir -p "${HOME}/src"
-
+install_fzf() {
   echo
   echo "Install fzf"
   echo
@@ -248,22 +253,29 @@ install_misc() {
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
     ${HOME}/.fzf/install --no-update-rc --key-bindings --completion
   )
+}
 
+install_delta() {
   echo
   echo "Configure delta"
   echo
   (
     git config --global core.pager 'delta --dark --plus-color="#012800" --minus-color="#340001"'
   )
+}
 
+install_wm_status() {
   echo
   echo "Install Bumblebee-status"
   echo
   (
+    mkdir -p "${HOME}/src"
     cd "${HOME}/src"
     git clone --depth 1 --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
   )
+}
 
+install_ergodox() {
   # qmk_firmware prusaslicer Lector wally
   echo
   echo "Installing ergodox keyboard stuff"
@@ -280,25 +292,19 @@ EOF
   wget -q 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
   chmod 755 "${HOME}/bin/wally"
   )
+}
 
+install_ranger() {
   echo
-  echo "Installing azuredatastudio"
+  echo "Configure ranger"
   echo
-  (
-    wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
-    sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
-    sudo apt-get install -f
-  )
 
-  echo
-  echo "Installing ranger"
-  echo
-  
   (
-    sudo apt-get install -y ranger
     echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
   )
+}
 
+install_discord() {
   echo
   echo "Installing Discord"
   echo
@@ -307,18 +313,13 @@ EOF
     sudo snap install discord
     echo "Done"
   )
+}
 
+install_docker_cred_helper(){
   echo
-  echo "Installing docker credential helper"
+  echo "Configure docker credential helper"
   echo
   (
-    export GOPATH=$(go env GOPATH)
-    set +e
-    go get github.com/docker/docker-credential-helpers
-    cd ${GOPATH}/src/github.com/docker/docker-credential-helpers
-    make secretservice
-    ln -s ${PWD}/bin/docker-credential-secretservice ${GOPATH}/bin
-
     mkdir -p  ${HOME}/.docker
     cat <<- EOF > ${HOME}/.docker/config.json
     {
@@ -326,6 +327,18 @@ EOF
     }
 EOF
   )
+}
+
+install_misc() {
+
+  source ${HOME}/.env.d/zshenv.d/paths.zsh
+  install_fzf
+  install_delta
+  install_wm_status
+  install_ergodox
+  install_ranger
+  install_discord
+  install_docker_cred_helper
 
   echo
   echo "Setting up symlinks"
@@ -346,28 +359,41 @@ sleep-inactive-ac-timeout=0
 sleep-inactive-ac-type='nothing'
 EOF
   )
+
+  echo
+  echo "Installing dbus socket..."
+  echo
+
+  # enable dbus for the user session
+  systemctl --user enable dbus.socket
 }
 
 install_terraform() {
+  echo
+  echo "Installing terraform"
+  echo
   (
     mkdir -p "${HOME}/src"
     pushd "${HOME}/src" 2>/dev/null
-    git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+    git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
     popd 2>/dev/null
     pushd "${HOME}/bin" 2>/dev/null
-    ln -s /home/casey/src/tfenv/bin/terraform .
-    ln -s /home/casey/src/tfenv/bin/tfenv .
-    "${HOME}/bin/tfenv" install 0.12.31
-    "${HOME}/bin/tfenv" use 0.12.31
+    ln -s "${HOME}/.tfenv/bin/terraform" .
+    ln -s "${HOME}/.tfenv/bin/tfenv" .
+    "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.3}
+    "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.3}
     popd 2>/dev/null
   )
 }
 
 install_node() {
+  echo
+  echo "Installing node..."
+  echo
   (
     eval "$(fnm env)"
     fnm install --lts
-    fnm use default
+    # fnm use default
     npm install --silent -g \
       typescript \
       eslint \
@@ -379,6 +405,9 @@ install_node() {
 }
 
 install_python() {
+  echo
+  echo "Installing python..."
+  echo
   (
     cd ${HOME}
     wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -393,43 +422,16 @@ install_python() {
 }
 
 install_tools() {
-  echo
-  echo "Installing node..."
-  echo
-  install_node;
-  echo
-  echo "Installing python..."
-  echo
-  install_python;
-  echo
-  echo "Installing dbus socket..."
-  echo
-
-  # enable dbus for the user session
-  systemctl --user enable dbus.socket
-
-  echo
-  echo "Installing golang..."
-  echo
-  install_golang "go1.15.7";
-
-  echo
-  echo "Installing rust..."
-  echo
+  # rust first, it install fnm, needed for node
   install_rust;
-
-  echo
-  echo "Installing terraform"
-  echo
+  export PATH=${HOME}/.cargo/bin:$PATH
+  install_node;
+  install_python;
+  install_golang;
   install_terraform;
-
-  # re-set paths now that rust and go are installed
-  source ${HOME}/.env.d/zshenv.d/paths.zsh
-
-  echo
-  echo "Installing user programs..."
-  echo
   install_misc;
+
+
 }
 
 usage() {
@@ -455,7 +457,7 @@ main() {
 
   if [[ $cmd == "dotfiles" ]]; then
     get_user
-    get_dotfiles
+    install_dotfiles
   elif [[ $cmd == "vim" ]]; then
     install_vim
   elif [[ $cmd == "emacs" ]]; then
