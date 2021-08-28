@@ -433,11 +433,12 @@ install_tools() {
   export PATH=${HOME}/.cargo/bin:$PATH
   install_node;
   install_python;
-  install_golang "go1.15.7";
+  install_golang;
   install_terraform;
   install_misc;
-
-
+  echo "***"
+  echo "*** Done Insalling Tools"
+  echo "***"
 }
 
 usage() {
