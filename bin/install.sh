@@ -185,18 +185,13 @@ install_vim() {
       mv squashfs-root nvim
       popd 2>/dev/null
     )
-    (
-       set +e
-    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim.appimage 60
-    sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim.appimage 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim.appimage 60
-    sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim.appimage 60
-    sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
-    )
-    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/nvim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vim"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vi"
+    ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/editor"
+
+    PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
@@ -361,7 +356,7 @@ install_misc() {
   install_ergodox
   install_ranger
   install_azuredatastudio
-  install_discord
+  # install_discord
   install_docker_cred_helper
 
   echo
