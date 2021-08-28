@@ -150,8 +150,6 @@ install_dotfiles() {
       git remote set-url origin "git@github.com:cwebster2/dotfiles"
     fi
 
-    mkdir -p /run/user/1000/.ssh
-
   )
   install_zsh
 }
