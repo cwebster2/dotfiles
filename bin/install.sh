@@ -3,9 +3,7 @@ set -e
 set -o pipefail
 
 # TODO genenralize.  nvim setup
-export DEBIAN_FRONTEND=noninteractive
-export APT_LISTBUGS_FRONTEND=none
-export TARGET_USER=${TARGET_USER:-casey}
+export TARGET_USER=$(whoami)
 
 # Choose a user account to use for this installation
 get_user() {
@@ -47,10 +45,6 @@ install_rust() {
   (
     curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
-    (
-      set +e
-      sudo apt-get install -y
-    )
     rustup component add rls rust-analysis rust-src
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
@@ -347,7 +341,7 @@ install_misc() {
   install_wm_status
   install_ergodox
   install_ranger
-  install_azuredatastudio
+  # install_azuredatastudio
   # install_discord
   install_docker_cred_helper
 
@@ -447,7 +441,7 @@ install_tools() {
 }
 
 usage() {
-  echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop\\n"
+  echo -e "install.sh\\n\\tThis script installs my basic setup for a laptop\\n"
   echo "Usage:"
   echo "  dotfiles                            - get dotfiles"
   echo "  vim                                 - install vim specific dotfiles"
