@@ -1,6 +1,10 @@
 set $gnome-schema org.gnome.desktop.interface
 set $mod Mod4
 set $term kitty
+set $cleft  m
+set $cdown  n
+set $cup    e
+set $cright i
 
 exec_always {
   gsettings $gnome-schema gtk-theme 'Materia-dark'
@@ -34,6 +38,7 @@ bindsym $mod+q kill
 bindsym $mod+l exec --no-startup-id swaylock -f -c 000000
 
 # start dmenu (a program launcher)
+# bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi | xargs swaymsg exec --
 bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi | xargs swaymsg exec --
 
 # clipboard history and management

@@ -137,10 +137,10 @@ install_dotfiles() {
   # create subshell
   (
     cd "$HOME"
-    rm -f ~/.zshrc
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
+      rm -f ~/.zshrc
       DOTFILESBRANCH=${DOTFILESBRANCH:-master}
       # install dotfiles from repo
       export GIT_DIR="${HOME}/.dotfiles"
@@ -187,13 +187,13 @@ install_vim() {
     )
     (
        set +e
-    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim.appimage 60
     sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim.appimage 60
     sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim.appimage 60
     sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
+    sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim.appimage 60
     sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
     )
     PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/opt/packer.nvim"
@@ -202,12 +202,14 @@ install_vim() {
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
     fi
 
-    "${HOME}"/bin/nvim/AppRun -u NONE --headless \
+    chmod 755 "${HOME}/bin/nvim.appimage"
+    "${HOME}"/bin/nvim.appimage -u NONE --headless \
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
 
     "${HOME}"/.config/nvim/lspinstall.sh all
+    "${HOME}"/.config/nvim/dapinstall.sh all
   )
 }
 
