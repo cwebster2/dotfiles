@@ -177,14 +177,6 @@ install_vim() {
 
     # update alternatives to vim
     curl -fLo "${HOME}"/bin/nvim.appimage "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-    # Todo detect if docker and only do this if so
-    (
-      pushd "$HOME"/bin 2>/dev/null
-      chmod +x ./nvim.appimage
-      ./nvim.appimage --appimage-extract
-      mv squashfs-root nvim
-      popd 2>/dev/null
-    )
 
     ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/nvim"
     ln -s "${HOME}/bin/nvim.appimage" "${HOME}/bin/vim"
