@@ -136,7 +136,7 @@ install_dotfiles() {
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
       rm -f ~/.zshrc
-      DOTFILESBRANCH=${DOTFILESBRANCH:-master}
+      DOTFILESBRANCH=${DOTFILESBRANCH:-main}
       # install dotfiles from repo
       export GIT_DIR="${HOME}/.dotfiles"
       export GIT_WORK_TREE="${HOME}"
