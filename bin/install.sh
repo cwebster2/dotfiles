@@ -46,6 +46,7 @@ install_rust() {
     curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
     rustup component add rls rust-analysis rust-src
+    source ${HOME}/.cargo/env
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
     cargo install \
