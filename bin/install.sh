@@ -184,14 +184,17 @@ install_vim() {
     fi
 
     chmod 755 "${HOME}/bin/nvim.appimage"
-    "${HOME}"/bin/nvim.appimage -u NONE --headless \
-      +'autocmd User PackerComplete quitall' \
-      +'lua require("plugins")' \
-      +'lua require("packer").sync()'
 
     "${HOME}"/.config/nvim/lspinstall.sh all
     "${HOME}"/.config/nvim/dapinstall.sh all
   )
+}
+
+bootstrap_vim() {
+    "${HOME}"/bin/nvim.appimage -u NONE --headless \
+      +'autocmd User PackerComplete quitall' \
+      +'lua require("plugins")' \
+      +'lua require("packer").sync()'
 }
 
 install_emacs() {
@@ -446,6 +449,7 @@ usage() {
   echo "Usage:"
   echo "  dotfiles                            - get dotfiles"
   echo "  vim                                 - install vim specific dotfiles"
+  echo "  vim-bootstrap                       - install vim plugins"
   echo "  emacs                               - install emacs specific dotfiles"
   echo "  golang                              - install golang and packages"
   echo "  rust                                - install rust"
@@ -467,6 +471,8 @@ main() {
     install_dotfiles
   elif [[ $cmd == "vim" ]]; then
     install_vim
+  elif [[ $cmd == "vim-bootstrap" ]]; then
+    bootstrap_vim
   elif [[ $cmd == "emacs" ]]; then
     install_emacs
   elif [[ $cmd == "rust" ]]; then
