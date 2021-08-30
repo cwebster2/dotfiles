@@ -317,16 +317,9 @@ install_discord() {
 
 install_docker_cred_helper(){
   echo
-  echo "Installing docker credential helper"
+  echo "Configuring docker credential helper"
   echo
   (
-    export GOPATH=$(go env GOPATH)
-    set +e
-    go get github.com/docker/docker-credential-helpers
-    cd ${GOPATH}/src/github.com/docker/docker-credential-helpers
-    make secretservice
-    ln -s ${PWD}/bin/docker-credential-secretservice ${GOPATH}/bin
-
     mkdir -p  ${HOME}/.docker
     cat <<- EOF > ${HOME}/.docker/config.json
     {
@@ -355,9 +348,9 @@ install_misc() {
     ln -s ${HOME}/.config/i3/i3exit.sh ${HOME}/bin
   )
 
-  echo
-  echo "Setting sleep timeouts"
-  echo
+  # echo
+  # echo "Setting sleep timeouts"
+  # echo
 #   (
 #     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
 #     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
@@ -369,12 +362,11 @@ install_misc() {
 #   )
 
   echo
-  echo "Installing dbus socket..."
+  echo "Enabling the gpg agent sockets"
   echo
-
-  # enable dbus for the user session
-  systemctl --user enable dbus.socket
-  systemctl --user enable gpg-agent.socket
+  (  
+    systemctl --user enable gpg-agent.socket
+  )
 }
 
 install_terraform() {
