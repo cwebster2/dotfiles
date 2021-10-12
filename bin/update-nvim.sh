@@ -3,8 +3,8 @@ NVIM_GIT_DIR=$HOME/src/neovim
 
 if [ ! -d "${NVIM_GIT_DIR}" ]; then
   echo "Cloning neovim"
-  mkdir -p "$(dirname "${NVIM_GIT_DIR}")
-  pushd "$(dirname "${NVIM_GIT_DIR}") 2>/dev/null
+  mkdir -p $(dirname "${NVIM_GIT_DIR}")
+  pushd $(dirname "${NVIM_GIT_DIR}") 2>/dev/null
   git clone git@github.com:neovim/neovim $(basename "${NVIM_GIT_DIR}")
   popd 2>/dev/null
 else
