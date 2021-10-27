@@ -37,11 +37,11 @@
                 "x": 1918,
                 "y": 28
             },
-            "name": "Slack | table | Valor",
+            "name": "Microsoft Teams",
             "percent": 0.5,
             "swallows": [
                 {
-                    "instance": "^slack$"
+                    "class": "^Microsoft\\ Teams\\ \\-\\ Preview$"
                 }
             ],
             "type": "con"
