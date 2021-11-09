@@ -2,7 +2,8 @@
 set -e
 set -o pipefail
 
-export TARGET_USER=${TARGET_USER:-casey}
+# TODO genenralize.  nvim setup
+export TARGET_USER=$(whoami)
 
 # Choose a user account to use for this installation
 get_user() {
@@ -57,6 +58,7 @@ install_rust() {
     curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
     rustup component add rls rust-analysis rust-src
+    source ${HOME}/.cargo/env
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
     cargo install \
@@ -145,7 +147,8 @@ install_dotfiles() {
 
     if [[ ! -d "${HOME}/.dotfiles" ]]; then
       echo "Installing dotfiles branch ${DOTFILESBRANCH}"
-      DOTFILESBRANCH=${DOTFILESBRANCH:-master}
+      rm -f ~/.zshrc
+      DOTFILESBRANCH=${DOTFILESBRANCH:-main}
       # install dotfiles from repo
       export GIT_DIR="${HOME}/.dotfiles"
       export GIT_WORK_TREE="${HOME}"
@@ -159,7 +162,6 @@ install_dotfiles() {
       git config status.showuntrackedfiles no
       git remote set-url origin "git@github.com:cwebster2/dotfiles"
     fi
-
 
   )
   install_zsh
@@ -187,22 +189,19 @@ install_vim() {
     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vi"
     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/editor"
 
-    # sudo update-alternatives --install /usr/bin/vi vi "${HOME}"/bin/nvim/AppRun 60
-    # sudo update-alternatives --set vi "${HOME}"/bin/nvim/AppRun
-    # sudo update-alternatives --install /usr/bin/vim vim "${HOME}"/bin/nvim/AppRun 60
-    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    # sudo update-alternatives --install /usr/bin/nvim nvim "${HOME}"/bin/nvim/AppRun 60
-    # sudo update-alternatives --set vim "${HOME}"/bin/nvim/AppRun
-    # sudo update-alternatives --install /usr/bin/editor editor "${HOME}"/bin/nvim/AppRun 60
-    # sudo update-alternatives --set editor "${HOME}"/bin/nvim/AppRun
-
     PACKER_DIRECTORY="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
     if ! [ -d "$PACKER_DIRECTORY" ]; then
       git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
     fi
 
-    "${HOME}"/bin/nvim/AppRun -u NONE --headless \
+    "${HOME}"/.config/nvim/lspinstall.sh all
+    "${HOME}"/.config/nvim/dapinstall.sh all
+  )
+}
+
+bootstrap_vim() {
+    "${HOME}"/bin/nvim -u NONE --headless \
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
@@ -351,25 +350,25 @@ install_misc() {
     ln -s ${HOME}/.config/i3/i3exit.sh ${HOME}/bin
   )
 
+  # echo
+  # echo "Setting sleep timeouts"
+  # echo
+#   (
+#     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
+#     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
+
+#     sudo bash -c "cat >> /etc/gdm3/greeter.dconf-defaults" << 'EOF'
+# sleep-inactive-ac-timeout=0
+# sleep-inactive-ac-type='nothing'
+# EOF
+#   )
+
   echo
-  echo "Setting sleep timeouts"
+  echo "Enabling the gpg agent sockets"
   echo
   (
-    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
-    sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
-
-    sudo bash -c "cat >> /etc/gdm3/greeter.dconf-defaults" << 'EOF'
-sleep-inactive-ac-timeout=0
-sleep-inactive-ac-type='nothing'
-EOF
+    systemctl --user enable gpg-agent.socket
   )
-
-  echo
-  echo "Installing dbus socket..."
-  echo
-
-  # enable dbus for the user session
-  systemctl --user enable dbus.socket
 }
 
 install_terraform() {
@@ -384,8 +383,8 @@ install_terraform() {
     pushd "${HOME}/bin" 2>/dev/null
     ln -s "${HOME}/.tfenv/bin/terraform" .
     ln -s "${HOME}/.tfenv/bin/tfenv" .
-    "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.3}
-    "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.3}
+    "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.6}
+    "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.6}
     popd 2>/dev/null
   )
 }
@@ -434,20 +433,58 @@ install_tools() {
   install_golang;
   install_terraform;
   install_misc;
+  cat somefile > /dev/tty/1
+  echo "***"
+  echo "*** Done Insalling Tools"
+  echo "***"
+}
 
+setup_remote_access() {
+  setup_gpg
+  setup_sshd
 
+  echo "***"
+  echo "*** Remote key-based access is now configured"
+  echo "***"
+}
+setup_sshd() {
+  echo "***"
+  echo "*** Setting up remote access via sshd"
+  echo "***"
+
+  sudo mkdir -p /etc/ssh/sshd_config.d
+  cat <<-EOF >> /etc/ssh/sshd_config.d/99-local.conf
+  AuthorizedKeysFile  .ssh/authorized_keys .ssh-persistant/authorized_keys
+  PasswordAuthentication no
+  ChallengeResponseAuthentication no
+  AllowAgentForwarding yes
+  X11Forwarding yes
+  StreamLocalBindUnlink yes
+EOF
+
+  sudo sed -i '13s|^|Include /etc/ssh/sshd_config.d/*.conf\n\n|' /etc/ssh/sshd_config
+}
+
+setup_gpg() {
+  echo "***"
+  echo "*** Importing and trusting public key"
+  echo "***"
+  importKeyFromKeybase cwebster
+  echo -e "5\ny\n" | gpg --command-fd 0 --expert --edit-key A58BCB66EEBB9327 trust
 }
 
 usage() {
-  echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop\\n"
+  echo -e "install.sh\\n\\tThis script installs my basic setup for a laptop\\n"
   echo "Usage:"
   echo "  dotfiles                            - get dotfiles"
   echo "  vim                                 - install vim specific dotfiles"
-  echo "  emacs                               - install emacs specific dotfiles"
-  echo "  golang                              - install golang and packages"
-  echo "  rust                                - install rust"
+  echo "  vim-bootstrap                       - install vim and plugins"
+  echo "  emacs                               - install doom emacs and configuration"
+  echo "  golang                              - install/update golang and packages"
+  echo "  rust                                - install/update rust"
   echo "  python                              - install Python 3 (miniconda)"
-  echo "  node                                - install node via nvm"
+  echo "  node                                - install node via fnm"
+  echo "  scripts                             - install scripts"
   echo "  tools                               - install golang, rust, and scripts"
 }
 
@@ -464,10 +501,12 @@ main() {
     install_dotfiles
   elif [[ $cmd == "vim" ]]; then
     install_vim
+  elif [[ $cmd == "vim-bootstrap" ]]; then
+    bootstrap_vim
   elif [[ $cmd == "emacs" ]]; then
     install_emacs
   elif [[ $cmd == "rust" ]]; then
-    install_rust
+    update_rust
   elif [[ $cmd == "node" ]]; then
     install_node
   elif [[ $cmd == "python" ]]; then
