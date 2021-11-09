@@ -36,6 +36,18 @@ function is_bin_in_path {
   builtin type -P "$1" &> /dev/null
 }
 
+update_rust() {
+  echo
+  echo "Updating rust..."
+  echo
+
+  if [ ! -z $(command -v rustup) ]; then
+    rustup +stable update
+  else
+    echo "Rust not found, installing..."
+    install_rust
+  fi
+}
 
 install_rust() {
   echo
