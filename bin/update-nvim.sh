@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 NVIM_GIT_DIR=$HOME/src/neovim
 
 if [ ! -d "${NVIM_GIT_DIR}" ]; then

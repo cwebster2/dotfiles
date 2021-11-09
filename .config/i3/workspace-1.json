@@ -40,7 +40,7 @@
       "swallows": [
         {
           "class": "^Google\\-chrome$",
-          "instance": "^crx_nckgahadagoaajjgafhacjanaoiihapd$"
+          "instance": "^chat\\.google\\.com__dm_8xx2rgAAAAE$"
         }
       ],
       "type": "con"
@@ -65,11 +65,11 @@
         "x": 1507,
         "y": 68
       },
-      "name": "Microsoft Teams",
+      "name": "Slack | table | Valor",
       "percent": 0.5,
       "swallows": [
         {
-          "class": "^microsoft\\ teams\\-\\ preview$"
+          "instance": "^slack$"
         }
       ],
       "type": "con"

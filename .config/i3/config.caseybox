@@ -169,13 +169,13 @@ assign [class="Google-chrome"] $ws3
 #assign [class="discord"] $ws1
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
-assign [class="Slack"] $ws10
-assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
+assign [class="Slack"] $ws1
+assign [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
 assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
-#assign [class="teams.microsoft.com"] $ws1
+assign [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] $ws10
 #assign [class="outlook.office365.com"] $ws1
 
 # skype, steam, wine: float Gimp
@@ -185,6 +185,8 @@ for_window [title="Remmina Remote Desktop Client"] floating enable, move contain
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
 for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
 for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
+for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws1
+for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws10
 for_window [class="obsidian"] move scratchpad
 #for_window [class="filemanager"] floating enable
 #for_window [class="Code"] floating enable

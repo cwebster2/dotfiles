@@ -205,6 +205,10 @@ bootstrap_vim() {
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
       +'lua require("packer").sync()'
+
+    "${HOME}"/.config/nvim/lspinstall.sh all
+    "${HOME}"/.config/nvim/dapinstall.sh all
+  )
 }
 
 install_emacs() {
@@ -295,23 +299,12 @@ EOF
 
 install_ranger() {
   echo
-  echo "Installing ranger"
+  echo "Configure ranger"
   echo
 
   (
     echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
   )
-}
-
-install_azuredatastudio() {
-  echo
-  echo "Installing azuredatastudio"
-  echo
-  # (
-    # wget -q https://go.microsoft.com/fwlink/?linkid=2116780 -O ${HOME}/Downloads/azuredatastudio.deb
-    # sudo dpkg -i ${HOME}/Downloads/azuredatastudio.deb
-    # sudo apt-get install -f
-  # )
 }
 
 install_discord() {
@@ -327,7 +320,7 @@ install_discord() {
 
 install_docker_cred_helper(){
   echo
-  echo "Configuring docker credential helper"
+  echo "Configure docker credential helper"
   echo
   (
     mkdir -p  ${HOME}/.docker
@@ -347,8 +340,7 @@ install_misc() {
   install_wm_status
   install_ergodox
   install_ranger
-  # install_azuredatastudio
-  # install_discord
+  install_discord
   install_docker_cred_helper
 
   echo
