@@ -201,6 +201,7 @@ install_vim() {
 }
 
 bootstrap_vim() {
+  (
     "${HOME}"/bin/nvim -u NONE --headless \
       +'autocmd User PackerComplete quitall' \
       +'lua require("plugins")' \
