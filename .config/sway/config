@@ -16,7 +16,7 @@ bar {
     position top
     tray_output primary
     tray_padding 2
-    font pango:Hack Nerd Font 8
+    font pango:Hack Nerd Font 10
     strip_workspace_numbers yes
     strip_workspace_name no
 }
@@ -274,8 +274,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # These don't work
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightness
 
 # Need to test
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -302,8 +302,8 @@ exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
 
 # Screen Shots
-bindsym Print exec "flameshot gui"
-bindsym Control+Print exec "flameshot screen -r -c"
+bindsym Print exec "grim -g "$(slurp)" - | wl-copy"
+bindsym Control+Print exec "grim /home/casey/Downloads/screenshot.png"
 
 #exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 # Syncthing!
