@@ -70,7 +70,6 @@ plugins=(
   vscode
   fzf
   rust
-  cargo
   golang
   vi-mode
   #zsh-autosuggestions
@@ -89,6 +88,7 @@ unsetopt complete_aliases
 
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
+export MANPAGER='nvim +Man!'
 # if [[ -n $SSH_CONNECTION ]]; then
 # fi
 
