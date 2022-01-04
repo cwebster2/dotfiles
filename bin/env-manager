@@ -43,7 +43,7 @@ update_rust() {
   echo
 
   if [ ! -z $(command -v rustup) ]; then
-    rustup +stable update
+    rustup update
   else
     echo "Rust not found, installing..."
     install_rust
@@ -58,6 +58,9 @@ install_rust() {
     curl https://sh.rustup.rs -sSf | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh -s -- -y
     PATH=${HOME}/.cargo/bin:$PATH
     rustup component add rls rust-analysis rust-src
+    rustup install beta
+    rustup install nightly
+    rustup +nightly component add rust-analyzer-preview rust-src
     source ${HOME}/.cargo/env
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
@@ -420,7 +423,7 @@ install_python() {
   )
   (
     source ${HOME}/miniconda3/bin/activate
-    pip install --quiet neovim azure-cli awscli docker
+    pip install --quiet neovim docker
     conda install -y psutil netifaces dbus-python pango
   )
 }
