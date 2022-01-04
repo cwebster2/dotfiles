@@ -477,6 +477,21 @@ setup_gpg() {
   echo -e "5\ny\n" | gpg --command-fd 0 --expert --edit-key A58BCB66EEBB9327 trust
 }
 
+print_versions() {
+  echo "***"
+  echo "*** Versions"
+  echo "***"
+  python --version
+  rustc --version
+  cargo --version
+  git --version
+  node --version
+  npm --version
+  terraform --version
+  go version
+  echo "***"
+}
+
 usage() {
   echo -e "install.sh\\n\\tThis script installs my basic setup for a laptop\\n"
   echo "Usage:"
@@ -521,6 +536,8 @@ main() {
     install_scripts
   elif [[ $cmd == "tools" ]]; then
     install_tools
+  elif [[ $cmd == "versions" ]]; then
+    print_versions
   else
     usage
   fi
