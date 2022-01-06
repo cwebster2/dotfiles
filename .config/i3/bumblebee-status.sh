@@ -15,6 +15,7 @@ source ~/miniconda3/bin/activate
   shell.interval="60" \
   playerctl.layout='playerctl.song,playerctl.pause' \
   playerctl.format='{{artist}} - {{title}}' \
+  playerctl.args='--player=spotify' \
   -t iceberg-dark-powerline
   # --markup=pango
 #  -t wal-powerline
