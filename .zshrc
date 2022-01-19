@@ -69,8 +69,10 @@ plugins=(
   gpg-agent
   vscode
   fzf
+  gh
+  docker
+  fnm
   rust
-  cargo
   golang
   vi-mode
   #zsh-autosuggestions
@@ -138,3 +140,5 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
