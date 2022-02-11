@@ -71,6 +71,7 @@ install_rust() {
       zoxide \
       git-delta \
       gping \
+      jless \
       fd-find
   )
 }
