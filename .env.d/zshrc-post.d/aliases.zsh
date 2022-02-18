@@ -11,7 +11,7 @@ if [ ! -z $(command -v prettyping) ]; then
 fi
 
 if [ ! -z $(command -v exa) ]; then
-  alias ls='exa --icons'
+  alias ls='exa --icons --git'
   alias ll='ls -l'
   alias lla='ls -la'
 fi
@@ -23,3 +23,5 @@ alias vimupdate='nvim +PlugClean +PlugUpdate +qa'
 
 alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
 alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
+
+alias gcm='git checkout $(gh repo view --json "defaultBranchRef" --jq ".[] | .name")'
