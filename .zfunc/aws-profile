@@ -1,1 +1,19 @@
-export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)
+# Enumreate profiles and prompt for which one to use
+export AWS_PROFILE=$(sed -n "s/^\[\(profile \)\{0,1\}\(.*\)\]/\2/gp" ~/.aws/config | fzf)
+
+# If they chose default, dont set the profile variable
+if [ "${AWS_PROFILE}" = "default" ]; then
+  unset AWS_PROFILE
+  return 0
+fi
+
+# See if we are logged into SSO and do it if needed
+_whoami=$(aws sts get-caller-identity 2>/dev/null)
+if [ $? != 0 ]; then
+  aws sso login
+  _whoami=$(aws sts get-caller-identity 2>/dev/null)
+fi
+
+# output our current identity to validate we are who we think we are
+echo "${_whoami}" | jq --raw-output '.Arn'
+unset _whoami

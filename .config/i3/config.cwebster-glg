@@ -108,10 +108,21 @@ set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
-set $ws7 "7"
+set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+workspace $ws1 output eDP-1-1
+workspace $ws2 output DP-1-1
+workspace $ws3 output DP-1-2
+workspace $ws4 output DP-1-1
+workspace $ws5 output DP-1-2
+workspace $ws6 output DP-1-1
+workspace $ws7 output DP-1-1
+workspace $ws8 output DP-1-1
+workspace $ws9 output DP-1-2
+workspace $ws10 output eDP-1-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -205,7 +216,7 @@ client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color      
 
 # exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --dpi 100 --rotate normal --output DP-1 --off --output HDMI-0 --off --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
 
-exec --no-startup-id /home/casey/.config/i3/desk-monitors.sh
+# exec --no-startup-id /home/casey/.config/i3/desk-monitors.sh
 
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
@@ -260,7 +271,7 @@ exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
 
 exec kitty
-exec google-chrome
-exec slack
-exec spotify
-exec teams
+# exec google-chrome
+# exec slack
+# exec spotify
+# exec teams

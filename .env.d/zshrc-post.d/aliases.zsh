@@ -25,3 +25,5 @@ alias dockerrmrf="docker rmi $(docker images -f 'dangling=true' -q)"
 alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
 
 alias gcm='git checkout $(gh repo view --json "defaultBranchRef" --jq ".[] | .name")'
+
+alias icat="kitty +kitten icat"
