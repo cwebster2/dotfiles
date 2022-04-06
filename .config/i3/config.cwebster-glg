@@ -247,12 +247,12 @@ exec --no-startup-id polychromatic-tray-applet
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 
 bar {
-    status_command /home/casey/.config/i3/bumblebee-status.sh
+    font pango:Hack Nerd Font Mono 8, FontAwesome 8
+    status_command /home/casey/.cargo/bin/i3status-rs
     mode dock
     position top
     tray_output primary
     tray_padding 2
-    font pango:FuraCode Nerd Font 8
     strip_workspace_numbers yes
     strip_workspace_name no
 }

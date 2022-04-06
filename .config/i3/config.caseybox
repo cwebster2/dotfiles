@@ -292,12 +292,12 @@ bindsym XF86AudioPrev exec playerctl -p spotify previous
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 bar {
-    status_command /home/casey/.config/i3/bumblebee-status.sh
+    font pango:Hack Nerd Font Mono 8, FontAwesome 8
+    status_command /home/casey/.cargo/bin/i3status-rs
     mode dock
     position top
     tray_output primary
     tray_padding 2
-    font pango:FuraCode Nerd Font 8
     strip_workspace_numbers yes
     strip_workspace_name no
 }

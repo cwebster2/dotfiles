@@ -271,12 +271,15 @@ install_delta() {
 
 install_wm_status() {
   echo
-  echo "Install Bumblebee-status"
+  echo "Install i3status-rust"
   echo
   (
     mkdir -p "${HOME}/src"
     cd "${HOME}/src"
-    git clone --depth 1 --branch main https://github.com/tobi-wan-kenobi/bumblebee-status
+    git clone --depth 1 https://github.com/greshake/i3status-rust
+    cd i3status-rust
+    cargo install --path .
+    ./install.sh
   )
 }
 
