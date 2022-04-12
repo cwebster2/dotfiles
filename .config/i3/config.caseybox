@@ -276,11 +276,11 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Need to test
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec playerctl -p spotify play-pause
+bindsym XF86AudioStop exec playerctl -p spotify stop
+bindsym XF86AudioPause exec playerctl -p spotify pause
+bindsym XF86AudioNext exec playerctl -p spotify next
+bindsym XF86AudioPrev exec playerctl -p spotify previous
 
 # doesnt work
 #bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
@@ -292,12 +292,12 @@ bindsym XF86AudioPrev exec playerctl previous
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 bar {
-    status_command /home/casey/.config/i3/bumblebee-status.sh
+    font pango:Hack Nerd Font Mono 8, FontAwesome 8
+    status_command /home/casey/.cargo/bin/i3status-rs
     mode dock
     position top
     tray_output primary
     tray_padding 2
-    font pango:FuraCode Nerd Font 8
     strip_workspace_numbers yes
     strip_workspace_name no
 }

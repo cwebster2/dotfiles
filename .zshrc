@@ -75,6 +75,7 @@ plugins=(
   rust
   golang
   vi-mode
+  terraform
   #zsh-autosuggestions
   #zsh-syntax-highlighting
 )

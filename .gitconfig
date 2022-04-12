@@ -5,6 +5,8 @@
   insteadof = cwebster2://
 [url "git@github.com:"]
   insteadof = github://
+[url "git+ssh://git@github.com"]
+  insteadof = git://git@github.com
 [commit]
 	gpgsign = true
 [alias]
@@ -14,5 +16,7 @@
 	pager = "delta --dark --plus-style='syntax #012800' --minus-style='normal #340001'"
 [pull]
 	rebase = false
+[push]
+  default = "upstream"
 [init]
 	defaultBranch = main

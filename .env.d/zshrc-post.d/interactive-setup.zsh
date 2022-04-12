@@ -18,3 +18,5 @@ if [ ! -z $(command -v bw) ]; then
 fi
 
 export DOCKER_BUILDKIT=1
+
+export AWS_DEFAULT_REGION=us-east-1
