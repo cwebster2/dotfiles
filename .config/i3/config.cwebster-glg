@@ -38,11 +38,6 @@ bindsym $mod+Ctrl+l exec --no-startup-id $lockscreen
 bindsym $mod+r exec rofi -combi-modi window#drun#ssh -show combi -modi combi
 bindsym $mod+g exec rofi -show ssh
 
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -113,10 +108,21 @@ set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
-set $ws7 "7"
+set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+workspace $ws1 output eDP-1-1
+workspace $ws2 output DP-1-1
+workspace $ws3 output DP-1-2
+workspace $ws4 output DP-1-1
+workspace $ws5 output DP-1-2
+workspace $ws6 output DP-1-1
+workspace $ws7 output DP-1-1
+workspace $ws8 output DP-1-1
+workspace $ws9 output DP-1-2
+workspace $ws10 output eDP-1-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -142,15 +148,24 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+assign [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] $ws1
+assign [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] $ws1
+assign [class="kitty"] $ws2
 assign [class="Google-Chrome"] $ws3
 assign [class="Code - Insiders"] $ws4
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
-assign [class="kitty"] $ws2
 assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
 
 for_window [class="zoom"] floating enable
+for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
+for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
+for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
+for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
+for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws1
+for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws1
+for_window [class="obsidian"] move scratchpad
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -187,7 +202,8 @@ mode "resize" {
 bindsym $mod+z mode "resize"
 
 set $bg-color            #31363b
-set $inactive-bg-color   #31363b
+# set $inactive-bg-color   #31363b
+set $inactive-bg-color   #18191A
 set $text-color          #fcfcfc
 set $inactive-text-color #95a5a6
 set $urgent-bg-color     #f67400
@@ -198,23 +214,10 @@ client.unfocused         $inactive-bg-color $inactive-bg-color $inactive-text-co
 client.focused_inactive  $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
 client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-#bar {
-#        status_command i3blocks -c ~/.i3/i3blocks.conf
-#        strip_workspace_numbers yes
-#        tray_output primary
-#        colors {
-#            background $bg-color
-#            separator #757575
-#            focused_workspace   $bg-color          $bg-color          $text-color
-#            inactive_workspace  $inactive-bg-color $inactive-bg-color $inactive-text-color
-#            urgent_workspace    $urgent-bg-color   $urgent-bg-color   $text-color
-#        }
-#        position top
-#}
+# exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --dpi 100 --rotate normal --output DP-1 --off --output HDMI-0 --off --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
 
-exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --dpi 100 --rotate normal --output DP-1 --off --output HDMI-0 --off --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+# exec --no-startup-id /home/casey/.config/i3/desk-monitors.sh
+
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # These work
@@ -244,12 +247,12 @@ exec --no-startup-id polychromatic-tray-applet
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 
 bar {
-    status_command /home/casey/.config/i3/bumblebee-status.sh
+    font pango:Hack Nerd Font Mono 8, FontAwesome 8
+    status_command /home/casey/.cargo/bin/i3status-rs
     mode dock
     position top
     tray_output primary
     tray_padding 2
-    font pango:FuraCode Nerd Font 8
     strip_workspace_numbers yes
     strip_workspace_name no
 }
@@ -266,7 +269,9 @@ exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 
 # I basically never want Caps Lock to do what it normally does.
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
-# Syncthing!
-#exec --no-startup-id "syncthing -no-browser"
 
 exec kitty
+# exec google-chrome
+# exec slack
+# exec spotify
+# exec teams

@@ -1,10 +1,3 @@
-!# Rofi Theming
-rofi.color-enabled: true
-rofi.color-window: #bb31363b, #bb31363b, #bb1e2529
-rofi.color-normal: #bb31363b, #c1c1c1, #bb3b4045, #bb2980b9, #ffffff
-rofi.color-active: #bb31363b, #80cbc4, #bb3b4045, #bb2980b9, #80cbc4
-rofi.color-urgent: #bb31363b, #ff1844, #bb3b4045, #bb2980b9, #ff1844
-
 ! 163 dpi
 Xft.dpi: 136
 URxvt*scrollTtyOutput: false
@@ -21,7 +14,7 @@ URxvt.perl-ext-common: default,tabbed,matcher
 URxvt.tabbed.new-button: true
 URxvt.reopen-on-close: true
 URxvt.tabbed.tabbar-fg: 4
-URxvt.tabbed.tabbar-bg: 0 
+URxvt.tabbed.tabbar-bg: 0
 URxvt.tabbed.tab-fg: 12
 URxvt.tabbed.tab-bg: 8
 !*background: #000000
