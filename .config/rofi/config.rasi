@@ -133,6 +133,7 @@ configuration {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
+<<<<<<< HEAD
   /* timeout { */
       /* action: "kb-cancel"; */
       /* delay:  0; */
@@ -141,5 +142,15 @@ configuration {
       /* directories-first: true; */
       /* sorting-method:    "name"; */
   /* } */
+=======
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+>>>>>>> main
 }
 @theme "solarized"

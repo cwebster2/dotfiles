@@ -69,6 +69,9 @@ plugins=(
   gpg-agent
   vscode
   fzf
+  gh
+  docker
+  fnm
   rust
   golang
   vi-mode
@@ -139,3 +142,4 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/TODO.md ] && glow ~/TODO.md
+
