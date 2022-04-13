@@ -118,26 +118,26 @@ install_golang() {
     set -x
     # go get returns non zereo on some cases that we do not want to abort on
     set +e
-    go get golang.org/x/lint/golint
-    go get golang.org/x/tools/cmd/cover
-    go get golang.org/x/tools/cmd/gopls
-    go get golang.org/x/review/git-codereview
-    go get golang.org/x/tools/cmd/goimports
-    go get golang.org/x/tools/cmd/gorename
-    go get golang.org/x/tools/cmd/guru
+    go install golang.org/x/lint/golint@latest
+    go install golang.org/x/tools/cmd/cover@latest
+    go install golang.org/x/tools/cmd/gopls@latest
+    go install golang.org/x/review/git-codereview@latest
+    go install golang.org/x/tools/cmd/goimports@latest
+    go install golang.org/x/tools/cmd/gorename@latest
+    go install golang.org/x/tools/cmd/guru@latest
 
-    go get github.com/axw/gocov/gocov
-    go get honnef.co/go/tools/cmd/staticcheck
-    go get github.com/genuinetools/weather
+    go install github.com/axw/gocov/gocov@latest
+    go install honnef.co/go/tools/cmd/staticcheck@latest
+    go install github.com/genuinetools/weather@latest
 
-    go get github.com/wagoodman/dive
+    go install github.com/wagoodman/dive@latest
 
-    # Tools for vimgo.
-    go get github.com/jstemmer/gotags
-    go get github.com/nsf/gocode
-    go get github.com/rogpeppe/godef
-    go get -u github.com/sourcegraph/go-langserver
-    go get github.com/sachaos/viddy
+    # Tools for vimgo.@latest
+    go install github.com/jstemmer/gotags@latest
+    go install github.com/nsf/gocode@latest
+    go install github.com/rogpeppe/godef@latest
+    go install -u github.com/sourcegraph/go-langserver@latest
+    go install github.com/sachaos/viddy@latest
 
     # symlink weather binary for motd
     sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
