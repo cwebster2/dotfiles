@@ -501,7 +501,9 @@ print_versions() {
   rustc --version
   cargo --version
   git --version
+  echo -n "node "
   node --version
+  echo -n "npm "
   npm --version
   terraform --version
   go version
