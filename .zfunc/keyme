@@ -45,8 +45,9 @@ TMP_SSH_KEY_DIR="/run/user/$(id -u)/.ssh"
 
 add_key () {
   echo Installing Key: "${2}" \("${1}"\)
-  _bw_get_session bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Private Key:\(.*\)Public.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2"
-  _bw_get_session bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Public Key:\(.*\)Host.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2.pub"
+  _bw_get_session
+  bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Private Key:\(.*\)Public.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2"
+  bw --session ${BW_SESSION} get item "$1" | jq .notes | sed -e 's/.*Public Key:\(.*\)Host.*/\1/' -e 's/\\n/\n/g' > "${TMP_SSH_KEY_DIR}/$2.pub"
   _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2"
   _purgeIfEmpty "${TMP_SSH_KEY_DIR}/$2.pub"
   _chmod 400 "${TMP_SSH_KEY_DIR}/$2"
@@ -68,7 +69,7 @@ keyme () {
   chmod 700 "${TMP_SSH_KEY_DIR}"
   if [ ! -f "${TMP_SSH_KEY_DIR}"/config ]; then
     echo "Installing ssh config"
-    _bw_get_session bw --session "${BW_SESSION}" get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
+   bw --session "${BW_SESSION}" get item "${KEYME_SSH_CONFIG_ID}" | jq --raw-output .notes > "${TMP_SSH_KEY_DIR}"/config
     chmod 600 "${TMP_SSH_KEY_DIR}"/config
   fi
   echo Purging "${HOME}/.ssh"
