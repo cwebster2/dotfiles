@@ -71,6 +71,7 @@ install_rust() {
       ripgrep \
       bat \
       du-dust \
+      sd \
       pastel \
       topgrade \
       zoxide \
@@ -168,7 +169,6 @@ install_dotfiles() {
     fi
 
   )
-  install_zsh
 }
 
 install_vim() {

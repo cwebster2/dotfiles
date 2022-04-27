@@ -18,6 +18,7 @@ echo
     fnm \
     ripgrep \
     bat \
+    sd \
     du-dust \
     pastel \
     topgrade \
