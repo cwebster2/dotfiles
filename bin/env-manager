@@ -427,6 +427,16 @@ install_node() {
   )
 }
 
+install_deno() {
+  echo
+  echo "Installing node..."
+  echo
+  (
+    curl -fsSL https://deno.land/x/dvm/install.sh | sh
+    dvm install
+  )
+}
+
 install_python() {
   echo
   echo "Installing python..."
@@ -449,6 +459,7 @@ install_tools() {
   install_rust;
   export PATH=${HOME}/.cargo/bin:$PATH
   install_node;
+  install_deno;
   install_python;
   install_golang;
   install_terraform;
