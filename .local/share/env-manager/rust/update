@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo
+echo "Updating rust..."
+echo
+
+if [ ! -z $(command -v rustup) ]; then
+  rustup update
+else
+  echo "Rust not found, installing..."
+  install_rust
+fi

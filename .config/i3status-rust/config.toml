@@ -90,3 +90,10 @@ format_unavailable = "x"
 block = "battery"
 full_threshold = 98
 if_command = "test -e /sys/class/power_supply/BAT0"
+
+[[block]]
+block = "custom"
+command = "~/.config/i3status-rust/dunst-status.sh"
+on_click = "dunstctl set-paused toggle"
+json = true
+interval = "once"

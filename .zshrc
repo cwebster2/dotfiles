@@ -143,3 +143,5 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 
 [ -f ~/TODO.md ] && glow ~/TODO.md
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

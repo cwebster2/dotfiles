@@ -2,8 +2,8 @@
 
 alias code='code-insiders'
 
-if [ ! -z $(command -v batcat) ]; then
-  alias cat='batcat'
+if [ ! -z $(command -v bat) ]; then
+  alias cat='bat'
 fi
 
 if [ ! -z $(command -v prettyping) ]; then
