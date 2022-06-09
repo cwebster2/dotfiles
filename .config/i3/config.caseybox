@@ -129,16 +129,16 @@ set $ws8 "8"
 set $ws9 "9🐱‍💻"
 set $ws10 "10♫"
 
-workspace $ws1 output DP-2
+workspace $ws1 output DP-0
 workspace $ws2 output DP-4
-workspace $ws3 output DP-0
+workspace $ws3 output DP-2
 workspace $ws4 output DP-4
-workspace $ws5 output DP-0
+workspace $ws5 output DP-2
 workspace $ws6 output DP-4
 workspace $ws7 output DP-4
 workspace $ws8 output DP-4
-workspace $ws9 output DP-0
-workspace $ws10 output DP-2
+workspace $ws9 output DP-2
+workspace $ws10 output DP-0
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -263,7 +263,7 @@ client.focused_inactive  $inactive-bg-color $inactive-bg-color $inactive-text-co
 client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
 
 #163
-exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 0x0 --rotate normal --dpi 136 --output DP-3 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --dpi 136 --output DP-5 --off
+exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 7680x0 --rotate normal --dpi 136 --output DP-3 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --dpi 136 --output DP-5 --off
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # These work
@@ -309,7 +309,7 @@ bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaP
 exec --no-startup-id kdeconnect-indicator
 
 # notes
-exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
+#exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
 
 # Screen Shots
 bindsym Print exec "flameshot gui"
@@ -319,15 +319,13 @@ exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 # Syncthing!
 #exec --no-startup-id "syncthing -no-browser"
 
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1.json'"
-exec --no-startup-id "i3-msg 'workspace 10♫; append_layout /home/casey/.i3/workspace-10.json'"
+#exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1.json'"
+#exec --no-startup-id "i3-msg 'workspace 10♫; append_layout /home/casey/.i3/workspace-10.json'"
 
 exec_always --no-startup-id i3-auto-layout &
 exec kitty --session ~/.i3/default-kitty-session
-exec discord
-exec google-chrome --use-gl=desktop
-exec slack
-exec spotify
-exec teams
-#exec zoom
+#exec discord
+#exec google-chrome --use-gl=desktop
+#exec slack
+#exec spotify
 exec steam
