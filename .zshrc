@@ -69,9 +69,13 @@ plugins=(
   gpg-agent
   vscode
   fzf
+  gh
+  docker
+  fnm
   rust
   golang
   vi-mode
+  terraform
   #zsh-autosuggestions
   #zsh-syntax-highlighting
 )
@@ -136,4 +140,6 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/TODO.md ] && glow ~/TODO.md
 

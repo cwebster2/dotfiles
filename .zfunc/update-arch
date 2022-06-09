@@ -1,0 +1,3 @@
+conda deactivate
+yay -Syu --noconfirm
+conda activate

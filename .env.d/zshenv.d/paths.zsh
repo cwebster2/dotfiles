@@ -1,4 +1,6 @@
 [[ -o interactive ]] && echo "+ Setting paths"
+mkdir -p /tmp/$(whoami)
+export TMPDIR=/tmp/$(whoami)
 
 [[ -o interactive ]] && echo "  + miniconda"
 if [ -d "${HOME}/miniconda3" ]; then

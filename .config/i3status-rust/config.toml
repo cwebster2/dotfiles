@@ -1,0 +1,92 @@
+[theme]
+name = "semi-native"
+
+[icons]
+name = "awesome"
+
+[[block]]
+block = "music"
+player = "spotify"
+buttons = ["play", "next"]
+
+[[block]]
+block = "cpu"
+interval = 1
+format = "{barchart} {utilization}"
+
+[[block]]
+block = "temperature"
+collapsed = false
+interval = 10
+format = "{average}"
+chip = "coretemp-isa-0000"
+# inputs = ["temp0"]
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{mem_used_percents}"
+format_swap = "{swap_used_percents}"
+
+[[block]]
+block = "disk_space"
+path = "/"
+alias = "/"
+info_type = "available"
+format = "{icon} {available}"
+unit = "GB"
+interval = 20
+alert_absolute = true
+warning = 50.0
+alert = 20.0
+
+[[block]]
+block = "docker"
+interval = 5
+format = "{running}"
+
+[[block]]
+block = "load"
+interval = 1
+format = "{1m}"
+
+# needs I3RS_GITHUB_TOKEN set to a PAT with 'notifications' scope
+# [[block]]
+# block = "github"
+# format = "{total} {mention} {review_requested}"
+
+[[block]]
+block = "sound"
+driver = "pulseaudio"
+headphones_indicator = true
+on_click = "pavucontrol"
+
+# figure out mic
+# [[block]]
+# block = "sound"
+# name = "alsa_input.usb-Generic_Blue_Microphones_2107BAB006A8-00.analog-stereo"
+# driver = "pulseaudio"
+
+[[block]]
+block = "net"
+device = "wg5"
+format = "VPN"
+interval = 5
+hide_inactive = true
+
+[[block]]
+block = "time"
+interval = 60
+format = "%d %h %H%M"
+
+[[block]]
+block = "bluetooth"
+mac = "CA:D5:E5:3F:FA:06"
+label = ""
+format = "{percentage}"
+format_unavailable = "x"
+
+[[block]]
+block = "battery"
+full_threshold = 98
+if_command = "test -e /sys/class/power_supply/BAT0"
