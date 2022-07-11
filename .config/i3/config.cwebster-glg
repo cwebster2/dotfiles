@@ -114,14 +114,14 @@ set $ws9 "9"
 set $ws10 "10"
 
 workspace $ws1 output eDP-1-1
-workspace $ws2 output DP-1-1
-workspace $ws3 output DP-1-2
-workspace $ws4 output DP-1-1
-workspace $ws5 output DP-1-2
-workspace $ws6 output DP-1-1
-workspace $ws7 output DP-1-1
-workspace $ws8 output DP-1-1
-workspace $ws9 output DP-1-2
+workspace $ws2 output HDMI-1
+workspace $ws3 output DP-1-3
+workspace $ws4 output HDMI-1
+workspace $ws5 output DP-1-3
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output DP-1-3
 workspace $ws10 output eDP-1-1
 
 # switch to workspace
@@ -158,6 +158,8 @@ assign [class="zoom"] $ws6
 assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
 
+for_window [class="Spotify"] move container to workspace $ws10
+for_window [class="Spotify Premium"] move container to workspace $ws10
 for_window [class="zoom"] floating enable
 for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
@@ -215,6 +217,7 @@ client.focused_inactive  $inactive-bg-color $inactive-bg-color $inactive-text-co
 client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
 
 # exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --dpi 100 --rotate normal --output DP-1 --off --output HDMI-0 --off --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --primary --mode 3840x2160 --pos 1920x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --mode 3840x2160 --pos 5760x0 --rotate normal --dpi 136
 
 # exec --no-startup-id /home/casey/.config/i3/desk-monitors.sh
 
@@ -225,8 +228,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #i
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
-bindsym XF86MonBrightnessUp exec --no-startup-id /home/casey/bin/brightness-step up 2 # increase screen brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id /home/casey/bin/brightness-step down 2 # decrease screen brightness
+#bindsym XF86MonBrightnessUp exec --no-startup-id /home/casey/bin/brightness-step up 2 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec --no-startup-id /home/casey/bin/brightness-step down 2 # decrease screen brightness
 
 # Need to test
 bindsym XF86AudioPlay exec playerctl play
@@ -241,7 +244,8 @@ bindsym XF86Suspend exec --no-startup-id $lockscreen
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 exec --no-startup-id nm-applet
-exec --no-startup-id polychromatic-tray-applet
+exec --no-startup-id blueman-applet
+# exec --no-startup-id polychromatic-tray-applet
 
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
@@ -272,8 +276,8 @@ exec --no-startup-id "setxkbmap -option ctrl:nocaps"
 
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1-razer.json'"
 
-exec kitty
-# exec google-chrome
-# exec slack
-# exec spotify
+exec --no-startup-id kitty
+exec --no-startup-id google-chrome
+exec --no-startup-id slack
+exec --no-startup-id spotify
 # exec teams
