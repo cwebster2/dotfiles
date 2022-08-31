@@ -5,7 +5,7 @@ kitty + complete setup zsh | source /dev/stdin
 [[ -o interactive ]] && echo "  + fzf"
 export PATH="/home/casey/.fzf/bin:${PATH}"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border=sharp --margin=2%"
 
 [[ -o interactive ]] && echo "  + navi"
 if [ ! -z $(command -v navi) ]; then
@@ -21,3 +21,4 @@ export DOCKER_BUILDKIT=1
 
 export AWS_DEFAULT_REGION=us-east-1
 export TERMINFO=/usr/share/terminfo
+

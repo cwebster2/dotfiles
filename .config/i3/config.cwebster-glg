@@ -245,7 +245,6 @@ exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
-# exec --no-startup-id polychromatic-tray-applet
 
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"

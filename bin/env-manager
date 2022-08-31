@@ -79,6 +79,7 @@ install_rust() {
       gping \
       jless \
       fd-find
+    cargo install starship --locked
   )
 }
 
@@ -243,9 +244,6 @@ install_zsh() {
       git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
     fi
     cd "${HOME}/.oh-my-zsh/custom/themes"
-    if  [ ! -d powerlevel10k ]; then
-      git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k
-    fi
   )
   echo "zsh installed"
   cd "$HOME"
