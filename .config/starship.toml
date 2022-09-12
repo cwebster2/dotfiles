@@ -21,7 +21,8 @@ ssh_only = false
 style = "#4169e1"
 
 [directory]
-repo_root_style = "bold blue"
+repo_root_style = "bold #4169e1"
+style = "bold blue"
 
 [git_branch]
 style = "green"
