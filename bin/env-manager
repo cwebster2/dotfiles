@@ -78,6 +78,7 @@ install_rust() {
       git-delta \
       gping \
       jless \
+      spotify-tui \
       fd-find
     cargo install starship --locked
   )
