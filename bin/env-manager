@@ -64,6 +64,7 @@ install_rust() {
     source ${HOME}/.cargo/env
     is_bin_in_path i3 && cargo install xidlehook --bins
     is_bin_in_path i3 && cargo install i3-auto-layout
+    set +e
     cargo install \
       navi \
       exa \
@@ -164,7 +165,7 @@ install_dotfiles() {
       git remote add origin "https://github.com/cwebster2/dotfiles"
       git fetch --all
       git branch -f ${DOTFILESBRANCH} origin/${DOTFILESBRANCH}
-      git checkout ${DOTFILESBRANCH}
+      git checkout -f ${DOTFILESBRANCH}
       git pull origin ${DOTFILESBRANCH}
       git config status.showuntrackedfiles no
       git remote set-url origin "git@github.com:cwebster2/dotfiles"
@@ -250,20 +251,6 @@ install_zsh() {
   cd "$HOME"
 }
 
-update_zsh() {
-  (
-    pushd "${HOME}/.oh-my-zsh/custom/themes" &> /dev/null || exit
-    if [ -d powerlevel10k ]; then
-      cd powerlevel10k
-      git pull
-    else
-      git clone https://github.com/romkatv/powerlevel10k.git powerlevel10k
-    fi
-    popd &> /dev/null || exit
-
-  )
-}
-
 install_fzf() {
   echo
   echo "Install fzf"
@@ -297,25 +284,6 @@ install_wm_status() {
   )
 }
 
-install_ergodox() {
-  # qmk_firmware prusaslicer Lector wally
-  echo
-  echo "Installing ergodox keyboard stuff"
-  echo
-  (
-  sudo bash -c "cat > /etc/udev/rules.d/50-wally.rules" << 'EOF'
-# Teensy rules for the Ergodox EZ Original / Shine / Glow
-ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-EOF
-
-  wget -q 'https://configure.ergodox-ez.com/wally/linux' -O "${HOME}/bin/wally"
-  chmod 755 "${HOME}/bin/wally"
-  )
-}
-
 install_ranger() {
   echo
   echo "Configure ranger"
@@ -323,17 +291,6 @@ install_ranger() {
 
   (
     echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
-  )
-}
-
-install_discord() {
-  echo
-  echo "Installing Discord"
-  echo
-  (
-    set +e
-    sudo snap install discord
-    echo "Done"
   )
 }
 
@@ -357,9 +314,7 @@ install_misc() {
   install_fzf
   install_delta
   install_wm_status
-  install_ergodox
   install_ranger
-  install_discord
   install_docker_cred_helper
 
   echo
