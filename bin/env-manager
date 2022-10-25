@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 set -o pipefail
+set -x
 
 # TODO genenralize.  nvim setup
 export TARGET_USER=$(whoami)

@@ -1,5 +1,7 @@
 FROM env-install:arch-v1
 
+RUN sudo chown -R casey.casey /home/casey
+
 USER casey
 WORKDIR /home/casey
 
