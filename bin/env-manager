@@ -383,7 +383,7 @@ install_node() {
 
 install_deno() {
   echo
-  echo "Installing node..."
+  echo "Installing deno..."
   echo
   (
     curl -fsSL https://deno.land/x/dvm/install.sh | sh
