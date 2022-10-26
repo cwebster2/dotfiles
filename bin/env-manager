@@ -388,7 +388,7 @@ install_deno() {
   echo
   (
     curl -fsSL https://deno.land/x/dvm/install.sh | sh
-    dvm install
+    zsh -i -c "dvm install"
   )
 }
 
