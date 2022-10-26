@@ -267,7 +267,7 @@ install_delta() {
   echo "Configure delta"
   echo
   (
-    git config --global core.pager 'delta --dark --plus-color="#012800" --minus-color="#340001"'
+    git config --global core.pager 'delta --dark --plus-style=\"syntax #012800\" --minus-style=\"normal #340001\"'
   )
 }
 
