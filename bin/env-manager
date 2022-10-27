@@ -295,6 +295,18 @@ install_ranger() {
   )
 }
 
+install_docker_compose() {
+  echo
+  echo "Installing docker compose"
+  echo
+  (
+    # download it.
+    mkdir -p "${HOME}/.docker/cli-plugins"
+    curl -sLo "$HOME"/.docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64
+    chmod 755 "${HOME}/.docker/cli-plugins/docker-compose"
+  )
+}
+
 install_docker_cred_helper(){
   echo
   echo "Configure docker credential helper"
@@ -316,6 +328,7 @@ install_misc() {
   install_delta
   install_wm_status
   install_ranger
+  install_docker_compose
   install_docker_cred_helper
 
   echo
