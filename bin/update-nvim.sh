@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+
 NVIM_GIT_DIR=$HOME/src/neovim
 
 if [ ! -d "${NVIM_GIT_DIR}" ]; then
@@ -21,6 +24,7 @@ make \
   CMAKE_INSTALL_PREFIX="$HOME"/.local/ \
   CMAKE_BUILD_TYPE=RelWithDebInfo \
   -j 8
+rm -rf "$HOME"/.local/share/nvim/runtime
 make install
 popd 2>/dev/null || exit
 
