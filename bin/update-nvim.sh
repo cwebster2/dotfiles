@@ -16,6 +16,7 @@ else
   git checkout master
   # git checkout tags/nightly
   git pull
+  make distclean
   popd 2>/dev/null || exit
 fi
 
