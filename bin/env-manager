@@ -432,7 +432,7 @@ install_tools() {
   install_golang;
   install_terraform;
   install_misc;
-  cat somefile > /dev/tty/1
+
   echo "***"
   echo "*** Done Insalling Tools"
   echo "***"
