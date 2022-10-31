@@ -273,7 +273,7 @@ exec --no-startup-id /home/casey/.config/i3/autolock.sh &
 # I basically never want Caps Lock to do what it normally does.
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
 
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1-razer.json'"
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1-laptop.json'"
 
 exec --no-startup-id kitty
 exec --no-startup-id google-chrome
