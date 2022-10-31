@@ -1,5 +1,5 @@
 ! 163 dpi
-Xft.dpi: 136
+Xft.dpi: 100
 URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true

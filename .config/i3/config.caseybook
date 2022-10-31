@@ -118,16 +118,16 @@ bindsym $mod+Ctrl+i exec --no-startup-id i3resize right
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
+set $ws2 "1"
+set $ws1 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9🐱‍💻"
-set $ws10 "10♫"
+set $ws9 "9💻"
+set $ws10 "10"
 
 # workspace $ws1 output DP-2
 # workspace $ws2 output DP-4
@@ -164,18 +164,18 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-assign [class="kitty"] $ws2
+assign [class="kitty"] $ws1
 assign [class="Google-chrome"] $ws3
 #assign [class="discord"] $ws1
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
-assign [class="Slack"] $ws1
-assign [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] $ws1
+assign [class="Slack"] $ws2
+assign [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] $ws2
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
 assign [class="Spotify"] $ws10
 assign [class="Spotify Premium"] $ws10
-assign [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] $ws10
+assign [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] $ws2
 #assign [class="outlook.office365.com"] $ws1
 
 # skype, steam, wine: float Gimp
@@ -183,10 +183,10 @@ for_window [class="zoom"] floating enable
 for_window [class="Lutris"] floating enable
 for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
-for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
-for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
-for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws1
-for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws10
+for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws2
+for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws2
+for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws2
+for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws2
 for_window [class="obsidian"] move scratchpad
 #for_window [class="filemanager"] floating enable
 #for_window [class="Code"] floating enable
@@ -272,8 +272,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # These don't work
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightness
 
 # Need to test
 bindsym XF86AudioPlay exec playerctl -p spotify play-pause
@@ -292,7 +292,7 @@ bindsym XF86AudioPrev exec playerctl -p spotify previous
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 bar {
-    font pango:Hack Nerd Font Mono 8, FontAwesome 8
+    font pango:Hack Nerd Font Mono 10, FontAwesome 10
     status_command /home/casey/.cargo/bin/i3status-rs
     mode dock
     position top
@@ -302,11 +302,14 @@ bar {
     strip_workspace_name no
 }
 
+exec --no-startup-id xinput set-prop "STAR0001:00 093A:0255 Touchpad" "libinput Tapping Enabled" 1
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 
 # Do the KDE connect thing.
 # exec --no-startup-id kdeconnect-indicator
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 # notes
 # exec --no-startup-id /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
