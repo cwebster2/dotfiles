@@ -27,3 +27,5 @@ alias dockercontainerrmrf="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs su
 alias gcm='git checkout $(gh repo view --json "defaultBranchRef" --jq ".[] | .name")'
 
 alias icat="kitty +kitten icat"
+
+alias pacman="sudo pacman"

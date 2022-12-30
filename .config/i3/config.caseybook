@@ -118,8 +118,8 @@ bindsym $mod+Ctrl+i exec --no-startup-id i3resize right
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws2 "1"
-set $ws1 "2"
+set $ws1 "1"
+set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
@@ -188,6 +188,7 @@ for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to
 for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws2
 for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws2
 for_window [class="obsidian"] move scratchpad
+for_window [class="Spotify"] move container to workspace $ws10
 #for_window [class="filemanager"] floating enable
 #for_window [class="Code"] floating enable
 #for_window [class="Firefox"] floating enable

@@ -3,3 +3,4 @@ channels:
   - defaults
 anaconda_upload: true
 channel_priority: strict
+auto_activate_base: false

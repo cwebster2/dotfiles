@@ -71,6 +71,7 @@ plugins=(
   fzf
   gh
   docker
+  docker-compose
   fnm
   rust
   golang

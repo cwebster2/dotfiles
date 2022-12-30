@@ -190,7 +190,7 @@ install_vim() {
     git checkout nvim-lua
 
      # install neovim from source
-     bin/update-nvim.sh
+     # bin/update-nvim.sh
 
      ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/nvim"
      ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vim"
@@ -536,7 +536,7 @@ main() {
   elif [[ $cmd == "versions" ]]; then
     print_versions
   elif [[ $cmd == "updatezsh" ]]; then
-    updat_zsh
+    install_zsh
   else
     usage
   fi
