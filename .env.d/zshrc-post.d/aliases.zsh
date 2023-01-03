@@ -29,3 +29,4 @@ alias gcm='git checkout $(gh repo view --json "defaultBranchRef" --jq ".[] | .na
 alias icat="kitty +kitten icat"
 
 alias pacman="sudo pacman"
+alias apt="sudo apt"

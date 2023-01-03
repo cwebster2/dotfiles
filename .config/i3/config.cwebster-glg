@@ -151,7 +151,8 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] $ws1
 assign [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] $ws1
 assign [class="kitty"] $ws2
-assign [class="Google-Chrome"] $ws3
+assign [class="firefox"] $ws3
+assign [class="Google-Chrome"] $ws5
 assign [class="Code - Insiders"] $ws4
 assign [class="Code"] $ws4
 assign [class="zoom"] $ws6
@@ -161,6 +162,7 @@ assign [class="Spotify Premium"] $ws10
 for_window [class="Spotify"] move container to workspace $ws10
 for_window [class="Spotify Premium"] move container to workspace $ws10
 for_window [class="zoom"] floating enable
+for_window [class="intune-portal"] floating enable, move container to workspace $ws8
 for_window [title="Remmina Remote Desktop Client"] floating enable, move container to workspace $ws8
 for_window [class="org.remmina.Remmina" tiling] move container to workspace $ws9
 for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to workspace $ws1
@@ -276,7 +278,7 @@ exec --no-startup-id "setxkbmap -option ctrl:nocaps"
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/casey/.i3/workspace-1-laptop.json'"
 
 exec --no-startup-id kitty
-exec --no-startup-id google-chrome
+exec --no-startup-id firefox
 exec --no-startup-id slack
 exec --no-startup-id spotify
 # exec teams

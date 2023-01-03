@@ -32,6 +32,7 @@ test_and_set_path "/usr/local/go/bin"
 test_and_set_path "${HOME}/.cargo/bin"
 test_and_set_path "${HOME}/.local/bin"
 test_and_set_path "${HOME}/.tfenv/bin"
+test_and_set_path "${HOME}/.local/share/nvim/mason/bin"
 
 export DENO_INSTALL="${HOME}/.deno"
 export DVM_DIR="${HOME}/.dvm"
