@@ -6,9 +6,10 @@ set $cdown  n
 set $cup    e
 set $cright i
 
-exec_always {
-  gsettings $gnome-schema gtk-theme 'Materia-dark'
-}
+# TODO FIX
+# exec_always {
+#   gsettings $gnome-schema gtk-theme 'Materia-dark'
+# }
 
 input type:touchpad {
   tap enabled
@@ -330,7 +331,8 @@ bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaP
 exec kdeconnect-indicator
 
 # notes
-exec /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
+# TODO FIX
+# exec /home/casey/bin/Obsidian-0.11.13.AppImage --no-sandbox
 
 # Screen Shots
 bindsym Print exec "slurp | grim -g - - | wl-copy"

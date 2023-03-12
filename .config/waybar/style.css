@@ -1,0 +1,120 @@
+@import "mocha.css";
+
+* {
+  font-family: Hack Nerd Font;
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: black;
+  /* background: transparent; */
+}
+
+#workspaces {
+  /* border-radius: 0.5rem; */
+  /* background-color: @surface0; */
+  padding: 0;
+  margin: 0;
+  /* margin-top: 1rem; */
+  /* margin: 1px; */
+}
+
+#workspaces button {
+  color: @pink;
+  padding: 0 10px;
+  margin: 0 -2px;
+  background-color: transparent;
+  border-bottom: 3px solid transparent;
+}
+
+#workspaces button.active {
+  color: @lavender;
+}
+
+#workspaces button:hover {
+  color: @rosewater;
+}
+
+#workspaces button.focused {
+  border-bottom: 3px solid @blue;
+}
+
+#workspaces button.urgent {
+  background-color: @red;
+}
+
+#mode {
+  background: #64727d;
+  border-bottom: 3px solid @text;
+}
+
+#tray,
+#network,
+#backlight,
+#clock,
+#battery,
+#pulseaudio,
+#custom-lock,
+#cpu,
+#memory,
+#temperature,
+#custom-power {
+  /* background-color: @surface0; */
+  /* margin: 7px 3px 0px 7px; */
+  /* padding: 10px 5px 10px 5px; */
+  padding: 0 2.5px;
+  margin: 0 2.5px;
+  /* border-radius: 0.5rem; */
+}
+
+#clock {
+  color: @lavender;
+}
+
+#battery {
+  color: @green;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @red;
+}
+
+#network {
+  color: @flamingo;
+}
+
+#backlight {
+  color: @yellow;
+}
+
+#pulseaudio {
+  color: @pink;
+}
+
+#pulseaudio.muted {
+  color: @red;
+}
+
+#custom-power {
+  /* border-radius: 1rem; */
+  color: @red;
+  /* margin-bottom: 1rem; */
+}
+
+#tray {
+  /* border-radius: 1rem; */
+}
+
+tooltip {
+  background: @base;
+  border: 1px solid @pink;
+}
+
+tooltip label {
+  color: @text;
+}
