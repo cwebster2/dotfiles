@@ -207,8 +207,8 @@ assign [class="Slack"] $ws10
 assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
-assign [class="Spotify"] $ws10
-assign [class="Spotify Premium"] $ws10
+assign [app_id="Spotify"] $ws10
+assign [app_id="Spotify Premium"] $ws10
 #assign [class="teams.microsoft.com"] $ws1
 #assign [class="outlook.office365.com"] $ws1
 
@@ -294,9 +294,6 @@ client.unfocused         $inactive-bg-color $inactive-bg-color $inactive-text-co
 client.focused_inactive  $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
 client.urgent            $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
 
-#163
-#exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal --dpi 136 --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 0x0 --rotate normal --dpi 136 --output DP-3 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --dpi 136 --output DP-5 --off
-#exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # These work
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -349,7 +346,7 @@ exec kitty
 #exec discord
 #exec google-chrome --use-gl=desktop
 #exec slack
-#exec spotify
+exec spotify
 #exec teams
 ##exec zoom
 #exec steam

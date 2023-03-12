@@ -27,6 +27,9 @@ floating_modifier $mod
 bindsym $mod+Return exec --no-startup-id kitty
 
 default_border pixel 0
+smart_gaps on
+# gaps outer 0px
+# gaps inner 10px
 
 # kill focused window
 bindsym $mod+q kill
@@ -332,7 +335,7 @@ exec kitty
 # exec discord
 # exec google-chrome --use-gl=desktop
 # exec slack
-# exec spotify
+exec spotify
 # exec teams
 # exec zoom
 # exec steam

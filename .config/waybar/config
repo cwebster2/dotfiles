@@ -50,11 +50,15 @@
     },
     "custom/spotify": {
         "exec": "/usr/bin/python3 /home/casey/.config/waybar/mediaplayer.py --player spotify",
-        "format": "{}  ",
+        "format": "{icon} {} ",
+        "escape": true,
+        "max-length": 40,
+        "exec-if": "pgrep spotify",
+        "smooth-scrolling-threshold": 10,
         "return-type": "json",
-        "on-click": "playerctl play-pause",
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous"
+        "on-click": "playerctl -p sportify play-pause",
+        "on-scroll-up": "playerctl -p spotify next",
+        "on-scroll-down": "playerctl -p spotify previous"
     },
     "idle_inhibitor": {
         "format": "{icon}",
