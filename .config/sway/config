@@ -29,16 +29,21 @@ smart_gaps on
 gaps inner 10
 
 # Idle configuration
-exec swayidle \
-    timeout 300 'exec $lock' \
-    timeout 600 'swaymsg "output * dpms off"' \
-    after-resume 'swaymsg "output * dpms on"' \
-    before-sleep 'exec $lock'
+# exec swayidle \
+#     timeout 300 'exec $lock' \
+#     timeout 600 'swaymsg "output * dpms off"' \
+#     after-resume 'swaymsg "output * dpms on"' \
+#     before-sleep 'exec $lock'
 
 bar {
+  # status_command /home/casey/.cargo/bin/i3status-rs
   swaybar_command waybar
   tray_output primary
-  font pango:Hack Nerd Font Mono 8, FontAwesome 8
+  font pango:Hack Nerd Font Mono 10, FontAwesome 10
+  mode dock
+  position top
+  tray_padding 2
+  strip_workspace_numbers yes
 }
 
 # bar {
@@ -207,7 +212,7 @@ assign [class="Slack"] $ws10
 assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
-assign [app_id="Spotify"] $ws10
+assign [class="^Spotify$"] $ws10
 assign [app_id="Spotify Premium"] $ws10
 #assign [class="teams.microsoft.com"] $ws1
 #assign [class="outlook.office365.com"] $ws1

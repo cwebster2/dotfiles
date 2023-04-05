@@ -22,3 +22,6 @@ export DOCKER_BUILDKIT=1
 export AWS_DEFAULT_REGION=us-east-1
 export TERMINFO=/usr/share/terminfo
 
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  export MOZ_ENABLE_WAYLAND=1
+fi

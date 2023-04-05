@@ -5,7 +5,7 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
     "modules-center": [],
     "modules-right": ["idle_inhibitor", "custom/spotify", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
     // Modules configuration
@@ -56,7 +56,7 @@
         "exec-if": "pgrep spotify",
         "smooth-scrolling-threshold": 10,
         "return-type": "json",
-        "on-click": "playerctl -p sportify play-pause",
+        "on-click": "playerctl -p spotify play-pause",
         "on-scroll-up": "playerctl -p spotify next",
         "on-scroll-down": "playerctl -p spotify previous"
     },
