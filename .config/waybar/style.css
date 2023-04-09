@@ -7,8 +7,12 @@
 }
 
 window#waybar {
+  /* background: black; */
+  background: transparent;
+}
+
+window#waybar.modules-right {
   background: black;
-  /* background: transparent; */
 }
 
 #workspaces {
@@ -60,6 +64,7 @@ window#waybar {
 #memory,
 #temperature,
 #custom-spotify,
+#disk,
 #custom-power {
   /* background-color: @surface0; */
   /* margin: 7px 3px 0px 7px; */
@@ -115,8 +120,16 @@ window#waybar {
   color: @green;
 }
 
+#disk {
+  color: @green;
+}
+
 #temperature {
   color: @green;
+}
+
+#temperature.critical {
+  color: @red;
 }
 
 #custom-spotify {
