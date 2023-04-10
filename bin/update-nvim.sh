@@ -13,11 +13,22 @@ if [ ! -d "${NVIM_GIT_DIR}" ]; then
 else
   echo "Pulling latest neovim"
   pushd "${NVIM_GIT_DIR}" 2>/dev/null || exit
+  CURRENT_SHA=$(git rev-parse HEAD)
   git checkout master
   # git checkout tags/nightly
   git pull
-  make distclean
+  NEW_SHA=$(git rev-parse HEAD)
+  if [ "$CURRENT_SHA" != "$NEW_SHA" ]; then
+    echo "New neovim version found, cleaning up"
+    make distclean
+  fi
   popd 2>/dev/null || exit
+  if [ "$CURRENT_SHA" == "$NEW_SHA" ]; then
+    echo "neovim already up to date"
+    echo "SHA: $CURRENT_SHA"
+    nvim --version | head -1
+    exit 0
+  fi
 fi
 
 pushd "${NVIM_GIT_DIR}" 2>/dev/null || exit
