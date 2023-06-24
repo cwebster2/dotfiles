@@ -54,8 +54,6 @@ window#waybar.modules-right {
 }
 
 #tray,
-#network,
-#backlight,
 #clock,
 #battery,
 #pulseaudio,
@@ -72,6 +70,12 @@ window#waybar.modules-right {
   padding: 0 10px;
   margin: 0 2.5px;
   /* border-radius: 0.5rem; */
+}
+
+#backlight,
+#network {
+  padding: 0 5px;
+  margin: 0 2.5px;
 }
 
 #clock {
