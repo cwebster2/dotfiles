@@ -53,7 +53,6 @@ window#waybar.modules-right {
   border-bottom: 3px solid @text;
 }
 
-#tray,
 #clock,
 #battery,
 #pulseaudio,
@@ -141,7 +140,10 @@ window#waybar.modules-right {
 }
 
 #tray {
+  padding: 0 2px;
+  /* margin: 0 2.5px; */
   /* border-radius: 1rem; */
+  /* border: 1px solid red; */
 }
 
 tooltip {
