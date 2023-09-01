@@ -1,6 +1,6 @@
 configuration {
 /*	modi: "run,ssh";*/
-	font: "hack 10";
+	font: "hack 12";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/

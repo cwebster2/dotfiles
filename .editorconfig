@@ -1,6 +1,7 @@
 https://EditorConfig.org
 
 root = true
+indent_style = space
 
 [*]
 end_of_line = lf
@@ -23,3 +24,8 @@ indent_style = tab
 [*.{json,yaml}]
 indent_style = space
 indent_size = 2
+
+[*.lua]
+indent_style = space
+indent_size = 2
+

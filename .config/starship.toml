@@ -39,7 +39,7 @@ ap-southeast-1 = "aps1"
 eu-west-1 = "euw1"
 
 [aws.profile_aliases]
-glg-glgapp-EngineeringReadOnly = "[glgapp-EngineeringReadOnly](blue)"
+glg-glgapp-EngineeringReadOnly = "[glgapp-EngineeringReadOnly]"
 
 [package]
 disabled = true
