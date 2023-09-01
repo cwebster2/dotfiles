@@ -77,6 +77,7 @@ plugins=(
   golang
   vi-mode
   terraform
+  archlinux
   #zsh-autosuggestions
   #zsh-syntax-highlighting
 )

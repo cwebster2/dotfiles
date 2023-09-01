@@ -7,27 +7,27 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
     "modules-center": ["custom/spotify"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "disk", "backlight", "network", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "disk", "battery", "clock", "backlight", "tray"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": false,
         "all-outputs": false,
         "format": "{name}",
-        "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "6": "",
-            "7": "",
-            "8": "",
-            "9": "🐱‍💻",
-            "10": "♫",
+        //"format-icons": {
+            //"1": "",
+            //"2": "",
+            //"3": "",
+            //"4": "",
+            //"5": "",
+            //"6": "",
+            //"7": "",
+            //"8": "",
+            //"9": "🐱‍💻",
+            //"10": "♫",
             //"urgent": "",
             //"focused": "",
             //"default": ""
-        }
+        //}
     },
     "keyboard-state": {
         "numlock": false,
@@ -69,7 +69,7 @@
     },
     "tray": {
         // "icon-size": 21,
-        "spacing": 10
+        "spacing": 5
     },
     "clock": {
         "timezone": "America/Chicago",

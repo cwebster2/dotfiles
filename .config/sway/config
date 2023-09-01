@@ -1,3 +1,5 @@
+include /etc/sway/config.d/*.conf
+
 set $gnome-schema org.gnome.desktop.interface
 set $mod Mod4
 set $term kitty
@@ -85,7 +87,6 @@ bindsym $mod+g exec rofi -show ssh | xargs swaymsg exec --
 
 # spotify: no border
 for_window [class="^Spotify$"] border none
-for_window [class="^Spotify Premium$"] border none
 
 
 # change focus
@@ -157,16 +158,16 @@ bindsym $mod+Shift+d --release exec --no-startup-id "killall dunst;notify-send t
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 ""
-set $ws2 ""
-set $ws3 ""
-set $ws4 ""
-set $ws5 ""
-set $ws6 ""
-set $ws7 ""
-set $ws8 ""
-set $ws9 "🐱‍💻"
-set $ws10 "♫"
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4:"
+set $ws5 "5:"
+set $ws6 "6:"
+set $ws7 "7:"
+set $ws8 "8:"
+set $ws9 "9:💻"
+set $ws10 "10:♫"
 
 #workspace $ws1 output DP-2
 #workspace $ws2 output DP-4
@@ -212,8 +213,8 @@ assign [class="Slack"] $ws10
 assign [class="crx_chfbpgnooceecdoohagngmjnndbbaeip"] $ws1
 assign [class="Steam"] $ws8
 assign [class="Lutris"] $ws8
-assign [class="^Spotify$"] $ws10
-assign [app_id="Spotify Premium"] $ws10
+assign [class="Spotify"] $ws10
+assign [app_id="Spotify"] $ws10
 #assign [class="teams.microsoft.com"] $ws1
 #assign [class="outlook.office365.com"] $ws1
 
@@ -349,7 +350,7 @@ bindsym Control+Print exec "grim /home/casey/Downloads/screenshot.png"
 #exec_always --no-startup-id i3-auto-layout &
 exec kitty
 #exec discord
-#exec google-chrome --use-gl=desktop
+exec firefox
 #exec slack
 exec spotify
 #exec teams

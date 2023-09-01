@@ -1,6 +1,5 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
-
 # Inserts a blank line between shell prompts
 add_newline = true
 continuation_prompt = "▶▶"
@@ -15,18 +14,6 @@ right_format = """$jobs$battery$time$status$container$shell"""
 # Replace the "❯" symbol in the prompt with "➜"
 [character] # The name of the module we are configuring is "character"
 success_symbol = "[❯](#4169e1)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
-
-[hostname]
-ssh_only = false
-style = "#4169e1"
-
-[directory]
-repo_root_style = "bold #4169e1"
-style = "bold blue"
-
-[git_branch]
-style = "green"
-symbol = " "
 
 [git_status]
 ahead = "⇡${count}"
@@ -46,3 +33,14 @@ disabled = true
 
 [line_break]
 disabled = true
+
+[hostname]
+ssh_only = false
+style = "#4169e1"
+
+[directory]
+repo_root_style = "bold #4169e1"
+style = "bold blue"
+
+[git_branch]
+style = "green"
