@@ -20,6 +20,7 @@ fi
 export DOCKER_BUILDKIT=1
 
 export AWS_DEFAULT_REGION=us-east-1
+export AWS_PAGER=
 export TERMINFO=/usr/share/terminfo
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then

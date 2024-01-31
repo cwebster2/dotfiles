@@ -70,6 +70,7 @@ install_rust() {
       navi \
       exa \
       fnm \
+      cargo-update \
       ripgrep \
       bat \
       du-dust \

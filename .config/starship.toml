@@ -22,7 +22,7 @@ behind = "⇣${count}"
 
 [aws.region_aliases]
 us-east-1 = "use1"
-ap-southeast-1 = "aps1"
+ap-southeast-1 = "apse1"
 eu-west-1 = "euw1"
 
 [aws.profile_aliases]
@@ -44,3 +44,10 @@ style = "bold blue"
 
 [git_branch]
 style = "green"
+
+[battery]
+full_symbol = "󰁹 "
+charging_symbol = "󰂄 "
+discharging_symbol = "󰂃 "
+unknown_symbol = "󰁽 "
+empty_symbol = "󰂎 "

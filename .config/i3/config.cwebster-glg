@@ -169,7 +169,7 @@ for_window [instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] move container to
 for_window [instance="^crx_chfbpgnooceecdoohagngmjnndbbaeip$"] move container to workspace $ws1
 for_window [instance="^chat\\.google\\.com__dm_8xx2rgAAAAE$"] move container to workspace $ws1
 for_window [class="^Microsoft\\ Teams\\ \\-\\ Preview$"] move container to workspace $ws1
-for_window [class="obsidian"] move scratchpad
+# for_window [class="obsidian"] move scratchpad
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -249,9 +249,11 @@ exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id warp-taskbar
 
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+exec --no-startup-id "amixer -c 1 set Speaker 100%"
 
 bar {
     font pango:Hack Nerd Font Mono 8, FontAwesome 8
