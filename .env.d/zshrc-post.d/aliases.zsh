@@ -31,3 +31,5 @@ alias icat="kitty +kitten icat"
 
 alias pacman="sudo pacman"
 alias apt="sudo apt"
+
+alias norg='nvim +"Neorg journal today"'
