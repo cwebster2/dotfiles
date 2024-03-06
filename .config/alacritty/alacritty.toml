@@ -1,0 +1,21 @@
+live_config_reload = true
+
+import = [
+  "~/.config/alacritty/catppuccin-frappe.toml"
+]
+
+[colors.primary]
+background = "#000000"
+
+[window]
+opacity = 0.8
+
+[font]
+size = 10.5
+normal = { family = "Monaspace Neon", style = "Light" }
+bold = { family = "Monaspace Neon", style = "Semibold" }
+italic = { family = "Monaspace Radon", style = "Light" }
+bold_italic = { family = "Monaspace Radon", style = "Semibold" }
+
+[cursor]
+vi_mode_style = { shape="Beam", blinking="Off"}
