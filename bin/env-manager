@@ -68,7 +68,7 @@ install_rust() {
     set +e
     cargo install \
       navi \
-      exa \
+      eza \
       fnm \
       cargo-update \
       ripgrep \

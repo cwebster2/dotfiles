@@ -27,3 +27,13 @@
   default = "upstream"
 [init]
 	defaultBranch = main
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[maintenance]
+	repo = /home/casey/src/infra/aws-infrastructure
+[fetch]
+	writeCommitGraph = true

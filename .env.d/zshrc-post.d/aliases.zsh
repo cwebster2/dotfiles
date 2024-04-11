@@ -10,8 +10,8 @@ if [ ! -z $(command -v prettyping) ]; then
   alias ping='prettyping --nolegend'
 fi
 
-if [ ! -z $(command -v exa) ]; then
-  alias ls='exa --icons --git'
+if [ ! -z $(command -v eza) ]; then
+  alias ls='eza --icons --git'
   alias ll='ls -l'
   alias lla='ls -la'
 fi
@@ -33,3 +33,4 @@ alias pacman="sudo pacman"
 alias apt="sudo apt"
 
 alias norg='nvim +"Neorg journal today"'
+alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
