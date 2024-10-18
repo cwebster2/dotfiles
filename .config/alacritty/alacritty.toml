@@ -11,9 +11,9 @@ background = "#000000"
 opacity = 0.8
 
 [font]
-size = 10.5
-normal = { family = "Monaspace Neon", style = "Light" }
-bold = { family = "Monaspace Neon", style = "Semibold" }
+size = 12
+normal = { family = "Monaspace Argon", style = "Light" }
+bold = { family = "Monaspace Argon", style = "Semibold" }
 italic = { family = "Monaspace Radon", style = "Light" }
 bold_italic = { family = "Monaspace Radon", style = "Semibold" }
 

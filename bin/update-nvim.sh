@@ -14,7 +14,8 @@ else
   echo "Pulling latest neovim"
   pushd "${NVIM_GIT_DIR}" 2>/dev/null || exit
   CURRENT_SHA=$(git rev-parse HEAD)
-  git checkout master
+  # git checkout master
+  git checkout release-0.10
   # git checkout tags/nightly
   git pull
   NEW_SHA=$(git rev-parse HEAD)

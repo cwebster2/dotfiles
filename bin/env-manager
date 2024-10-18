@@ -82,6 +82,7 @@ install_rust() {
       gping \
       jless \
       spotify-tui \
+      silicon \
       fd-find
     cargo install starship --locked
   )

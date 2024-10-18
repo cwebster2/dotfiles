@@ -1,5 +1,5 @@
 if [ -n "$1" ]; then
-  kitty @ new-window --new-tab --tab-title "${(@pj" ")@}" > /dev/null
+  kitten @ launch --type=tab --tab-title "${(@pj" ")@}" > /dev/null
 else
-  kitty @ new-window --new-tab > /dev/null
+  kitten @ launch --type=tab > /dev/null
 fi
