@@ -6,4 +6,4 @@ if ! key_id=$(keyctl request user bw_session 2>/dev/null); then
 fi
 
 keyctl timeout "$key_id" ${AUTO_LOCK:-900}
-BW_SESSION=$(keyctl pipe "$key_id")
+export BW_SESSION=$(keyctl pipe "$key_id")

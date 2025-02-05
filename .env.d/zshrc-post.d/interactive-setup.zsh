@@ -12,10 +12,12 @@ if [ ! -z $(command -v navi) ]; then
   source <(navi widget zsh)
 fi
 
-[[ -o interactive ]] && echo "  + bitwarden"
-if [ ! -z $(command -v bw) ]; then
-  source <(bw completion --shell zsh)
-fi
+# set -x
+# [[ -o interactive ]] && echo "  + bitwarden"
+# if [ ! -z $(command -v bw) ]; then
+#   source <(bw completion --shell zsh)
+# fi
+# set +x
 
 export DOCKER_BUILDKIT=1
 

@@ -1,5 +1,9 @@
 ! 163 dpi
-Xft.dpi: 100
+!!NO! Xft.dpi: 136
+! Work
+! Xft.dpi: 100
+! Home
+Xft.dpi: 120
 URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true

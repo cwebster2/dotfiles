@@ -31,11 +31,15 @@ smart_gaps on
 gaps inner 10
 
 # Idle configuration
-# exec swayidle \
-#     timeout 300 'exec $lock' \
-#     timeout 600 'swaymsg "output * dpms off"' \
-#     after-resume 'swaymsg "output * dpms on"' \
-#     before-sleep 'exec $lock'
+# exec swayidle -w \
+#     timeout 300 'swaylock -f -i ~/.config/i3/wallpaper.jpg' \
+# #     timeout 600 'swaymsg "output * dpms off"' \
+# #     after-resume 'swaymsg "output * dpms on"' \
+#     before-sleep 'swaylock -f -i ~/.config/i3/wallpaper.jpg'
+
+# doesnt work
+#bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
+#bindsym XF86Suspend exec --no-startup-id $lockscreen
 
 bar {
   # status_command /home/casey/.cargo/bin/i3status-rs
@@ -317,15 +321,13 @@ bindsym --locked XF86AudioPause exec playerctl -p spotify pause
 bindsym XF86AudioNext exec playerctl -p spotify next
 bindsym XF86AudioPrev exec playerctl -p spotify previous
 
-# doesnt work
-#bindsym XF86ScreenSaver exec --no-startup-id $lockscreen
-#bindsym XF86Suspend exec --no-startup-id $lockscreen
 
 #exec gnome-settings-daemon
 #exec gnome-keyring-daemon
 
 exec nm-applet
 exec blueman-applet
+exec warp-taskbar
 
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
@@ -350,9 +352,9 @@ bindsym Control+Print exec "grim /home/casey/Downloads/screenshot.png"
 #exec_always --no-startup-id i3-auto-layout &
 exec kitty
 #exec discord
-exec firefox
-#exec slack
+# exec firefox
+exec slack
 exec spotify
 #exec teams
-##exec zoom
+# exec zoom
 #exec steam

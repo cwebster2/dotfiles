@@ -361,20 +361,17 @@ install_misc() {
   )
 }
 
-install_terraform() {
+install_tofu() {
   echo
-  echo "Installing terraform"
+  echo "Installing tofu"
   echo
   (
-    mkdir -p "${HOME}/src"
-    pushd "${HOME}/src" 2>/dev/null
-    git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
-    popd 2>/dev/null
+    git clone --depth=1 https://github.com/tofuutils/tofuenv.git ~/.tofuenv
     pushd "${HOME}/bin" 2>/dev/null
-    ln -s "${HOME}/.tfenv/bin/terraform" .
-    ln -s "${HOME}/.tfenv/bin/tfenv" .
-    "${HOME}/bin/tfenv" install ${TERRAFORM_VERSION:-1.0.6}
-    "${HOME}/bin/tfenv" use ${TERRAFORM_VERSION:-1.0.6}
+    ln -s "${HOME}.tofuenv/bin/tofuenv"
+    ln -s "${HOME}.tofuenv/bin/tofu"
+    "${HOME}/bin/tofuenv" install ${TOFU_VERSION:-1.9.0}
+    "${HOME}/bin/tofuenv" use ${TOFU_VERSION:-1.9.0}
     popd 2>/dev/null
   )
 }
