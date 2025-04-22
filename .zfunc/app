@@ -1,1 +1,1 @@
-google-chrome --kiosk --app="$1"
+microsoft-edge --kiosk --app="$1"

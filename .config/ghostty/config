@@ -1,8 +1,9 @@
 background = 000000
 background-opacity = 0.5
 background-blur-radius = 20
+alpha-blending = linear-corrected
 
-theme = catppuccin-mocha
+# theme = catppuccin-mocha
 
 window-decoration = false
 unfocused-split-opacity = 0.9
@@ -15,19 +16,20 @@ mouse-scroll-multiplier = 3
 font-family  = "Monaspace Argon"
 font-family-italic = "Monaspace Radon"
 font-size = 12
+font-thicken = true
+font-thicken-strength = 100
 
-# font-feature calt,liga
-# font-feature liga
+font-feature = calt,liga
 
-# font-feature ss01
-# font-feature ss02
-# font-feature ss03
-# font-feature ss04
-# font-feature ss05
-# font-feature ss06
-# font-feature ss07
-# font-feature ss08
-# font-feature ss09
+font-feature = ss01
+font-feature = ss02
+font-feature = ss03
+font-feature = ss04
+font-feature = ss05
+font-feature = ss06
+font-feature = ss07
+font-feature = ss08
+font-feature = ss09
 
 shell-integration-features = no-cursor,sudo,no-title
 
@@ -35,3 +37,8 @@ keybind = ctrl+shift+-=new_split:down
 keybind = ctrl+shift+|=new_split:right
 
 copy-on-select = clipboard
+
+gtk-tabs-location = bottom
+gtk-titlebar = false
+adw-toolbar-style = flat
+gtk-wide-tabs = false
