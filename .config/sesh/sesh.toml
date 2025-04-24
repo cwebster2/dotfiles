@@ -2,3 +2,7 @@
 name = "echo"
 path = "~/src/echo"
 startup_command = ". ~/.config/sesh/scripts/node-app.sh"
+
+[[session]]
+name = "neovim hacking"
+path = "~/.config/nvim"
