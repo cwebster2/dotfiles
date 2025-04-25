@@ -32,9 +32,7 @@ font-feature = ss08
 font-feature = ss09
 
 shell-integration-features = no-cursor,sudo,no-title
-
-keybind = ctrl+shift+-=new_split:down
-keybind = ctrl+shift+|=new_split:right
+link-url = true
 
 copy-on-select = clipboard
 

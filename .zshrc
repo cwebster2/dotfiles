@@ -49,6 +49,8 @@ export KEYTIMEOUT=1
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# ZSH_TMUX_AUTOSTART="true"
+
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
@@ -78,6 +80,8 @@ plugins=(
   vi-mode
   terraform
   archlinux
+  zoxide
+  tmux
   #zsh-autosuggestions
   #zsh-syntax-highlighting
 )
@@ -146,6 +150,23 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 [ -f ~/TODO.md ] && glow ~/TODO.md
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+function sesh-sessions() {
+  {
+    exec </dev/tty
+    exec <&1
+    local session
+    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+    zle reset-prompt > /dev/null 2>&1 || true
+    [[ -z "$session" ]] && return
+    sesh connect $session
+  }
+}
+
+zle     -N             sesh-sessions
+bindkey -M emacs '\es' sesh-sessions
+bindkey -M vicmd '\es' sesh-sessions
+bindkey -M viins '\es' sesh-sessions
 
 eval "$(starship init zsh)"
 
