@@ -40,3 +40,11 @@ gtk-tabs-location = bottom
 gtk-titlebar = false
 adw-toolbar-style = flat
 gtk-wide-tabs = false
+
+keybind = ctrl+shift+o=unbind
+keybind = ctrl+shift+n=unbind
+keybind = ctrl+shift+e=unbind
+
+keybind = ctrl+b>o=new_split:right
+keybind = ctrl+b>n=new_window
+keybind = ctrl+b>e=new_split:down
