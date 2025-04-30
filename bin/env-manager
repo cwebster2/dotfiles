@@ -35,7 +35,7 @@ check_is_sudo() {
 }
 
 function is_bin_in_path {
-  builtin type -P "$1" &> /dev/null
+  builtin type -P "$1" &>/dev/null
 }
 
 update_rust() {
@@ -145,6 +145,7 @@ install_golang() {
     go install github.com/rogpeppe/godef@latest
     go install -u github.com/sourcegraph/go-langserver@latest
     go install github.com/sachaos/viddy@latest
+    go install github.com/arl/gitmux@latest
 
     # symlink weather binary for motd
     sudo ln -snf "${GOPATH}/bin/weather" /usr/local/bin/weather
@@ -191,13 +192,13 @@ install_vim() {
     git remote set-url origin git@github.com:cwebster2/vim
     git checkout nvim-lua
 
-     # install neovim from source
-     # bin/update-nvim.sh
+    # install neovim from source
+    # bin/update-nvim.sh
 
-     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/nvim"
-     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vim"
-     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vi"
-     ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/editor"
+    ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/nvim"
+    ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vim"
+    ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/vi"
+    ln -s "${HOME}/.local/bin/nvim" "${HOME}/bin/editor"
 
   )
 }
@@ -242,10 +243,10 @@ install_zsh() {
     sudo chsh -s $(command -v zsh) ${TARGET_USER}
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     cd "${HOME}/.oh-my-zsh/custom/plugins"
-    if  [ ! -d zsh-autosuggestions ]; then
+    if [ ! -d zsh-autosuggestions ]; then
       git clone https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
     fi
-    if  [ ! -d zsh-lazyload ]; then
+    if [ ! -d zsh-lazyload ]; then
       git clone https://github.com/qoomon/zsh-lazyload zsh-lazyload
     fi
     cd "${HOME}/.oh-my-zsh/custom/themes"
@@ -293,7 +294,7 @@ install_ranger() {
   echo
 
   (
-    echo "inode/directory=ranger.desktop" >> ${HOME}/.config/mimeapps.list
+    echo "inode/directory=ranger.desktop" >>${HOME}/.config/mimeapps.list
   )
 }
 
@@ -309,13 +310,13 @@ install_docker_compose() {
   )
 }
 
-install_docker_cred_helper(){
+install_docker_cred_helper() {
   echo
   echo "Configure docker credential helper"
   echo
   (
-    mkdir -p  ${HOME}/.docker
-    cat <<- EOF > ${HOME}/.docker/config.json
+    mkdir -p ${HOME}/.docker
+    cat <<-EOF >${HOME}/.docker/config.json
     {
       "credsStore": "secretservice"
     }
@@ -343,15 +344,15 @@ install_misc() {
   # echo
   # echo "Setting sleep timeouts"
   # echo
-#   (
-#     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
-#     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
+  #   (
+  #     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout '0'
+  #     sudo gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout '10'
 
-#     sudo bash -c "cat >> /etc/gdm3/greeter.dconf-defaults" << 'EOF'
-# sleep-inactive-ac-timeout=0
-# sleep-inactive-ac-type='nothing'
-# EOF
-#   )
+  #     sudo bash -c "cat >> /etc/gdm3/greeter.dconf-defaults" << 'EOF'
+  # sleep-inactive-ac-timeout=0
+  # sleep-inactive-ac-type='nothing'
+  # EOF
+  #   )
 
   echo
   echo "Enabling the gpg agent sockets"
@@ -423,14 +424,14 @@ install_python() {
 
 install_tools() {
   # rust first, it install fnm, needed for node
-  install_rust;
+  install_rust
   export PATH=${HOME}/.cargo/bin:$PATH
-  install_node;
-  install_deno;
-  install_python;
-  install_golang;
-  install_terraform;
-  install_misc;
+  install_node
+  install_deno
+  install_python
+  install_golang
+  install_terraform
+  install_misc
 
   echo "***"
   echo "*** Done Insalling Tools"
@@ -451,7 +452,7 @@ setup_sshd() {
   echo "***"
 
   sudo mkdir -p /etc/ssh/sshd_config.d
-  cat <<-EOF >> /etc/ssh/sshd_config.d/99-local.conf
+  cat <<-EOF >>/etc/ssh/sshd_config.d/99-local.conf
   AuthorizedKeysFile  .ssh/authorized_keys .ssh-persistant/authorized_keys
   PasswordAuthentication no
   ChallengeResponseAuthentication no
