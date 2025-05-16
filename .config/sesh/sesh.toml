@@ -23,7 +23,17 @@ startup_command = "yazi"
 name = "top"
 startup_command = "btop"
 
-# [[default session]]
-# startup_command = "nvim ."
-# preview_command = "eza --all --git --icons --color=always {}"
-#
+[[session]]
+name = "today's note"
+startup_command = "nvim +ObsidianToday ~/vaults/work/Welcome.md"
+
+[[session]]
+name = "fluentd"
+startup_command = "nvim ."
+path = "~/src/fluend-docker-image"
+preview_command = "eza --all --git --icons --colors=always {}"
+
+[default_session]
+startup_command = "nvim ."
+preview_command = "eza --all --git --icons --color=always {}"
+

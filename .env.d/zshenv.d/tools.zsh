@@ -6,5 +6,5 @@ if [[ -o interactive ]]; then
 fi
 
 # [[ -o interactive ]] && echo "  + fonts"
-source ~/.local/share/fonts/fontawesome/*.sh
+# source ~/.local/share/fonts/fontawesome/*.sh
 
