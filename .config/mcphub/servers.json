@@ -1,0 +1,38 @@
+{
+  "nativeMCPServers": [
+    
+  ],
+  "mcpServers": {
+    "context7": {
+      "type": "stdio",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "command": "npx"
+    },
+    "terraform": {
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "hashicorp/terraform-mcp-server"
+      ],
+      "command": "docker"
+    },
+    "github": {
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
+      },
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "command": "docker"
+    }
+  }
+}
