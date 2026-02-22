@@ -49,7 +49,7 @@ export KEYTIMEOUT=1
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# ZSH_TMUX_AUTOSTART="true"
+ZSH_TMUX_AUTOSTART="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
