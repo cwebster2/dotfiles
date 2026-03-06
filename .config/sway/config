@@ -2,7 +2,7 @@ include /etc/sway/config.d/*.conf
 
 set $gnome-schema org.gnome.desktop.interface
 set $mod Mod4
-set $term kitty
+set $term ghostty
 set $cleft  m
 set $cdown  n
 set $cup    e
@@ -20,7 +20,8 @@ input type:touchpad {
 }
 
 # Font
-font pango:Hack Nerd Font Mono 12, FontAwesome 12
+font pango:Monaspace Argon 14, FontAwesome 14
+# font pango:Monaspace Argon 14, FontAwesome 12
 
 # Window borders
 default_border pixel 1
@@ -45,13 +46,14 @@ bar {
   # status_command /home/casey/.cargo/bin/i3status-rs
   swaybar_command waybar
   tray_output primary
-  font pango:Hack Nerd Font Mono 10, FontAwesome 10
+  font pango:Monaspace Argon Var 12, FontAwesome 12
   mode dock
   position top
   tray_padding 2
   strip_workspace_numbers yes
 }
 
+  # font pango:Hack Nerd Font Mono 10, FontAwesome 10
 # bar {
 #     status_command /home/casey/.cargo/bin/i3status-rs
 #     mode dock
@@ -311,8 +313,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # These don't work
-bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec sudo light -A 2 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -U 2 # decrease screen brightness
 
 # Need to test
 bindsym --locked XF86AudioPlay exec playerctl -p spotify play-pause
@@ -327,7 +329,7 @@ bindsym XF86AudioPrev exec playerctl -p spotify previous
 
 exec nm-applet
 exec blueman-applet
-exec warp-taskbar
+# exec warp-taskbar
 
 # Global hotkey to play/pause Spotify.
 bindsym Control+Mod1+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
@@ -350,10 +352,10 @@ bindsym Control+Print exec "grim /home/casey/Downloads/screenshot.png"
 #exec --no-startup-id "swaymsg 'workspace 10♫; append_layout /home/casey/.i3/workspace-10.json'"
 
 #exec_always --no-startup-id i3-auto-layout &
-exec kitty
+exec ghostty
 #exec discord
 # exec firefox
-exec slack
+# exec slack
 exec spotify
 #exec teams
 # exec zoom

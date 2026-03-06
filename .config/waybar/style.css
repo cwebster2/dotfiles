@@ -1,57 +1,35 @@
 @import "mocha.css";
 
 * {
-  font-family: Hack Nerd Font;
-  font-size: 14px;
+  background-color: @background;
+  color: @foreground;
+
+  border: none;
+  border-radius: 0;
   min-height: 0;
+  font-family: 'Monaspace Argon';
+  font-size: 14px;
 }
 
-window#waybar {
-  /* background: black; */
-  background: transparent;
+.modules-left {
+  margin-left: 8px;
 }
 
-window#waybar.modules-right {
-  background: black;
-}
-
-#workspaces {
-  /* border-radius: 0.5rem; */
-  /* background-color: @surface0; */
-  padding: 0;
-  margin: 0;
-  /* margin-top: 1rem; */
-  /* margin: 1px; */
+.modules-right {
+  margin-right: 8px;
 }
 
 #workspaces button {
-  color: @pink;
-  padding: 0 10px;
-  margin: 0 -2px;
-  background-color: transparent;
-  border-bottom: 3px solid transparent;
+  all: initial;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
 }
 
-#workspaces button.active {
-  color: @lavender;
+#workspaces button.empty {
+  opacity: 0.5;
 }
 
-#workspaces button:hover {
-  color: @rosewater;
-}
-
-#workspaces button.focused {
-  border-bottom: 3px solid @blue;
-}
-
-#workspaces button.urgent {
-  background-color: @red;
-}
-
-#mode {
-  background: #64727d;
-  border-bottom: 3px solid @text;
-}
 
 #clock,
 #battery,

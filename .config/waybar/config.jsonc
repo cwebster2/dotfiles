@@ -1,27 +1,65 @@
 {
     "spacing": 4, // Gaps between modules (4px)
-    "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-center": ["custom/spotify"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "disk", "battery", "clock", "backlight", "tray"],
+    // "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "custom/spotify"
+    ],
+    "modules-right": [
+        "idle_inhibitor",
+        "pulseaudio",
+        "cpu",
+        "memory",
+        "temperature",
+        "disk",
+        "battery",
+        "clock",
+        "backlight",
+        "tray"
+    ],
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "1": "",
+            "2": "2",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "",
+            "8": "",
+            "9": "♫",
+            "active": "󱓻"
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "5": [],
+            "9": []
+        }
+    },
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": false,
         "all-outputs": false,
-        "format": "{name}",
+        "format": "{name}"
         //"format-icons": {
-            //"1": "",
-            //"2": "",
-            //"3": "",
-            //"4": "",
-            //"5": "",
-            //"6": "",
-            //"7": "",
-            //"8": "",
-            //"9": "🐱‍💻",
-            //"10": "♫",
-            //"urgent": "",
-            //"focused": "",
-            //"default": ""
+        //"1": "",
+        //"2": "",
+        //"3": "",
+        //"4": "",
+        //"5": "",
+        //"6": "",
+        //"7": "",
+        //"8": "",
+        //"9": "🐱‍💻",
+        //"10": "♫",
+        //"urgent": "",
+        //"focused": "",
+        //"default": ""
         //}
     },
     "keyboard-state": {
@@ -65,9 +103,18 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-     "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
-     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-     "tooltip": false
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": [
+            "▁",
+            "▂",
+            "▃",
+            "▄",
+            "▅",
+            "▆",
+            "▇",
+            "█"
+        ],
+        "tooltip": false
     },
     "memory": {
         "format": "{}% "
@@ -78,12 +125,26 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
     },
     "backlight": {
         // "device": "intel_backlight",
         "format": "{icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery": {
         "states": {
@@ -97,7 +158,13 @@
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery#bat2": {
         "bat": "BAT2"
@@ -109,9 +176,9 @@
         "tooltip-format": "{essid} ({signalStrength}%): {ipaddr}/{cidr}"
     },
     "disk": {
-      "interval": 60,
-      "format": "{free}",
-      "path": "/"
+        "interval": 60,
+        "format": "{free}",
+        "path": "/"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -128,7 +195,11 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": [
+                "",
+                "",
+                ""
+            ]
         },
         "on-click": "pavucontrol"
     },
@@ -145,14 +216,13 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
     "bluetooth": {
-      "format": " {status}",
-      "format-connected": " {device_alias}",
-      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-      // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
-      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+        "format": " {status}",
+        "format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
     }
 }
-
