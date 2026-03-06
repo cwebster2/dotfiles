@@ -15,6 +15,12 @@ startup_command = "nvim tmux.conf"
 preview_command = "bat --color=always ~/.config/tmux/tmux.conf"
 
 [[session]]
+name = "sesh config"
+path = "~/.config/sesh/"
+startup_command = "nvim sesh.toml"
+preview_command = "bat --color=always ~/.config/sesh/sesh.toml"
+
+[[session]]
 name = "Downloads"
 path = "~/Downloads"
 startup_command = "yazi"
@@ -33,7 +39,13 @@ startup_command = "nvim ."
 path = "~/src/fluend-docker-image"
 preview_command = "eza --all --git --icons --colors=always {}"
 
+[[session]]
+name = "gdscc"
+startup_command = "yazi"
+path = "~/src/gdscc"
+preview_command = "eza --all --git --icons --colors=always {}"
+
 [default_session]
-startup_command = "nvim ."
+startup_command = "yazi"
 preview_command = "eza --all --git --icons --color=always {}"
 

@@ -2,7 +2,6 @@
 mkdir -p /tmp/$(whoami)
 export TMPDIR=/tmp/$(whoami)
 
-# [[ -o interactive ]] && echo "  + miniconda"
 if [ -d "${HOME}/miniconda3" ]; then
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -22,7 +21,6 @@ fi
 
 test_and_set_path() {
   if [[ -d "$1" && ! "${PATH}" =~ "$1" ]]; then
-    # [[ -o interactive ]] && echo "  + ${1}"
     export PATH="${1}:${PATH}"
   fi
 }

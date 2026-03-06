@@ -1,0 +1,29 @@
+# Activate terraform/opentofu/aws-docs MCP servers for the current project
+# by copying the template .mcp.json into the current directory.
+# Usage: tf-mcp [remove]
+
+TEMPLATE="$HOME/.claude/mcp-templates/terraform.mcp.json"
+TARGET="$(pwd)/.mcp.json"
+
+if [[ "$1" == "remove" ]]; then
+  if [[ -f "$TARGET" ]]; then
+    rm "$TARGET"
+    echo "Removed $TARGET"
+  else
+    echo "No .mcp.json found in current directory."
+  fi
+  return 0
+fi
+
+if [[ -f "$TARGET" ]]; then
+  echo ".mcp.json already exists in current directory. Use 'tf-mcp remove' to remove it."
+  return 1
+fi
+
+cp "$TEMPLATE" "$TARGET"
+echo "Activated terraform MCP servers in $(pwd)"
+echo "  - terraform   (HashiCorp registry, via Docker)"
+echo "  - opentofu    (OpenTofu registry, hosted SSE)"
+echo "  - aws-docs    (AWS documentation, via uvx)"
+echo ""
+echo "Restart Claude Code in this directory to load the servers."
